@@ -1,0 +1,69 @@
+package com.simudest.simudest.dto;
+
+import com.simudest.simudest.entity.Especialidad;
+import com.simudest.simudest.repository.OrganismoRepository;
+
+import java.io.Serializable;
+
+public class ConvocatoriaDto implements Serializable {
+
+	private String id;
+
+	private EspecialidadDto especialidadDto;
+
+	private OrganismoDto organismoDto;
+
+	private UsuarioDto usuarioDto;
+
+	private String nombre;
+
+	private String estado;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public EspecialidadDto getEspecialidadDto() {
+		return especialidadDto;
+	}
+
+	public void setEspecialidadDto(EspecialidadDto especialidadDto) {
+		this.especialidadDto = especialidadDto;
+	}
+
+	public OrganismoDto getOrganismoDto() {
+		return organismoDto;
+	}
+
+	public void setOrganismoDto(OrganismoDto organismoDto) {
+		this.organismoDto = organismoDto;
+	}
+
+	public UsuarioDto getUsuarioDto() {
+		return usuarioDto;
+	}
+
+	public void setUsuarioDto(UsuarioDto usuarioDto) {
+		this.usuarioDto = usuarioDto;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+}
