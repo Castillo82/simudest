@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="common/head :: head">  <meta charset="utf-8">
+    </head>
+
+
+    <body class="layout-top-nav" style="height: auto;">
+        <div class="wrapper">
+
+            <header th:replace="common/header :: header"></header>
+
+            <div class="content-wrapper">
+
+                <section class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <!--div class="col-sm-6">
+                                <h1>test1</h1>
+                            </div>
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="#">test3</a></li>
+                                    <li class="breadcrumb-item active">test</li>
+                                </ol>
+                            </div-->
+                        </div>
+                    </div>
+                </section>
+
+                <section class="content">
+                    <!--div class="container-fluid"-->
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+
+                                <div class="card">
+                                    <form action="#" th:action="@{/nuevaConvocatoria}" th:object="${convocatoria}" method="post">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Convocatoria</h3>
+                                        </div>
+
+                                        <div class="card-body">
+                                            <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                                                <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="nombre">Nombre</label>
+                                                <input id ="nombre" type="text" class="form-control" th:field="*{nombre}" placeholder="Ej. Convocatoria 202X" th:errorclass="is-invalid">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="organismo">Organismo</label>
+                                                <select th:field="*{organismoDto}" class="custom-select" id="organismo" th:errorclass="is-invalid">
+                                                    <option selected="selected" value=""></option>
+                                                    <option th:each="organismo : ${organismos}"
+                                                            th:value="${organismo.id}"
+                                                            th:text="${organismo.nombre}">
+                                                    </option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="grupo">Grupo</label>
+                                                <select th:field="*{especialidadDto.grupoDto}" class="custom-select" id="grupo" th:errorclass="is-invalid">
+                                                    <option selected="selected" value=""></option>
+                                                    <option th:each="grupo : ${grupos}"
+                                                            th:value="${grupo.id}"
+                                                            th:text="${grupo.nombre}">
+                                                    </option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="especialidad">Especialidad</label>
+                                                <select th:field="*{especialidadDto}" class="custom-select" id="especialidad" th:errorclass="is-invalid">
+                                                    <option selected="selected" value=""></option>
+                                                    <option th:each="especialidad : ${especialidades}"
+                                                            th:value="${especialidad.id}"
+                                                            th:text="${especialidad.nombre}">
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="card-footer">
+                                            <button type="submit" class="btn btn-primary">Guardar</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function() {
+                $("#grupo").change(function() {
+                    onchangeGrupo();
+                });
+            });
+
+            function onchangeGrupo(){
+                var grupoSeleccionado = $("#grupo option:selected").val();
+                $.getJSON( "/ajax/especialidades?grupo=" + grupoSeleccionado, function( data ) {
+                    $("#especialidad").empty();
+                    data.forEach(function(item, i) {
+                        var option = "<option value = " + item.id + ">" + item.nombre +  "</option>";
+                        $("#especialidad").append(option);
+                    });
+                });
+            }
+        </script>
+    </body>
+
+</html>
+
+
+
+
+
+
+

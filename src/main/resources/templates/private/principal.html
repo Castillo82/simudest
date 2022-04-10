@@ -3,102 +3,120 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="common/head :: head">  <meta charset="utf-8">
-</head>
+    <head th:replace="common/head :: head">  <meta charset="utf-8">
+    </head>
 
 
-<body class="layout-top-nav">
-<header th:replace="common/header :: header"></header>
+    <body class="layout-top-nav" style="height: auto;">
+        <div class="wrapper">
+            <header th:replace="common/header :: header"></header>
 
+            <!-- -->
+            <div class="content-wrapper">
 
-<!-- -->
-
-    <section class="content">
-        <!--div class="container-fluid"-->
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Mis convocatorias</h3>
-                        </div>
-                        <div class="card-body">
-                            <table id="misConvocatorias" class="table table-bordered table-hover">
-                                <thead>
-                                <tr>
-                                    <th>Organismo</th>
-                                    <th>Convocatoria</th>
-                                    <th>Escala/Especialidad</th>
-                                    <th>Grupo</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="convocatoria: ${misConvocatorias}">
-                                    <td th:text="${convocatoria.organismoDto.nombre}"></td>
-                                    <td th:text="${convocatoria.nombre}"></td>
-                                    <td th:text="${convocatoria.especialidadDto.nombre}"></td>
-                                    <td th:text="${convocatoria.especialidadDto.grupoDto.nombre}"></td>
-                                </tr>
-                                </tbody>
-                            </table>
+                <section class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <!--div class="col-sm-6">
+                                <h1>test1</h1>
+                            </div>
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="#">test3</a></li>
+                                    <li class="breadcrumb-item active">test</li>
+                                </ol>
+                            </div-->
                         </div>
                     </div>
+                </section>
 
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Convocatorias activas</h3>
-                        </div>
-                        <div class="card-body">
-                            <table id="todasConvocatorias" class="table table-bordered table-hover">
-                                <thead>
-                                <tr>
-                                    <th>Organismo</th>
-                                    <th>Convocatoria</th>
-                                    <th>Escala/Especialidad</th>
-                                    <th>Grupo</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    <tr th:each="convocatoria: ${convocatoriasActivas}">
-                                        <td th:text="${convocatoria.organismoDto.nombre}"></td>
-                                        <td th:text="${convocatoria.nombre}"></td>
-                                        <td th:text="${convocatoria.especialidadDto.nombre}"></td>
-                                        <td th:text="${convocatoria.especialidadDto.grupoDto.nombre}"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                <section class="content">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Mis convocatorias</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <table id="misConvocatorias" class="table table-bordered table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>Organismo</th>
+                                                <th>Convocatoria</th>
+                                                <th>Escala/Especialidad</th>
+                                                <th>Grupo</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="convocatoria: ${misConvocatorias}">
+                                                <td th:text="${convocatoria.organismoDto.nombre}"></td>
+                                                <td th:text="${convocatoria.nombre}"></td>
+                                                <td th:text="${convocatoria.especialidadDto.nombre}"></td>
+                                                <td th:text="${convocatoria.especialidadDto.grupoDto.nombre}"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Convocatorias activas</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <table id="todasConvocatorias" class="table table-bordered table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>Organismo</th>
+                                                <th>Convocatoria</th>
+                                                <th>Escala/Especialidad</th>
+                                                <th>Grupo</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:each="convocatoria: ${convocatoriasActivas}">
+                                                    <td th:text="${convocatoria.organismoDto.nombre}"></td>
+                                                    <td th:text="${convocatoria.nombre}"></td>
+                                                    <td th:text="${convocatoria.especialidadDto.nombre}"></td>
+                                                    <td th:text="${convocatoria.especialidadDto.grupoDto.nombre}"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
-
-                </div>
+                </section>
             </div>
         </div>
-    </section>
 
-<!-- configuracion tablas -->
-<script>
-  $(function () {
-    $('#misConvocatorias').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "ordering": true,
-      "autoWidth": false,
-      "responsive": true,
-      "pageLength": 5,
-    });
-    $("#todasConvocatorias").DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "ordering": true,
-      "autoWidth": false,
-      "responsive": true,
-      "pageLength": 5,
-    });
-  });
-</script>
+        <!-- configuracion tablas -->
+        <script>
+          $(function () {
+            $('#misConvocatorias').DataTable({
+              "paging": true,
+              "lengthChange": false,
+              "ordering": true,
+              "autoWidth": false,
+              "responsive": true,
+              "pageLength": 5,
+            });
+            $("#todasConvocatorias").DataTable({
+              "paging": true,
+              "lengthChange": false,
+              "ordering": true,
+              "autoWidth": false,
+              "responsive": true,
+              "pageLength": 5,
+            });
+          });
+        </script>
 
-</body>
+    </body>
 
 </html>
 
