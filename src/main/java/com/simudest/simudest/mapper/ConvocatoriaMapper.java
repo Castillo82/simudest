@@ -13,8 +13,8 @@ public class ConvocatoriaMapper {
 	public static ConvocatoriaDto convocatoriaToConvocatoriaDto(Convocatoria objOrigen){
 		ConvocatoriaDto objDestino = new ConvocatoriaDto();
 		BeanUtils.copyProperties(objOrigen , objDestino);
-		objDestino.setEspecialidadDto(EspecialidadMapper.EspecialidadToEspecialidadDto(objOrigen.getEspecialidad()));
-		objDestino.setOrganismoDto(OrganismoMapper.OrganismoToOrganismoDto(objOrigen.getOrganismo()));
+		objDestino.setEspecialidadDto(EspecialidadMapper.especialidadToEspecialidadDto(objOrigen.getEspecialidad()));
+		objDestino.setOrganismoDto(OrganismoMapper.organismoToOrganismoDto(objOrigen.getOrganismo()));
 		objDestino.setUsuarioDto(UsuarioMapper.UsuarioToUsuarioDto(objOrigen.getUsuario()));
 		return objDestino;
 	}
@@ -22,8 +22,8 @@ public class ConvocatoriaMapper {
 	public static Convocatoria convocatoriaDtoToConvocatoria(ConvocatoriaDto objOrigen){
 		Convocatoria objDestino = new Convocatoria();
 		BeanUtils.copyProperties(objOrigen , objDestino);
-		objDestino.setEspecialidad(EspecialidadMapper.EspecialidadDtoToEspecialidad(objOrigen.getEspecialidadDto()));
-		objDestino.setOrganismo(OrganismoMapper.OrganismoDtoToOrganismo(objOrigen.getOrganismoDto()));
+		objDestino.setEspecialidad(EspecialidadMapper.especialidadDtoToEspecialidad(objOrigen.getEspecialidadDto()));
+		objDestino.setOrganismo(OrganismoMapper.organismoDtoToOrganismo(objOrigen.getOrganismoDto()));
 		objDestino.setUsuario(UsuarioMapper.UsuarioDtoToUsuario(objOrigen.getUsuarioDto()));
 		return objDestino;
 	}

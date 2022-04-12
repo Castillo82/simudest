@@ -43,8 +43,8 @@ public class MainController {
         return mav;
     }
 
-    @PostMapping("/nuevaConvocatoria")
-    public ModelAndView nuevaConvocatoria(ConvocatoriaDto convocatoriaDto, final BindingResult bindingResult){
+    @PostMapping("/guardarConvocatoria")
+    public ModelAndView guardarConvocatoria(ConvocatoriaDto convocatoriaDto, final BindingResult bindingResult){
         ModelAndView mav = new ModelAndView();
         if(bindingResult.hasErrors()){
             mav.addObject("convocatoria", convocatoriaDto);
@@ -52,7 +52,7 @@ public class MainController {
             return mav;
         }
         try {
-            //mainService.guardarConvocatoria(convocatoriaDto);
+            mainService.guardarConvocatoria(convocatoriaDto);
         }catch (Exception e){
             bindingResult.rejectValue("nombre", "nombre","Ha ocurrido un error inesperado.");
             mav.addObject("convocatoria", convocatoriaDto);

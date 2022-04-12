@@ -3,6 +3,7 @@ package com.simudest.simudest.service;
 import com.simudest.simudest.dto.UsuarioDto;
 import com.simudest.simudest.entity.Usuario;
 import com.simudest.simudest.exception.UserAlreadyExistException;
+import com.simudest.simudest.mapper.UsuarioMapper;
 import com.simudest.simudest.repository.UsuarioRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if(checkIfUserExist(usuarioDto.getEmail())){
             throw new UserAlreadyExistException("Ya existe un usuario con este email");
         }
-        Usuario usuario = new Usuario();
-        BeanUtils.copyProperties(usuarioDto, usuario);
+        Usuario usuario = UsuarioMapper.UsuarioDtoToUsuario(usuarioDto);
         encodePassword(usuario);
         usuario.setAdmin(false);
         usuarioRepository.save(usuario);

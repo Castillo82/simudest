@@ -20,4 +20,6 @@ public interface MainService {
 
     public List<OrganismoDto> getOrganismos();
 
+    public void guardarConvocatoria(ConvocatoriaDto convocatoriaDto);
+    
     }

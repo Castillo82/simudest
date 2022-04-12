@@ -10,29 +10,29 @@ import java.util.List;
 
 public class EspecialidadMapper {
 
-	public static EspecialidadDto EspecialidadToEspecialidadDto(Especialidad objOrigen){
+	public static EspecialidadDto especialidadToEspecialidadDto(Especialidad objOrigen){
 		EspecialidadDto objDestino = new EspecialidadDto();
 		BeanUtils.copyProperties(objOrigen , objDestino);
-		objDestino.setGrupoDto(GrupoMapper.GrupoToGrupoDto(objOrigen.getGrupo()));
+		objDestino.setGrupoDto(GrupoMapper.grupoToGrupoDto(objOrigen.getGrupo()));
 		return objDestino;
 	}
 
-	public static Especialidad EspecialidadDtoToEspecialidad(EspecialidadDto objOrigen){
+	public static Especialidad especialidadDtoToEspecialidad(EspecialidadDto objOrigen){
 		Especialidad objDestino = new Especialidad();
 		BeanUtils.copyProperties(objOrigen , objDestino);
-		objDestino.setGrupo(GrupoMapper.GrupoDtoToGrupo(objOrigen.getGrupoDto()));
+		objDestino.setGrupo(GrupoMapper.grupoDtoToGrupo(objOrigen.getGrupoDto()));
 		return objDestino;
 	}
 
-	public static List<EspecialidadDto> EspecialidadListToEspecialidadDtoList(List<Especialidad> listaOrigen){
+	public static List<EspecialidadDto> especialidadListToEspecialidadDtoList(List<Especialidad> listaOrigen){
 		List<EspecialidadDto> listaDestino = new ArrayList<>();
-		listaOrigen.forEach((Especialidad objOrigen) -> listaDestino.add(EspecialidadToEspecialidadDto(objOrigen)));
+		listaOrigen.forEach((Especialidad objOrigen) -> listaDestino.add(especialidadToEspecialidadDto(objOrigen)));
 		return listaDestino;
 	}
 
-	public static List<Especialidad> EspecialidadDtoListToEspecialidadList(List<EspecialidadDto> listaOrigen){
+	public static List<Especialidad> especialidadDtoListToEspecialidadList(List<EspecialidadDto> listaOrigen){
 		List<Especialidad> listaDestino = new ArrayList<>();
-		listaOrigen.forEach((EspecialidadDto objOrigen) -> listaDestino.add(EspecialidadDtoToEspecialidad(objOrigen)));
+		listaOrigen.forEach((EspecialidadDto objOrigen) -> listaDestino.add(especialidadDtoToEspecialidad(objOrigen)));
 		return listaDestino;
 	}
 

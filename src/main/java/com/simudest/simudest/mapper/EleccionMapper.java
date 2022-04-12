@@ -10,7 +10,7 @@ import java.util.List;
 
 public class EleccionMapper {
 
-	public static EleccionDto EleccionToEleccionDto(Eleccion objOrigen){
+	public static EleccionDto eleccionToEleccionDto(Eleccion objOrigen){
 		EleccionDto objDestino = new EleccionDto();
 		BeanUtils.copyProperties(objOrigen , objDestino);
 		objDestino.setPlazaDto(PlazaMapper.PlazaToPlazaDto(objOrigen.getPlaza()));
@@ -18,7 +18,7 @@ public class EleccionMapper {
 		return objDestino;
 	}
 
-	public static Eleccion EleccionDtoToEleccion(EleccionDto objOrigen){
+	public static Eleccion eleccionDtoToEleccion(EleccionDto objOrigen){
 		Eleccion objDestino = new Eleccion();
 		BeanUtils.copyProperties(objOrigen , objDestino);
 		objDestino.setPlaza(PlazaMapper.PlazaDtoToPlaza(objOrigen.getPlazaDto()));
@@ -26,15 +26,15 @@ public class EleccionMapper {
 		return objDestino;
 	}
 
-	public static List<EleccionDto> EleccionListToEleccionDtoList(List<Eleccion> listaOrigen){
+	public static List<EleccionDto> eleccionListToEleccionDtoList(List<Eleccion> listaOrigen){
 		List<EleccionDto> listaDestino = new ArrayList<>();
-		listaOrigen.forEach((Eleccion objOrigen) -> listaDestino.add(EleccionToEleccionDto(objOrigen)));
+		listaOrigen.forEach((Eleccion objOrigen) -> listaDestino.add(eleccionToEleccionDto(objOrigen)));
 		return listaDestino;
 	}
 
-	public static List<Eleccion> EleccionDtoListToEleccionList(List<EleccionDto> listaOrigen){
+	public static List<Eleccion> eleccionDtoListToEleccionList(List<EleccionDto> listaOrigen){
 		List<Eleccion> listaDestino = new ArrayList<>();
-		listaOrigen.forEach((EleccionDto objOrigen) -> listaDestino.add(EleccionDtoToEleccion(objOrigen)));
+		listaOrigen.forEach((EleccionDto objOrigen) -> listaDestino.add(eleccionDtoToEleccion(objOrigen)));
 		return listaDestino;
 	}
 

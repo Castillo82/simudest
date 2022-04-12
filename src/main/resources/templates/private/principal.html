@@ -47,6 +47,7 @@
                                                 <th>Convocatoria</th>
                                                 <th>Escala/Especialidad</th>
                                                 <th>Grupo</th>
+                                                <th >Acciones</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -55,6 +56,14 @@
                                                 <td th:text="${convocatoria.nombre}"></td>
                                                 <td th:text="${convocatoria.especialidadDto.nombre}"></td>
                                                 <td th:text="${convocatoria.especialidadDto.grupoDto.nombre}"></td>
+                                                <td>
+	                                                <div class="btn-group">
+	                                                <span th:text="${authentication.getPrincipal().getUser()}"></span>
+	                                                <span th:text="${convocatoria.usuarioDto}"></span>
+	                                                	<button type="button" class="btn btn-info">Modificar</button>
+	                                                	<button type="button" class="btn btn-danger">Eliminar</button>
+                                                	</div>
+                                                </td>
                                             </tr>
                                             </tbody>
                                         </table>

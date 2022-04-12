@@ -47,25 +47,30 @@ public class MainServiceImpl implements MainService {
 
     public List<GrupoDto> getGrupos(){
         List <Grupo> dbGrupos = grupoRepository.findAll();
-        return GrupoMapper.GrupoListToGrupoDtoList(dbGrupos);
+        return GrupoMapper.grupoListToGrupoDtoList(dbGrupos);
     }
 
     public List<EspecialidadDto> getEspecialidades(){
         List <Especialidad> dbEspecialidades = especialidadRepository.findAll();
-        return EspecialidadMapper.EspecialidadListToEspecialidadDtoList(dbEspecialidades);
+        return EspecialidadMapper.especialidadListToEspecialidadDtoList(dbEspecialidades);
     }
 
     public List<EspecialidadDto> getEspecialidadesbyGrupo(Integer grupo){
         Grupo objGrupo = grupoRepository.getById(grupo);
         List <Especialidad> dbEspecialidades = especialidadRepository.findByGrupo(objGrupo);
-        return EspecialidadMapper.EspecialidadListToEspecialidadDtoList(dbEspecialidades);
+        return EspecialidadMapper.especialidadListToEspecialidadDtoList(dbEspecialidades);
     }
 
     public List<OrganismoDto> getOrganismos(){
         List <Organismo> dbOrganismos = organismoRepository.findAll();
-        return OrganismoMapper.OrganismoListToOrganismoDtoList(dbOrganismos);
+        return OrganismoMapper.organismoListToOrganismoDtoList(dbOrganismos);
     }
 
+    public void guardarConvocatoria(ConvocatoriaDto convocatoriaDto) {
+    	Convocatoria convocatoria = ConvocatoriaMapper.convocatoriaDtoToConvocatoria(convocatoriaDto);
+    	convocatoriaRepository.save(convocatoria);
+    	
+    }
 
 
 }
