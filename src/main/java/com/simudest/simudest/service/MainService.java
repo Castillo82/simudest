@@ -5,11 +5,15 @@ import com.simudest.simudest.dto.EspecialidadDto;
 import com.simudest.simudest.dto.GrupoDto;
 import com.simudest.simudest.dto.OrganismoDto;
 import com.simudest.simudest.entity.Grupo;
+import com.simudest.simudest.exception.ConvocatoriaNotFoundException;
 import com.simudest.simudest.exception.UsuarioNotFoundException;
 
 import java.util.List;
 
 public interface MainService {
+
+
+    public List<ConvocatoriaDto> getMisConvocatorias(String idUser);
 
     public List<ConvocatoriaDto> getConvocatoriasActivas();
 
@@ -23,5 +27,5 @@ public interface MainService {
 
     public void guardarConvocatoria(ConvocatoriaDto convocatoriaDto);
     
-    public void solicitarAcceso(String idConvo, String userEmail) throws UsuarioNotFoundException;
+    public void solicitarAcceso(String idConvo, String idUser) throws UsuarioNotFoundException,ConvocatoriaNotFoundException;
     }

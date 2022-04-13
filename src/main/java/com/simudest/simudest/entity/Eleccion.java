@@ -7,14 +7,15 @@ import java.io.Serializable;
 @Table(name="eleccion")
 public class Eleccion implements Serializable {
 
-	@Id
+	@EmbeddedId
+	private EleccionId id;
+
 	@ManyToOne
-	@JoinColumn(name = "id_user")
+	@JoinColumn(name = "id_user", nullable = false, insertable = false, updatable = false)
 	private Usuario usuario;
 
-	@Id
 	@ManyToOne
-	@JoinColumn(name = "id_plaza")
+	@JoinColumn(name = "id_plaza", nullable = false, insertable = false, updatable = false)
 	private Plaza plaza;
 
 	@Column(name="orden")

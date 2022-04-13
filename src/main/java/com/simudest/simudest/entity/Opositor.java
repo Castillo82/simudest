@@ -7,14 +7,15 @@ import java.io.Serializable;
 @Table(name="opositor")
 public class Opositor implements Serializable {
 
-	@Id
+	@EmbeddedId
+	private OpositorId id;
+
 	@ManyToOne
-	@JoinColumn(name = "id_user")
+	@JoinColumn(name = "id_user", nullable = false, insertable = false, updatable = false)
 	private Usuario usuario;
 
-	@Id
 	@ManyToOne
-	@JoinColumn(name = "id_convo")
+	@JoinColumn(name = "id_convo", nullable = false, insertable = false, updatable = false)
 	private Convocatoria convocatoria;
 
 	@Column(name="validado")
@@ -22,6 +23,14 @@ public class Opositor implements Serializable {
 
 	@Column(name="orden")
 	private Integer orden;
+
+	public OpositorId getId() {
+		return id;
+	}
+
+	public void setId(OpositorId id) {
+		this.id = id;
+	}
 
 	public Usuario getUsuario() {
 		return usuario;

@@ -1,6 +1,7 @@
 package com.simudest.simudest.dto;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class UsuarioDto implements Serializable {
 
@@ -72,5 +73,18 @@ public class UsuarioDto implements Serializable {
 
 	public void setContra(String contra) {
 		this.contra = contra;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		UsuarioDto that = (UsuarioDto) o;
+		return Objects.equals(id, that.id) && Objects.equals(email, that.email) && Objects.equals(nombre, that.nombre) && Objects.equals(apellido1, that.apellido1) && Objects.equals(apellido2, that.apellido2) && Objects.equals(admin, that.admin) && Objects.equals(contra, that.contra);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, email, nombre, apellido1, apellido2, admin, contra);
 	}
 }

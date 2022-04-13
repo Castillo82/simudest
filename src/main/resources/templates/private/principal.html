@@ -71,10 +71,10 @@
 
                                 <div class="card">
                                     <div class="card-header">
-                                        <h3 class="card-title">Convocatorias activas</h3>
+                                        <h3 class="card-title">Otras convocatorias</h3>
                                     </div>
                                     <div class="card-body">
-                                        <table id="todasConvocatorias" class="table table-bordered table-hover">
+                                        <table id="otrasConvocatorias" class="table table-bordered table-hover">
                                             <thead>
                                             <tr>
                                                 <th>Organismo</th>
@@ -85,7 +85,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                                <tr th:each="convocatoria: ${convocatoriasActivas}">
+                                                <tr th:each="convocatoria: ${otrasConvocatorias}">
                                                     <td th:text="${convocatoria.organismoDto.nombre}"></td>
                                                     <td th:text="${convocatoria.nombre}"></td>
                                                     <td th:text="${convocatoria.especialidadDto.nombre}"></td>
@@ -122,7 +122,7 @@
               "responsive": true,
               "pageLength": 5,
             });
-            $("#todasConvocatorias").DataTable({
+            $("#otrasConvocatorias").DataTable({
               "paging": true,
               "lengthChange": false,
               "ordering": true,

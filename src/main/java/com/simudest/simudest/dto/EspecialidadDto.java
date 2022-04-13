@@ -1,6 +1,7 @@
 package com.simudest.simudest.dto;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class EspecialidadDto implements Serializable {
 
@@ -32,5 +33,18 @@ public class EspecialidadDto implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		EspecialidadDto that = (EspecialidadDto) o;
+		return Objects.equals(id, that.id) && Objects.equals(grupoDto, that.grupoDto) && Objects.equals(nombre, that.nombre);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, grupoDto, nombre);
 	}
 }

@@ -5,8 +5,9 @@ import com.simudest.simudest.dto.Alerta;
 import com.simudest.simudest.dto.ConvocatoriaDto;
 import com.simudest.simudest.dto.EspecialidadDto;
 import com.simudest.simudest.dto.UsuarioDto;
-import com.simudest.simudest.entity.Usuario;
+import com.simudest.simudest.exception.ConvocatoriaNotFoundException;
 import com.simudest.simudest.exception.UserAlreadyExistException;
+import com.simudest.simudest.exception.UsuarioNotFoundException;
 import com.simudest.simudest.service.AuthenticationService;
 import com.simudest.simudest.service.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,12 @@ public class MainController {
     @GetMapping("")
     public ModelAndView principal(Alerta alerta) {
         ModelAndView mav = new ModelAndView();
-        mav.addObject("misConvocatorias", mainService.getConvocatoriasActivas());
-        mav.addObject("convocatoriasActivas", mainService.getConvocatoriasActivas());
+        User user= (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List <ConvocatoriaDto> misConvocatorias = mainService.getMisConvocatorias(user.getUsername());
+        List <ConvocatoriaDto> otrasConvocatorias = mainService.getConvocatoriasActivas();
+        otrasConvocatorias.removeAll(misConvocatorias);
+        mav.addObject("misConvocatorias", misConvocatorias);
+        mav.addObject("otrasConvocatorias", otrasConvocatorias);
         mav.setViewName("private/principal");
         return mav;
     }
@@ -41,7 +46,9 @@ public class MainController {
     @GetMapping("/nuevaConvocatoria")
     public ModelAndView nuevaConvocatoria() {
         ModelAndView mav = new ModelAndView();
-        mav.addObject("convocatoria", new ConvocatoriaDto());
+        ConvocatoriaDto convocatoriaDto = new ConvocatoriaDto();
+        convocatoriaDto.setEstado(Constantes.CONVOCATORIA_ESTADO_ACTIVA);
+        mav.addObject("convocatoria", convocatoriaDto);
         mav.addObject("organismos", mainService.getOrganismos());
         mav.addObject("grupos", mainService.getGrupos());
         mav.addObject("especialidades", mainService.getEspecialidades());
@@ -77,30 +84,17 @@ public class MainController {
         	User user= (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         	mainService.solicitarAcceso(idconvo, user.getUsername());
         	ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha solicitado correctamente el acceso a la convocatoria. Tan pronto como el organizador de la convocatoria acepte su solicitud, podrá acceder a ella.", Constantes.ALERTA_TIPO_INFO));
+        }catch (ConvocatoriaNotFoundException e){
+            ra.addFlashAttribute("alerta", new Alerta("Alerta", "La convocatoria solicitada no existe o es incorrecta.", Constantes.ALERTA_TIPO_ERROR));
+        }catch (UsuarioNotFoundException e){
+            ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha ocurrido un error recuperando su usuario.", Constantes.ALERTA_TIPO_ERROR));
         }catch (Exception e){
         	ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha ocurrido un error al solicitar el acceso a la convocatoria.", Constantes.ALERTA_TIPO_ERROR));
         }   	
         mav.setViewName(Constantes.REDIRECT_PRINCIPAL);
         return mav;
     }
-   
-    /*
-    @PostMapping("/solicitarAcceso")
-    public ModelAndView solicitarAcceso(ConvocatoriaDto convocatoriaDto, RedirectAttributes ra){
-        ModelAndView mav = new ModelAndView();
-        try {
-        	User user= (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-            //mainService.solicitarAcceso(convocatoria, user.getUsername());
-        	ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha solicitado correctamente el acceso a la convocatoria. Tan pronto como el organizador de la convocatoria acepte su solicitud, podrá acceder a ella.", Constantes.ALERTA_TIPO_INFO));
-        }catch (Exception e){
-        	ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha ocurrido un error al solicitar el acceso a la convocatoria.", Constantes.ALERTA_TIPO_ERROR));
-        }   	
-        mav.setViewName(Constantes.REDIRECT_PRINCIPAL);
-        return mav;
-    }
-*/
-    
     // Ajax para el select de grupos y especialidades
     @RequestMapping(value = "/ajax/especialidades")
     @ResponseBody

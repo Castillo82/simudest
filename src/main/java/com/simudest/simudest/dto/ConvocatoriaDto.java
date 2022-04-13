@@ -4,6 +4,7 @@ import com.simudest.simudest.entity.Especialidad;
 import com.simudest.simudest.repository.OrganismoRepository;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class ConvocatoriaDto implements Serializable {
 
@@ -65,5 +66,18 @@ public class ConvocatoriaDto implements Serializable {
 
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		ConvocatoriaDto that = (ConvocatoriaDto) o;
+		return Objects.equals(id, that.id) && Objects.equals(especialidadDto, that.especialidadDto) && Objects.equals(organismoDto, that.organismoDto) && Objects.equals(usuarioDto, that.usuarioDto) && Objects.equals(nombre, that.nombre) && Objects.equals(estado, that.estado);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, especialidadDto, organismoDto, usuarioDto, nombre, estado);
 	}
 }

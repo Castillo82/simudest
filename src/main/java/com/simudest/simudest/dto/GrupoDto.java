@@ -2,6 +2,7 @@ package com.simudest.simudest.dto;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 public class GrupoDto implements Serializable {
 
@@ -23,5 +24,18 @@ public class GrupoDto implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		GrupoDto grupoDto = (GrupoDto) o;
+		return Objects.equals(id, grupoDto.id) && Objects.equals(nombre, grupoDto.nombre);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, nombre);
 	}
 }

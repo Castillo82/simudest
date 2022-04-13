@@ -32,6 +32,7 @@ public class SimudestUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<Usuario> userDb = usuarioRepository.findByEmail(username);
+        //Optional<Usuario> userDb = usuarioRepository.findById(username);
         if (userDb.isPresent()) {
             Usuario usuario = userDb.get();
 
@@ -43,8 +44,9 @@ public class SimudestUserDetailsService implements UserDetailsService {
 
             PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
+            //En username en vez de guardar el email guardamos la id del usuario, aunque se haya identificado con el email
             return org.springframework.security.core.userdetails.User
-                    .withUsername(username)
+                    .withUsername(usuario.getId())
                     .roles(roles.toArray(new String[0]))
                     .password(usuario.getContra())
                     .build();

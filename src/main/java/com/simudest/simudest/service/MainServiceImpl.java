@@ -5,12 +5,7 @@ import com.simudest.simudest.dto.ConvocatoriaDto;
 import com.simudest.simudest.dto.EspecialidadDto;
 import com.simudest.simudest.dto.GrupoDto;
 import com.simudest.simudest.dto.OrganismoDto;
-import com.simudest.simudest.entity.Convocatoria;
-import com.simudest.simudest.entity.Especialidad;
-import com.simudest.simudest.entity.Grupo;
-import com.simudest.simudest.entity.Opositor;
-import com.simudest.simudest.entity.Organismo;
-import com.simudest.simudest.entity.Usuario;
+import com.simudest.simudest.entity.*;
 import com.simudest.simudest.exception.ConvocatoriaNotFoundException;
 import com.simudest.simudest.exception.UsuarioNotFoundException;
 import com.simudest.simudest.mapper.ConvocatoriaMapper;
@@ -47,6 +42,13 @@ public class MainServiceImpl implements MainService {
     private OpositorRepository opositorRepository;
 
 
+    public List<ConvocatoriaDto> getMisConvocatorias(String idUser){
+        Usuario usuario = usuarioRepository.findById(idUser).get();
+        List <Convocatoria> dbConvocatorias = convocatoriaRepository.findByUsuarioAndEstadoNot(usuario, Constantes.CONVOCATORIA_ESTADO_INACTIVA);
+        dbConvocatorias.addAll(convocatoriaRepository.findByOpositor(usuario));
+        return ConvocatoriaMapper.convocatoriaListToConvocatoriaDtoList(dbConvocatorias);
+    }
+
     public List<ConvocatoriaDto> getConvocatoriasActivas(){
         List <Convocatoria> dbConvocatorias = convocatoriaRepository.findByEstadoNot(Constantes.CONVOCATORIA_ESTADO_INACTIVA);
         return ConvocatoriaMapper.convocatoriaListToConvocatoriaDtoList(dbConvocatorias);
@@ -82,13 +84,15 @@ public class MainServiceImpl implements MainService {
     /** Crea un objeto Opositor y lo guarda en base de datos.
      * 
      */
-    public void solicitarAcceso(String idConvo, String userEmail) throws UsuarioNotFoundException {
+    public void solicitarAcceso(String idConvo, String idUser) throws UsuarioNotFoundException,ConvocatoriaNotFoundException {
     	Opositor opositor = new Opositor();
-    	Usuario usuario = usuarioRepository.findByEmail(userEmail).orElseThrow(UsuarioNotFoundException::new);
-    	Convocatoria convocatoria = convocatoriaRepository.getById(idConvo);
+    	Usuario usuario = usuarioRepository.findById(idUser).orElseThrow(UsuarioNotFoundException::new);
+    	Convocatoria convocatoria = convocatoriaRepository.findById(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
     	opositor.setConvocatoria(convocatoria);
     	opositor.setUsuario(usuario);
     	opositor.setValidado(false);
+        OpositorId opositorId = new OpositorId(usuario.getId(), convocatoria.getId());
+        opositor.setId(opositorId);
     	opositorRepository.save(opositor);
     }
 

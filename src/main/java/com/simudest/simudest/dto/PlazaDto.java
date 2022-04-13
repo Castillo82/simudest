@@ -1,6 +1,7 @@
 package com.simudest.simudest.dto;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class PlazaDto implements Serializable {
 
@@ -102,5 +103,18 @@ public class PlazaDto implements Serializable {
 
 	public void setC_especifico(String c_especifico) {
 		this.c_especifico = c_especifico;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		PlazaDto plazaDto = (PlazaDto) o;
+		return Objects.equals(id, plazaDto.id) && Objects.equals(provinciaDto, plazaDto.provinciaDto) && Objects.equals(convocatoriaDto, plazaDto.convocatoriaDto) && Objects.equals(nombre, plazaDto.nombre) && Objects.equals(ministerio, plazaDto.ministerio) && Objects.equals(centro, plazaDto.centro) && Objects.equals(localidad, plazaDto.localidad) && Objects.equals(denominacion, plazaDto.denominacion) && Objects.equals(nivel, plazaDto.nivel) && Objects.equals(c_especifico, plazaDto.c_especifico);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, provinciaDto, convocatoriaDto, nombre, ministerio, centro, localidad, denominacion, nivel, c_especifico);
 	}
 }
