@@ -5,7 +5,6 @@ import com.simudest.simudest.entity.Usuario;
 import com.simudest.simudest.exception.UserAlreadyExistException;
 import com.simudest.simudest.mapper.UsuarioMapper;
 import com.simudest.simudest.repository.UsuarioRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;

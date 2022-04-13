@@ -8,7 +8,11 @@ import com.simudest.simudest.dto.OrganismoDto;
 import com.simudest.simudest.entity.Convocatoria;
 import com.simudest.simudest.entity.Especialidad;
 import com.simudest.simudest.entity.Grupo;
+import com.simudest.simudest.entity.Opositor;
 import com.simudest.simudest.entity.Organismo;
+import com.simudest.simudest.entity.Usuario;
+import com.simudest.simudest.exception.ConvocatoriaNotFoundException;
+import com.simudest.simudest.exception.UsuarioNotFoundException;
 import com.simudest.simudest.mapper.ConvocatoriaMapper;
 import com.simudest.simudest.mapper.EspecialidadMapper;
 import com.simudest.simudest.mapper.GrupoMapper;
@@ -38,6 +42,9 @@ public class MainServiceImpl implements MainService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private OpositorRepository opositorRepository;
 
 
     public List<ConvocatoriaDto> getConvocatoriasActivas(){
@@ -70,6 +77,19 @@ public class MainServiceImpl implements MainService {
     	Convocatoria convocatoria = ConvocatoriaMapper.convocatoriaDtoToConvocatoria(convocatoriaDto);
     	convocatoriaRepository.save(convocatoria);
     	
+    }
+
+    /** Crea un objeto Opositor y lo guarda en base de datos.
+     * 
+     */
+    public void solicitarAcceso(String idConvo, String userEmail) throws UsuarioNotFoundException {
+    	Opositor opositor = new Opositor();
+    	Usuario usuario = usuarioRepository.findByEmail(userEmail).orElseThrow(UsuarioNotFoundException::new);
+    	Convocatoria convocatoria = convocatoriaRepository.getById(idConvo);
+    	opositor.setConvocatoria(convocatoria);
+    	opositor.setUsuario(usuario);
+    	opositor.setValidado(false);
+    	opositorRepository.save(opositor);
     }
 
 

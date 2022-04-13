@@ -1,16 +1,23 @@
 package com.simudest.simudest.controller;
 
+import com.simudest.simudest.configuration.Constantes;
+import com.simudest.simudest.dto.Alerta;
 import com.simudest.simudest.dto.ConvocatoriaDto;
 import com.simudest.simudest.dto.EspecialidadDto;
 import com.simudest.simudest.dto.UsuarioDto;
+import com.simudest.simudest.entity.Usuario;
 import com.simudest.simudest.exception.UserAlreadyExistException;
 import com.simudest.simudest.service.AuthenticationService;
 import com.simudest.simudest.service.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -18,13 +25,12 @@ import java.util.List;
 @RequestMapping("")
 public class MainController {
 
-    private static final String REDIRECT_PRINCIPAL= "redirect:/";
 
     @Autowired
     private MainService mainService;
 
     @GetMapping("")
-    public ModelAndView principal() {
+    public ModelAndView principal(Alerta alerta) {
         ModelAndView mav = new ModelAndView();
         mav.addObject("misConvocatorias", mainService.getConvocatoriasActivas());
         mav.addObject("convocatoriasActivas", mainService.getConvocatoriasActivas());
@@ -60,12 +66,41 @@ public class MainController {
             return mav;
         }
 
-        mav.setViewName(REDIRECT_PRINCIPAL);
+        mav.setViewName(Constantes.REDIRECT_PRINCIPAL);
         return mav;
     }
 
+    @GetMapping("/solicitarAcceso")
+    public ModelAndView solicitarAcceso(String idconvo, RedirectAttributes ra){
+        ModelAndView mav = new ModelAndView();
+        try {
+        	User user= (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        	mainService.solicitarAcceso(idconvo, user.getUsername());
+        	ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha solicitado correctamente el acceso a la convocatoria. Tan pronto como el organizador de la convocatoria acepte su solicitud, podrá acceder a ella.", Constantes.ALERTA_TIPO_INFO));
+        }catch (Exception e){
+        	ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha ocurrido un error al solicitar el acceso a la convocatoria.", Constantes.ALERTA_TIPO_ERROR));
+        }   	
+        mav.setViewName(Constantes.REDIRECT_PRINCIPAL);
+        return mav;
+    }
+   
+    /*
+    @PostMapping("/solicitarAcceso")
+    public ModelAndView solicitarAcceso(ConvocatoriaDto convocatoriaDto, RedirectAttributes ra){
+        ModelAndView mav = new ModelAndView();
+        try {
+        	User user= (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-
+            //mainService.solicitarAcceso(convocatoria, user.getUsername());
+        	ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha solicitado correctamente el acceso a la convocatoria. Tan pronto como el organizador de la convocatoria acepte su solicitud, podrá acceder a ella.", Constantes.ALERTA_TIPO_INFO));
+        }catch (Exception e){
+        	ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha ocurrido un error al solicitar el acceso a la convocatoria.", Constantes.ALERTA_TIPO_ERROR));
+        }   	
+        mav.setViewName(Constantes.REDIRECT_PRINCIPAL);
+        return mav;
+    }
+*/
+    
     // Ajax para el select de grupos y especialidades
     @RequestMapping(value = "/ajax/especialidades")
     @ResponseBody

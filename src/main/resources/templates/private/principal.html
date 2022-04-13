@@ -34,7 +34,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-12">
-
+                                
                                 <div class="card">
                                     <div class="card-header">
                                         <h3 class="card-title">Mis convocatorias</h3>
@@ -47,21 +47,20 @@
                                                 <th>Convocatoria</th>
                                                 <th>Escala/Especialidad</th>
                                                 <th>Grupo</th>
-                                                <th >Acciones</th>
+                                                <th ></th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr th:each="convocatoria: ${misConvocatorias}">
+                                            <tr th:each="convocatoria: ${misConvocatorias}" style="cursor: pointer" 
+                                            	th:attr="onclick=|rowClicked('${convocatoria.id}')|">
                                                 <td th:text="${convocatoria.organismoDto.nombre}"></td>
-                                                <td th:text="${convocatoria.nombre}"></td>
+                                                <td th:text="${convocatoria.nombre}" ></td>
                                                 <td th:text="${convocatoria.especialidadDto.nombre}"></td>
                                                 <td th:text="${convocatoria.especialidadDto.grupoDto.nombre}"></td>
                                                 <td>
 	                                                <div class="btn-group">
-	                                                <span th:text="${authentication.getPrincipal().getUser()}"></span>
-	                                                <span th:text="${convocatoria.usuarioDto}"></span>
-	                                                	<button type="button" class="btn btn-info">Modificar</button>
-	                                                	<button type="button" class="btn btn-danger">Eliminar</button>
+	                                                	<a href="solicitarAcceso" class="btn btn-info" role="button">Modificar</a>
+	                                                	<a href="solicitarAcceso" class="btn btn-danger" role="button">Eliminar</a>
                                                 	</div>
                                                 </td>
                                             </tr>
@@ -82,6 +81,7 @@
                                                 <th>Convocatoria</th>
                                                 <th>Escala/Especialidad</th>
                                                 <th>Grupo</th>
+												<th ></th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -90,6 +90,14 @@
                                                     <td th:text="${convocatoria.nombre}"></td>
                                                     <td th:text="${convocatoria.especialidadDto.nombre}"></td>
                                                     <td th:text="${convocatoria.especialidadDto.grupoDto.nombre}"></td>
+	                                                <td>
+	                                               		<a th:href="@{/solicitarAcceso(idconvo=${convocatoria.id})}" class="btn btn-info text-nowrap" role="button">Solicitar acceso</a>
+
+<!--                                     					<form action="#" th:action="@{/solicitarAcceso}" th:object="${convocatoria}" method="post">
+	                                                		<button type="submit" class="btn btn-info text-nowrap">Solicitar acceso</button>
+                                                		</form>
+-->
+	                                                </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -123,7 +131,12 @@
               "pageLength": 5,
             });
           });
-        </script>
+
+          function rowClicked(idConvocatoria) {
+              location.href = "/convocatoria?id=" + idConvocatoria;
+          }
+
+         </script>
 
     </body>
 
