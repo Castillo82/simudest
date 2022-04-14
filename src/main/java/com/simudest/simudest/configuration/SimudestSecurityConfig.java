@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 public class SimudestSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -33,14 +35,16 @@ public class SimudestSecurityConfig extends WebSecurityConfigurerAdapter {
                 .regexMatchers("/admin/.*").hasRole("ADMIN")
                 .regexMatchers("/private/.*").authenticated()
                 .regexMatchers("/").authenticated()
-                .anyRequest()
-                    .permitAll()
+            //    .anyRequest()
+           //         .permitAll()
 
                 //Autenticacion
                 .and()
                     .formLogin()
                     .loginPage("/login")
-                    //.loginPage("/public/login.html")
+                .and()
+                    .logout()
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
                 ;
     }
 
