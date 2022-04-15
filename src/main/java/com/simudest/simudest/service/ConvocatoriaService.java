@@ -11,4 +11,8 @@ public interface ConvocatoriaService {
 	
 	public ConvocatoriaDto getConvocatoria(String id) throws ConvocatoriaNotFoundException;
 
+	public Integer getConvocatoriaNopositoresActual(ConvocatoriaDto convocatoriaDto);
+
+	public Integer getConvocatoriaNPlazasActual(ConvocatoriaDto convocatoriaDto);
+
 }

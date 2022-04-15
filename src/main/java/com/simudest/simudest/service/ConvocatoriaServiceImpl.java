@@ -28,6 +28,9 @@ public class ConvocatoriaServiceImpl implements ConvocatoriaService {
     @Autowired
     private PlazaRepository plazaRepository;
 
+    @Autowired
+    private OpositorRepository opositorRepository;
+
     //  @Autowired
     //  private OpositorRepository opositorRepository;
 
@@ -39,5 +42,15 @@ public class ConvocatoriaServiceImpl implements ConvocatoriaService {
 		ConvocatoriaDto convocatoriaDto = ConvocatoriaMapper.convocatoriaToConvocatoriaDto(convocatoria);
 		return convocatoriaDto;
 	}
+
+    public Integer getConvocatoriaNopositoresActual(ConvocatoriaDto convocatoriaDto){
+        Convocatoria convocatoria = ConvocatoriaMapper.convocatoriaDtoToConvocatoria(convocatoriaDto);
+        return opositorRepository.countByConvocatoria(convocatoria);
+    }
+
+    public Integer getConvocatoriaNPlazasActual(ConvocatoriaDto convocatoriaDto){
+        Convocatoria convocatoria = ConvocatoriaMapper.convocatoriaDtoToConvocatoria(convocatoriaDto);
+        return plazaRepository.countByConvocatoria(convocatoria);
+    }
 
 }

@@ -33,6 +33,12 @@ public class Convocatoria implements Serializable {
 	@Column(name="estado")
 	private String estado;
 
+	@Column(name="nopositores")
+	private Integer nopositores;
+
+	@Column(name="nplazas")
+	private Integer nplazas;
+
 	public String getId() {
 		return id;
 	}
@@ -79,5 +85,21 @@ public class Convocatoria implements Serializable {
 
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+
+	public Integer getNopositores() {
+		return nopositores;
+	}
+
+	public void setNopositores(Integer nopositores) {
+		this.nopositores = nopositores;
+	}
+
+	public Integer getNplazas() {
+		return nplazas;
+	}
+
+	public void setNplazas(Integer nplazas) {
+		this.nplazas = nplazas;
 	}
 }

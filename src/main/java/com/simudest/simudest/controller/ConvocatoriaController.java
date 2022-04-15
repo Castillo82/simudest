@@ -1,5 +1,6 @@
 package com.simudest.simudest.controller;
 
+import com.simudest.simudest.dto.ConvocatoriaDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +24,10 @@ public class ConvocatoriaController {
     public ModelAndView convocatoria(String id, RedirectAttributes ra) {
         ModelAndView mav = new ModelAndView();
         try {
-            mav.addObject("convocatoria", convocatoriaService.getConvocatoria(id));
+            ConvocatoriaDto convocatoria = convocatoriaService.getConvocatoria(id);
+            mav.addObject("convocatoria", convocatoria);
+            mav.addObject("nopositoresActual", convocatoriaService.getConvocatoriaNopositoresActual(convocatoria));
+            mav.addObject("nplazasActual", convocatoriaService.getConvocatoriaNPlazasActual(convocatoria));
         }catch (ConvocatoriaNotFoundException e){
         	ra.addFlashAttribute("alerta", new Alerta("Alerta", "La convocatoria a la que desea acceder no existe.", Constantes.ALERTA_TIPO_ERROR));
             mav.setViewName(Constantes.REDIRECT_PRINCIPAL);

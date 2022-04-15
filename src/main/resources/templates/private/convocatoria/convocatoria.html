@@ -37,59 +37,22 @@
                             <div class="col-12">
 
                                 <div class="card">
-                                    <form action="#" th:action="@{/guardarConvocatoria}" th:object="${convocatoria}" method="post">
                                         <div class="card-header">
                                             <h3 class="card-title">Convocatoria</h3>
                                         </div>
 
                                         <div class="card-body">
-                                            <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
-                                                <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
-                                            </div>
+                                            <p th:text="${convocatoria.nombre}"></p>
+                                            <p th:text="${convocatoria.organismoDto.nombre}"></p>
+                                            <p th:text="${convocatoria.especialidadDto.nombre} + ' - ' + ${convocatoria.especialidadDto.grupoDto.nombre}"></p>
+                                            <p><a href="#" ><span th:text="${nopositoresActual} + ' de ' + ${convocatoria.nopositores}"></span></a> Opositores</p>
+                                            <p><a href="#" ><span th:text="${nplazasActual} + ' de ' + ${convocatoria.nplazas}"></span></a> Plazas</p>
 
-                                            <div class="form-group">
-                                                <label for="nombre">Nombre</label>
-                                                <input id ="nombre" type="text" class="form-control" th:field="*{nombre}" placeholder="Ej. Convocatoria 202X" th:errorclass="is-invalid" />
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="organismo">Organismo</label>
-                                                <select th:field="*{organismoDto}" class="custom-select" id="organismo" th:errorclass="is-invalid">
-                                                    <option selected="selected" value=""></option>
-                                                    <option th:each="organismo : ${organismos}"
-                                                            th:value="${organismo.id}"
-                                                            th:text="${organismo.nombre}">
-                                                    </option>
-                                                </select>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="grupo">Grupo</label>
-                                                <select th:field="*{especialidadDto.grupoDto}" class="custom-select" id="grupo" th:errorclass="is-invalid">
-                                                    <option selected="selected" value=""></option>
-                                                    <option th:each="grupo : ${grupos}"
-                                                            th:value="${grupo.id}"
-                                                            th:text="${grupo.nombre}">
-                                                    </option>
-                                                </select>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="especialidad">Especialidad</label>
-                                                <select th:field="*{especialidadDto}" class="custom-select" id="especialidad" th:errorclass="is-invalid">
-                                                    <option selected="selected" value=""></option>
-                                                    <option th:each="especialidad : ${especialidades}"
-                                                            th:value="${especialidad.id}"
-                                                            th:text="${especialidad.nombre}">
-                                                    </option>
-                                                </select>
-                                            </div>
                                         </div>
 
                                         <div class="card-footer">
                                             <button type="submit" class="btn btn-primary">Guardar</button>
                                         </div>
-                                    </form>
                                 </div>
 
                             </div>

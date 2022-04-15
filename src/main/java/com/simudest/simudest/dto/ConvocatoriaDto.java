@@ -20,6 +20,10 @@ public class ConvocatoriaDto implements Serializable {
 
 	private String estado;
 
+	private Integer nopositores;
+
+	private Integer nplazas;
+
 	public String getId() {
 		return id;
 	}
@@ -68,6 +72,22 @@ public class ConvocatoriaDto implements Serializable {
 		this.estado = estado;
 	}
 
+
+	public Integer getNopositores() {
+		return nopositores;
+	}
+
+	public void setNopositores(Integer nopositores) {
+		this.nopositores = nopositores;
+	}
+
+	public Integer getNplazas() {
+		return nplazas;
+	}
+
+	public void setNplazas(Integer nplazas) {
+		this.nplazas = nplazas;
+	}
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;

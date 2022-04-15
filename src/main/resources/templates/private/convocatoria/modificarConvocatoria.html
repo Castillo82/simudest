@@ -84,6 +84,17 @@
                                                     </option>
                                                 </select>
                                             </div>
+
+                                            <div class="form-group">
+                                                <label for="nopositores">Número de opositores que han aprobado el proceso</label>
+                                                <input id ="nopositores" type="number" class="form-control" th:field="*{nopositores}" placeholder="" th:errorclass="is-invalid" />
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="nplazas">Número de plazas disponibles</label>
+                                                <input id ="nplazas" type="number" class="form-control" th:field="*{nplazas}" placeholder="" th:errorclass="is-invalid" />
+                                            </div>
+
                                         </div>
 
                                         <div class="card-footer">
