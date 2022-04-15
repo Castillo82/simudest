@@ -9,7 +9,7 @@
             <p class="login-box-msg"><h1 class="text-center">SimuDest</h1></p>
             <p class="login-box-msg">Simulador de destinos de oposiciones </p>
             <p class="login-box-msg">
-                <a href="quees" class="text-center m-auto mtop10">Saber más</a>
+                <a href="quees" class="text-center m-auto mtop10" data-toggle="modal" data-target="#modalQuees">Saber más</a>
             </p>
 
             <form action="#" th:action="@{/login}" method="post">
@@ -45,5 +45,30 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modalQuees">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">¿Que es SimuDest?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    SimuDest es un simulador de destinos para oposiciones totalmente gratuito y de código abierto.<br>
+                    Aqui falta una explicación más detallada.<br>
+                    Aqui falta una explicación más detallada.<br>
+                    Aqui falta una explicación más detallada.<br>
+                    Aqui falta una explicación más detallada.<br>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </body>
 </html>
