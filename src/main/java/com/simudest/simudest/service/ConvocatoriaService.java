@@ -1,9 +1,14 @@
 package com.simudest.simudest.service;
 
 import com.simudest.simudest.dto.ConvocatoriaDto;
+import com.simudest.simudest.dto.OpositorDto;
 import com.simudest.simudest.entity.Grupo;
+import com.simudest.simudest.entity.Opositor;
 import com.simudest.simudest.entity.Provincia;
 import com.simudest.simudest.exception.ConvocatoriaNotFoundException;
+import com.simudest.simudest.exception.OpositorNotFoundException;
+import com.simudest.simudest.exception.OrdenOpositorIncorrectoException;
+import com.simudest.simudest.exception.UsuarioNotFoundException;
 
 import java.util.List;
 
@@ -15,4 +20,11 @@ public interface ConvocatoriaService {
 
 	public Integer getConvocatoriaNPlazasActual(ConvocatoriaDto convocatoriaDto);
 
+	public Boolean puedeConsultarConvocatoria(String idUsuario, String idConvo) throws UsuarioNotFoundException,ConvocatoriaNotFoundException;
+
+	public Boolean puedeAdministrarConvocatoria(String idUsuario, String idConvo) throws UsuarioNotFoundException,ConvocatoriaNotFoundException;
+
+	public List<OpositorDto> getOpositoresConvocatoria(String idConvo, Boolean validado) throws ConvocatoriaNotFoundException;
+
+	public void validarOpositor (String idUsuario, String idConvo, Integer orden) throws OpositorNotFoundException, OrdenOpositorIncorrectoException;
 }

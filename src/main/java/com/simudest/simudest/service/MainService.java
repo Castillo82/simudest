@@ -27,5 +27,5 @@ public interface MainService {
 
     public void guardarConvocatoria(ConvocatoriaDto convocatoriaDto);
     
-    public void solicitarAcceso(String idConvo, String idUser) throws UsuarioNotFoundException,ConvocatoriaNotFoundException;
+    public void solicitarAcceso(String idConvo, String idUsuario) throws UsuarioNotFoundException,ConvocatoriaNotFoundException;
     }

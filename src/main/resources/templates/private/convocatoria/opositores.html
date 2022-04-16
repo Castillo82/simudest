@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/head :: head">
+</head>
+
+
+<body class="layout-top-nav" style="height: auto;">
+<div class="wrapper">
+    <header th:replace="common/header :: header"></header>
+
+    <!-- -->
+    <div class="content-wrapper">
+
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                </div>
+            </div>
+        </section>
+
+        <section class="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Opositores validados</h3>
+                            </div>
+                            <div class="card-body">
+                                <table id="opositoresValidados" class="table table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Orden</th>
+                                        <th>Nombre</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="opositor: ${opositoresValidados}">
+                                        <td th:text="${opositor.orden}"></td>
+                                        <td th:text="${opositor.usuarioDto.nombre} + ' ' +  ${opositor.usuarioDto.apellido1} + ' ' +  ${opositor.usuarioDto.apellido2} "></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Solicitantes</h3>
+                            </div>
+                            <div class="card-body">
+                                <table id="opositoresNoValidados" class="table table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th ></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="opositor: ${opositoresNoValidados}">
+                                        <td th:text="${opositor.usuarioDto.nombre} + ' ' +  ${opositor.usuarioDto.apellido1} + ' ' +  ${opositor.usuarioDto.apellido2} "></td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <form action="#" th:action="@{/convocatoria/validarOpositor}" method="post">
+                                                    <div class="form-group">
+                                                        <input type="hidden" class="form-control" th:value="${opositor.usuarioDto.id}" name="idUsuario" />
+                                                        <input type="hidden" class="form-control" th:value="${opositor.convocatoriaDto.id}" name="idConvo" />
+                                                        <input type="number" class="form-control" value="" name="orden" placeholder="Orden" />
+                                                    </div>
+                                                    <button type="submit" class="btn btn-info text-nowrap">Validar</button>
+                                                </form>
+
+                                                <a href="rechazarOpositor" class="btn btn-danger" role="button">Rechazar</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+                                                <!-- configuracion tablas -->
+<script>
+          $(function () {
+            $('#opositoresValidados').DataTable({
+              "paging": true,
+              "lengthChange": false,
+              "ordering": true,
+              "autoWidth": false,
+              "responsive": true,
+              "pageLength": 5,
+              "language": {"url": "/json/Spanish.json"},
+            });
+            $("#opositoresNoValidados").DataTable({
+              "paging": true,
+              "lengthChange": false,
+              "ordering": true,
+              "autoWidth": false,
+              "responsive": true,
+              "pageLength": 5,
+              "language": {"url": "/json/Spanish.json"},
+            });
+          });
+
+         </script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+

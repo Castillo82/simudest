@@ -84,9 +84,9 @@ public class MainServiceImpl implements MainService {
     /** Crea un objeto Opositor y lo guarda en base de datos.
      * 
      */
-    public void solicitarAcceso(String idConvo, String idUser) throws UsuarioNotFoundException,ConvocatoriaNotFoundException {
+    public void solicitarAcceso(String idConvo, String idUsuario) throws UsuarioNotFoundException,ConvocatoriaNotFoundException {
     	Opositor opositor = new Opositor();
-    	Usuario usuario = usuarioRepository.findById(idUser).orElseThrow(UsuarioNotFoundException::new);
+    	Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(UsuarioNotFoundException::new);
     	Convocatoria convocatoria = convocatoriaRepository.findById(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
     	opositor.setConvocatoria(convocatoria);
     	opositor.setUsuario(usuario);
