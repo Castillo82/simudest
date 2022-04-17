@@ -93,5 +93,10 @@ public class ConvocatoriaServiceImpl implements ConvocatoriaService {
         }
     }
 
+    public void rechazarOpositor (String idUsuario, String idConvo) throws OpositorNotFoundException{
+        Opositor opositor = opositorRepository.findById(new OpositorId(idUsuario, idConvo)).orElseThrow(OpositorNotFoundException::new);
+        opositorRepository.delete(opositor);
+    }
+
 }
 

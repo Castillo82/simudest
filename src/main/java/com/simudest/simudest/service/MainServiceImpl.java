@@ -44,8 +44,9 @@ public class MainServiceImpl implements MainService {
 
     public List<ConvocatoriaDto> getMisConvocatorias(String idUser){
         Usuario usuario = usuarioRepository.findById(idUser).get();
-        List <Convocatoria> dbConvocatorias = convocatoriaRepository.findByUsuarioAndEstadoNot(usuario, Constantes.CONVOCATORIA_ESTADO_INACTIVA);
-        dbConvocatorias.addAll(convocatoriaRepository.findByOpositor(usuario));
+        //List <Convocatoria> dbConvocatorias = convocatoriaRepository.findByUsuarioAndEstadoNot(usuario, Constantes.CONVOCATORIA_ESTADO_INACTIVA);
+        //dbConvocatorias.addAll(convocatoriaRepository.findByOpositor(usuario));
+        List <Convocatoria> dbConvocatorias = convocatoriaRepository.findByOpositor(usuario);
         return ConvocatoriaMapper.convocatoriaListToConvocatoriaDtoList(dbConvocatorias);
     }
 
@@ -75,15 +76,16 @@ public class MainServiceImpl implements MainService {
         return OrganismoMapper.organismoListToOrganismoDtoList(dbOrganismos);
     }
 
-    public void guardarConvocatoria(ConvocatoriaDto convocatoriaDto) {
+    public void guardarConvocatoria(ConvocatoriaDto convocatoriaDto) throws UsuarioNotFoundException,ConvocatoriaNotFoundException{
     	Convocatoria convocatoria = ConvocatoriaMapper.convocatoriaDtoToConvocatoria(convocatoriaDto);
+        boolean esNueva = convocatoria.getId().equals(null);
     	convocatoriaRepository.save(convocatoria);
+        if (esNueva){
+            solicitarAcceso(convocatoria.getId(), convocatoria.getUsuario().getId());
+        }
     	
     }
 
-    /** Crea un objeto Opositor y lo guarda en base de datos.
-     * 
-     */
     public void solicitarAcceso(String idConvo, String idUsuario) throws UsuarioNotFoundException,ConvocatoriaNotFoundException {
     	Opositor opositor = new Opositor();
     	Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(UsuarioNotFoundException::new);

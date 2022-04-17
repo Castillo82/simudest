@@ -27,4 +27,6 @@ public interface ConvocatoriaService {
 	public List<OpositorDto> getOpositoresConvocatoria(String idConvo, Boolean validado) throws ConvocatoriaNotFoundException;
 
 	public void validarOpositor (String idUsuario, String idConvo, Integer orden) throws OpositorNotFoundException, OrdenOpositorIncorrectoException;
+
+	public void rechazarOpositor (String idUsuario, String idConvo) throws OpositorNotFoundException;
 }

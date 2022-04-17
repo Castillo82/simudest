@@ -93,9 +93,27 @@ public class ConvocatoriaController {
         }catch (Exception e){
             ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha ocurrido un error inesperado.", Constantes.ALERTA_TIPO_ERROR));
         }
-
         mav.setViewName("redirect:/convocatoria/opositores");
         return mav;
     }
 
+
+    @GetMapping("/rechazarOpositor")
+    public ModelAndView rechazarOpositor(String idUsuario, String idConvo, RedirectAttributes ra) {
+        ModelAndView mav = new ModelAndView();
+        try {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (!convocatoriaService.puedeAdministrarConvocatoria(user.getUsername(), idConvo)) {
+                ra.addFlashAttribute("alerta", new Alerta("Alerta", "No tiene permisos para realizar esta acción.", Constantes.ALERTA_TIPO_ERROR));
+            } else {
+                convocatoriaService.rechazarOpositor(idUsuario, idConvo);
+            }
+        } catch (OpositorNotFoundException e) {
+            ra.addFlashAttribute("alerta", new Alerta("Alerta", "No se ha encontrado el opositor.", Constantes.ALERTA_TIPO_ERROR));
+        } catch (Exception e) {
+            ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha ocurrido un error inesperado.", Constantes.ALERTA_TIPO_ERROR));
+        }
+        mav.setViewName("redirect:/convocatoria/opositores");
+        return mav;
+    }
 }
