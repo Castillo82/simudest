@@ -3,6 +3,7 @@ package com.simudest.simudest.service;
 import com.simudest.simudest.configuration.Constantes;
 import com.simudest.simudest.dto.ConvocatoriaDto;
 import com.simudest.simudest.dto.OpositorDto;
+import com.simudest.simudest.dto.PlazaDto;
 import com.simudest.simudest.entity.*;
 import com.simudest.simudest.exception.ConvocatoriaNotFoundException;
 import com.simudest.simudest.exception.OpositorNotFoundException;
@@ -10,6 +11,7 @@ import com.simudest.simudest.exception.OrdenOpositorIncorrectoException;
 import com.simudest.simudest.exception.UsuarioNotFoundException;
 import com.simudest.simudest.mapper.ConvocatoriaMapper;
 import com.simudest.simudest.mapper.OpositorMapper;
+import com.simudest.simudest.mapper.PlazaMapper;
 import com.simudest.simudest.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -96,6 +98,13 @@ public class ConvocatoriaServiceImpl implements ConvocatoriaService {
     public void rechazarOpositor (String idUsuario, String idConvo) throws OpositorNotFoundException{
         Opositor opositor = opositorRepository.findById(new OpositorId(idUsuario, idConvo)).orElseThrow(OpositorNotFoundException::new);
         opositorRepository.delete(opositor);
+    }
+
+    public List<PlazaDto> getPlazasConvocatoria(String idConvo) throws ConvocatoriaNotFoundException{
+        Convocatoria convocatoria = convocatoriaRepository.findById(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
+        List<Plaza> plazas = plazaRepository.findByConvocatoria(convocatoria);
+        return PlazaMapper.PlazaListToPlazaDtoList(plazas);
+
     }
 
 }

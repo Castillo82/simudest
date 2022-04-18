@@ -20,8 +20,8 @@ public class Plaza implements Serializable {
 	@JoinColumn(name = "id_convo")
 	private Convocatoria convocatoria;
 
-	@Column(name="nombre")
-	private String nombre;
+	@Column(name="codigo")
+	private String codigo;
 
 	@Column(name="ministerio")
 	private String ministerio;
@@ -65,12 +65,12 @@ public class Plaza implements Serializable {
 		this.convocatoria = convocatoria;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getCodigo() {
+		return codigo;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 	public String getMinisterio() {

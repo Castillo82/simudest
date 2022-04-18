@@ -2,9 +2,7 @@ package com.simudest.simudest.service;
 
 import com.simudest.simudest.dto.ConvocatoriaDto;
 import com.simudest.simudest.dto.OpositorDto;
-import com.simudest.simudest.entity.Grupo;
-import com.simudest.simudest.entity.Opositor;
-import com.simudest.simudest.entity.Provincia;
+import com.simudest.simudest.dto.PlazaDto;
 import com.simudest.simudest.exception.ConvocatoriaNotFoundException;
 import com.simudest.simudest.exception.OpositorNotFoundException;
 import com.simudest.simudest.exception.OrdenOpositorIncorrectoException;
@@ -29,4 +27,7 @@ public interface ConvocatoriaService {
 	public void validarOpositor (String idUsuario, String idConvo, Integer orden) throws OpositorNotFoundException, OrdenOpositorIncorrectoException;
 
 	public void rechazarOpositor (String idUsuario, String idConvo) throws OpositorNotFoundException;
+
+	public List<PlazaDto> getPlazasConvocatoria(String idConvo) throws ConvocatoriaNotFoundException;
+
 }

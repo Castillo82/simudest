@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/head :: head">
+</head>
+
+
+<body class="layout-top-nav" style="height: auto;">
+<div class="wrapper">
+    <header th:replace="common/header :: header"></header>
+
+    <!-- -->
+    <div class="content-wrapper">
+
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                </div>
+            </div>
+        </section>
+
+        <section class="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Plazas</h3>
+                            </div>
+                            <div class="card-body">
+                                <table id="plazas" class="table table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Codigo Plaza</th>
+                                        <th>Ministerio / Consejería</th>
+                                        <th>Centro</th>
+                                        <th>Provincia</th>
+                                        <th>Localidad</th>
+                                        <th>Puesto de trabajo</th>
+                                        <th>Nivel</th>
+                                        <th>C. Específico</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="plaza: ${plazas}">
+                                        <td th:text="${plaza.codigo}"></td>
+                                        <td th:text="${plaza.ministerio}"></td>
+                                        <td th:text="${plaza.centro}"></td>
+                                        <td th:text="${plaza.provinciaDto.nombre}"></td>
+                                        <td th:text="${plaza.localidad}"></td>
+                                        <td th:text="${plaza.denominacion}"></td>
+                                        <td th:text="${plaza.nivel}"></td>
+                                        <td th:text="${plaza.c_especifico}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+                                                <!-- configuracion tablas -->
+<script>
+          $(function () {
+            $('#plazas').DataTable({
+              "paging": true,
+              "lengthChange": false,
+              "ordering": true,
+              "autoWidth": false,
+              "responsive": true,
+              "pageLength": 5,
+              "language": {"url": "/json/Spanish.json"},
+            });
+          });
+
+         </script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+

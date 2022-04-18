@@ -11,7 +11,7 @@ public class PlazaDto implements Serializable {
 
 	private ConvocatoriaDto convocatoriaDto;
 
-	private String nombre;
+	private String codigo;
 
 	private String ministerio;
 
@@ -49,12 +49,12 @@ public class PlazaDto implements Serializable {
 		this.convocatoriaDto = convocatoriaDto;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getCodigo() {
+		return codigo;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 	public String getMinisterio() {
@@ -110,11 +110,11 @@ public class PlazaDto implements Serializable {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		PlazaDto plazaDto = (PlazaDto) o;
-		return Objects.equals(id, plazaDto.id) && Objects.equals(provinciaDto, plazaDto.provinciaDto) && Objects.equals(convocatoriaDto, plazaDto.convocatoriaDto) && Objects.equals(nombre, plazaDto.nombre) && Objects.equals(ministerio, plazaDto.ministerio) && Objects.equals(centro, plazaDto.centro) && Objects.equals(localidad, plazaDto.localidad) && Objects.equals(denominacion, plazaDto.denominacion) && Objects.equals(nivel, plazaDto.nivel) && Objects.equals(c_especifico, plazaDto.c_especifico);
+		return Objects.equals(id, plazaDto.id) && Objects.equals(provinciaDto, plazaDto.provinciaDto) && Objects.equals(convocatoriaDto, plazaDto.convocatoriaDto) && Objects.equals(codigo, plazaDto.codigo) && Objects.equals(ministerio, plazaDto.ministerio) && Objects.equals(centro, plazaDto.centro) && Objects.equals(localidad, plazaDto.localidad) && Objects.equals(denominacion, plazaDto.denominacion) && Objects.equals(nivel, plazaDto.nivel) && Objects.equals(c_especifico, plazaDto.c_especifico);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, provinciaDto, convocatoriaDto, nombre, ministerio, centro, localidad, denominacion, nivel, c_especifico);
+		return Objects.hash(id, provinciaDto, convocatoriaDto, codigo, ministerio, centro, localidad, denominacion, nivel, c_especifico);
 	}
 }
