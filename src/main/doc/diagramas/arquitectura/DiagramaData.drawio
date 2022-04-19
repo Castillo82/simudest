@@ -1,0 +1,193 @@
+<mxfile host="app.diagrams.net" modified="2022-03-15T22:29:09.416Z" agent="5.0 (Windows)" etag="EUndxSeqkzLuTRBFKL88" version="17.1.2" type="github">
+  <diagram id="93C6iqa6HLX6Nu__6SxN" name="Page-1">
+    <mxGraphModel dx="1422" dy="752" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="kUJI8yTJnBe5R82jSHBj-1" value="&lt;&lt;component&gt;&gt;&#xa;SimudestData" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;" parent="1" vertex="1">
+          <mxGeometry x="30" y="40" width="730" height="1310" as="geometry" />
+        </mxCell>
+        <mxCell id="kUJI8yTJnBe5R82jSHBj-3" value="&lt;&lt;component&gt;&gt;&#xa;UsuarioData" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;" parent="1" vertex="1">
+          <mxGeometry x="90" y="90" width="610" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="kUJI8yTJnBe5R82jSHBj-4" value="&amp;lt;&amp;lt;Entity&amp;gt;&amp;gt;&lt;br&gt;Usuario" style="html=1;" parent="1" vertex="1">
+          <mxGeometry x="480" y="140" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="kUJI8yTJnBe5R82jSHBj-6" value="&amp;lt;&amp;lt;Repository&amp;gt;&amp;gt;&lt;br&gt;UsuarioRepository" style="html=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="140" width="135" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="kUJI8yTJnBe5R82jSHBj-7" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="kUJI8yTJnBe5R82jSHBj-6" target="kUJI8yTJnBe5R82jSHBj-4" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="415" y="-40" as="sourcePoint" />
+            <mxPoint x="445" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kUJI8yTJnBe5R82jSHBj-8" value="&amp;lt;&amp;lt;use&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="kUJI8yTJnBe5R82jSHBj-7" vertex="1" connectable="0">
+          <mxGeometry x="0.1623" y="-1" relative="1" as="geometry">
+            <mxPoint x="-17" y="-16" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-12" value="&lt;&lt;component&gt;&gt;&#xa;GrupoData" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="90" y="230" width="610" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-13" value="&lt;div&gt;&amp;lt;&amp;lt;Entity&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;Grupo&lt;/div&gt;" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="280" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-14" value="&amp;lt;&amp;lt;Repository&amp;gt;&amp;gt;&lt;br&gt;GrupoRepository" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="280" width="135" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-15" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="USnWt5FhDmhfd0IEq8QN-14" target="USnWt5FhDmhfd0IEq8QN-13">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="415" y="100" as="sourcePoint" />
+            <mxPoint x="445" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-16" value="&amp;lt;&amp;lt;use&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="USnWt5FhDmhfd0IEq8QN-15">
+          <mxGeometry x="0.1623" y="-1" relative="1" as="geometry">
+            <mxPoint x="-17" y="-16" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-17" value="&lt;&lt;component&gt;&gt;&#xa;EspecialidadData" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="90" y="370" width="610" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-18" value="&amp;lt;&amp;lt;Entity&amp;gt;&amp;gt;&lt;br&gt;EspecialidadUsuario" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="420" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-19" value="&amp;lt;&amp;lt;Repository&amp;gt;&amp;gt;&lt;br&gt;EspecialidadRepository" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="420" width="135" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-20" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="USnWt5FhDmhfd0IEq8QN-19" target="USnWt5FhDmhfd0IEq8QN-18">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="415" y="240" as="sourcePoint" />
+            <mxPoint x="445" y="460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-21" value="&amp;lt;&amp;lt;use&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="USnWt5FhDmhfd0IEq8QN-20">
+          <mxGeometry x="0.1623" y="-1" relative="1" as="geometry">
+            <mxPoint x="-17" y="-16" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-22" value="&lt;&lt;component&gt;&gt;&#xa;OrganismoData" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="90" y="510" width="610" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-23" value="&lt;div&gt;&amp;lt;&amp;lt;Entity&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;Organismo&lt;/div&gt;" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="560" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-24" value="&amp;lt;&amp;lt;Repository&amp;gt;&amp;gt;&lt;br&gt;OrganismoRepository" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="560" width="135" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-25" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="USnWt5FhDmhfd0IEq8QN-24" target="USnWt5FhDmhfd0IEq8QN-23">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="415" y="380" as="sourcePoint" />
+            <mxPoint x="445" y="600" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-26" value="&amp;lt;&amp;lt;use&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="USnWt5FhDmhfd0IEq8QN-25">
+          <mxGeometry x="0.1623" y="-1" relative="1" as="geometry">
+            <mxPoint x="-17" y="-16" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-27" value="&lt;&lt;component&gt;&gt;&#xa;ConvocatoriaData" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="90" y="650" width="610" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-28" value="&lt;div&gt;&amp;lt;&amp;lt;Entity&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;Convocatoria&lt;/div&gt;" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="700" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-29" value="&amp;lt;&amp;lt;Repository&amp;gt;&amp;gt;&lt;br&gt;ConvocatoriaRepository" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="700" width="135" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-30" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="USnWt5FhDmhfd0IEq8QN-29" target="USnWt5FhDmhfd0IEq8QN-28">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="415" y="520" as="sourcePoint" />
+            <mxPoint x="445" y="740" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-31" value="&amp;lt;&amp;lt;use&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="USnWt5FhDmhfd0IEq8QN-30">
+          <mxGeometry x="0.1623" y="-1" relative="1" as="geometry">
+            <mxPoint x="-17" y="-16" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-32" value="&lt;&lt;component&gt;&gt;&#xa;OpositorData" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="90" y="790" width="610" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-33" value="&lt;div&gt;&amp;lt;&amp;lt;Entity&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;Opositor&lt;/div&gt;" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="840" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-34" value="&amp;lt;&amp;lt;Repository&amp;gt;&amp;gt;&lt;br&gt;OpositorRepository" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="840" width="135" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-35" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="USnWt5FhDmhfd0IEq8QN-34" target="USnWt5FhDmhfd0IEq8QN-33">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="415" y="660" as="sourcePoint" />
+            <mxPoint x="445" y="880" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-36" value="&amp;lt;&amp;lt;use&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="USnWt5FhDmhfd0IEq8QN-35">
+          <mxGeometry x="0.1623" y="-1" relative="1" as="geometry">
+            <mxPoint x="-17" y="-16" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-37" value="&lt;&lt;component&gt;&gt;&#xa;ProvinciaData" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="90" y="930" width="610" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-38" value="&lt;div&gt;&amp;lt;&amp;lt;Entity&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;Provincia&lt;/div&gt;" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="980" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-39" value="&amp;lt;&amp;lt;Repository&amp;gt;&amp;gt;&lt;br&gt;ProvinciaRepository" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="980" width="135" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-40" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="USnWt5FhDmhfd0IEq8QN-39" target="USnWt5FhDmhfd0IEq8QN-38">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="415" y="800" as="sourcePoint" />
+            <mxPoint x="445" y="1020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-41" value="&amp;lt;&amp;lt;use&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="USnWt5FhDmhfd0IEq8QN-40">
+          <mxGeometry x="0.1623" y="-1" relative="1" as="geometry">
+            <mxPoint x="-17" y="-16" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-42" value="&lt;&lt;component&gt;&gt;&#xa;PlazaData" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="90" y="1070" width="610" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-43" value="&lt;div&gt;&amp;lt;&amp;lt;Entity&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;Plaza&lt;/div&gt;" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="1120" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-44" value="&amp;lt;&amp;lt;Repository&amp;gt;&amp;gt;&lt;br&gt;PlazaRepository" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="1120" width="135" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-45" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="USnWt5FhDmhfd0IEq8QN-44" target="USnWt5FhDmhfd0IEq8QN-43">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="415" y="940" as="sourcePoint" />
+            <mxPoint x="445" y="1160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-46" value="&amp;lt;&amp;lt;use&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="USnWt5FhDmhfd0IEq8QN-45">
+          <mxGeometry x="0.1623" y="-1" relative="1" as="geometry">
+            <mxPoint x="-17" y="-16" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-47" value="&lt;&lt;component&gt;&gt;&#xa;EleccionData" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="90" y="1210" width="610" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-48" value="&lt;div&gt;&amp;lt;&amp;lt;Entity&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;Eleccion&lt;/div&gt;" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="1260" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-49" value="&amp;lt;&amp;lt;Repository&amp;gt;&amp;gt;&lt;br&gt;EleccionRepository" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="1260" width="135" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-50" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="USnWt5FhDmhfd0IEq8QN-49" target="USnWt5FhDmhfd0IEq8QN-48">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="415" y="1080" as="sourcePoint" />
+            <mxPoint x="445" y="1300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="USnWt5FhDmhfd0IEq8QN-51" value="&amp;lt;&amp;lt;use&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="USnWt5FhDmhfd0IEq8QN-50">
+          <mxGeometry x="0.1623" y="-1" relative="1" as="geometry">
+            <mxPoint x="-17" y="-16" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
