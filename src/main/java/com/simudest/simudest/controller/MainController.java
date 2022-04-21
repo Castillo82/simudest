@@ -1,19 +1,12 @@
 package com.simudest.simudest.controller;
 
 import com.simudest.simudest.configuration.Constantes;
-import com.simudest.simudest.dto.Alerta;
-import com.simudest.simudest.dto.ConvocatoriaDto;
-import com.simudest.simudest.dto.EspecialidadDto;
-import com.simudest.simudest.dto.UsuarioDto;
-import com.simudest.simudest.exception.ConvocatoriaNotFoundException;
-import com.simudest.simudest.exception.UserAlreadyExistException;
-import com.simudest.simudest.exception.UsuarioNotFoundException;
-import com.simudest.simudest.service.AuthenticationService;
+import com.simudest.simudest.dto.*;
+import com.simudest.simudest.exception.*;
 import com.simudest.simudest.service.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("")
@@ -34,7 +28,7 @@ public class MainController {
     public ModelAndView principal(Alerta alerta) {
         ModelAndView mav = new ModelAndView();
         User user= (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List <ConvocatoriaDto> misConvocatorias = mainService.getMisConvocatorias(user.getUsername());
+        Set<ConvocatoriaDto> misConvocatorias = mainService.getMisConvocatorias(user.getUsername());
         List <ConvocatoriaDto> otrasConvocatorias = mainService.getConvocatoriasActivas();
         otrasConvocatorias.removeAll(misConvocatorias);
         mav.addObject("misConvocatorias", misConvocatorias);
@@ -47,7 +41,6 @@ public class MainController {
     public ModelAndView nuevaConvocatoria() {
         ModelAndView mav = new ModelAndView();
         ConvocatoriaDto convocatoriaDto = new ConvocatoriaDto();
-        convocatoriaDto.setEstado(Constantes.CONVOCATORIA_ESTADO_ACTIVA);
         mav.addObject("convocatoria", convocatoriaDto);
         mav.addObject("organismos", mainService.getOrganismos());
         mav.addObject("grupos", mainService.getGrupos());
@@ -65,7 +58,21 @@ public class MainController {
             return mav;
         }
         try {
+            if (convocatoriaDto.getId() == null) {
+                convocatoriaDto.setEstado(Constantes.CONVOCATORIA_ESTADO_ACTIVA);
+                User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                convocatoriaDto.setUsuarioDto(mainService.getUsuariobyId(user.getUsername()));
+            }
+
+            EspecialidadDto especialidadDto = mainService.getEspecialidadbyId(convocatoriaDto.getEspecialidadDto().getId());
+            OrganismoDto organismoDto = mainService.getOrganismobyId(convocatoriaDto.getOrganismoDto().getId());
+            convocatoriaDto.setEspecialidadDto(especialidadDto);
+            convocatoriaDto.setOrganismoDto(organismoDto);
             mainService.guardarConvocatoria(convocatoriaDto);
+        }catch (EspecialidadNotFoundException e){
+            bindingResult.rejectValue("especialidad", "especialidad","La especialidad seleccionada no existe.");
+        }catch (OrganismoNotFoundException e){
+            bindingResult.rejectValue("organismo", "organismo","El organismo seleccionado no existe.");
         }catch (Exception e){
             bindingResult.rejectValue("nombre", "nombre","Ha ocurrido un error inesperado.");
             mav.addObject("convocatoria", convocatoriaDto);

@@ -54,7 +54,7 @@
 
                                             <div class="form-group">
                                                 <label for="organismo">Organismo</label>
-                                                <select th:field="*{organismoDto}" class="custom-select" id="organismo" th:errorclass="is-invalid">
+                                                <select th:field="*{organismoDto.id}" class="custom-select" id="organismo" th:errorclass="is-invalid">
                                                     <option selected="selected" value=""></option>
                                                     <option th:each="organismo : ${organismos}"
                                                             th:value="${organismo.id}"
@@ -65,7 +65,7 @@
 
                                             <div class="form-group">
                                                 <label for="grupo">Grupo</label>
-                                                <select th:field="*{especialidadDto.grupoDto}" class="custom-select" id="grupo" th:errorclass="is-invalid">
+                                                <select th:field="*{especialidadDto.grupoDto.id}" class="custom-select" id="grupo" th:errorclass="is-invalid">
                                                     <option selected="selected" value=""></option>
                                                     <option th:each="grupo : ${grupos}"
                                                             th:value="${grupo.id}"
@@ -76,7 +76,7 @@
 
                                             <div class="form-group">
                                                 <label for="especialidad">Especialidad</label>
-                                                <select th:field="*{especialidadDto}" class="custom-select" id="especialidad" th:errorclass="is-invalid">
+                                                <select th:field="*{especialidadDto.id}" class="custom-select" id="especialidad" th:errorclass="is-invalid">
                                                     <option selected="selected" value=""></option>
                                                     <option th:each="especialidad : ${especialidades}"
                                                             th:value="${especialidad.id}"

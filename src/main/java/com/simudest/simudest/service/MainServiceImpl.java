@@ -1,24 +1,20 @@
 package com.simudest.simudest.service;
 
 import com.simudest.simudest.configuration.Constantes;
-import com.simudest.simudest.dto.ConvocatoriaDto;
-import com.simudest.simudest.dto.EspecialidadDto;
-import com.simudest.simudest.dto.GrupoDto;
-import com.simudest.simudest.dto.OrganismoDto;
+import com.simudest.simudest.dto.*;
 import com.simudest.simudest.entity.*;
 import com.simudest.simudest.exception.ConvocatoriaNotFoundException;
+import com.simudest.simudest.exception.EspecialidadNotFoundException;
+import com.simudest.simudest.exception.OrganismoNotFoundException;
 import com.simudest.simudest.exception.UsuarioNotFoundException;
-import com.simudest.simudest.mapper.ConvocatoriaMapper;
-import com.simudest.simudest.mapper.EspecialidadMapper;
-import com.simudest.simudest.mapper.GrupoMapper;
-import com.simudest.simudest.mapper.OrganismoMapper;
+import com.simudest.simudest.mapper.*;
 import com.simudest.simudest.repository.*;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class MainServiceImpl implements MainService {
@@ -41,13 +37,18 @@ public class MainServiceImpl implements MainService {
     @Autowired
     private OpositorRepository opositorRepository;
 
+    public UsuarioDto getUsuariobyId(String id){
+        Usuario usuario = usuarioRepository.findById(id).get();
+        return UsuarioMapper.UsuarioToUsuarioDto(usuario);
+    }
 
-    public List<ConvocatoriaDto> getMisConvocatorias(String idUser){
+    public Set<ConvocatoriaDto> getMisConvocatorias(String idUser){
         Usuario usuario = usuarioRepository.findById(idUser).get();
-        //List <Convocatoria> dbConvocatorias = convocatoriaRepository.findByUsuarioAndEstadoNot(usuario, Constantes.CONVOCATORIA_ESTADO_INACTIVA);
-        //dbConvocatorias.addAll(convocatoriaRepository.findByOpositor(usuario));
-        List <Convocatoria> dbConvocatorias = convocatoriaRepository.findByOpositor(usuario);
-        return ConvocatoriaMapper.convocatoriaListToConvocatoriaDtoList(dbConvocatorias);
+        List <Convocatoria> dbConvocatorias = convocatoriaRepository.findByUsuarioAndEstadoNot(usuario, Constantes.CONVOCATORIA_ESTADO_INACTIVA);
+        dbConvocatorias.addAll(convocatoriaRepository.findByOpositor(usuario));
+        //List <Convocatoria> dbConvocatorias = convocatoriaRepository.findByOpositor(usuario);
+        List <ConvocatoriaDto> convocatoriasDto =  ConvocatoriaMapper.convocatoriaListToConvocatoriaDtoList(dbConvocatorias);
+        return new HashSet<ConvocatoriaDto>(convocatoriasDto);
     }
 
     public List<ConvocatoriaDto> getConvocatoriasActivas(){
@@ -78,7 +79,7 @@ public class MainServiceImpl implements MainService {
 
     public void guardarConvocatoria(ConvocatoriaDto convocatoriaDto) throws UsuarioNotFoundException,ConvocatoriaNotFoundException{
     	Convocatoria convocatoria = ConvocatoriaMapper.convocatoriaDtoToConvocatoria(convocatoriaDto);
-        boolean esNueva = convocatoria.getId().equals(null);
+        boolean esNueva = convocatoria.getId() == null;
     	convocatoriaRepository.save(convocatoria);
         if (esNueva){
             solicitarAcceso(convocatoria.getId(), convocatoria.getUsuario().getId());
@@ -98,5 +99,15 @@ public class MainServiceImpl implements MainService {
     	opositorRepository.save(opositor);
     }
 
+    public EspecialidadDto getEspecialidadbyId(Integer id) throws EspecialidadNotFoundException{
+        Especialidad especialidad = especialidadRepository.findById(id).orElseThrow(EspecialidadNotFoundException::new);
+        return EspecialidadMapper.especialidadToEspecialidadDto(especialidad);
+    }
+
+    public OrganismoDto getOrganismobyId(Integer id) throws OrganismoNotFoundException{
+        Organismo organismo = organismoRepository.findById(id).orElseThrow(OrganismoNotFoundException::new);
+        return OrganismoMapper.organismoToOrganismoDto(organismo);
+
+    }
 
 }
