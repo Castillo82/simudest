@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="common/head :: head">
+    </head>
+
+
+    <body class="layout-top-nav" style="height: auto;">
+        <div class="wrapper">
+
+            <header th:replace="common/header :: header"></header>
+
+            <div class="content-wrapper">
+
+                <section class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="content">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+
+                                <div class="card">
+                                    <form action="#" th:action="@{/convocatoria/guardarPlaza}" th:object="${plaza}" method="post">
+                                        <input type="hidden" th:field="*{convocatoriaDto.id}" />
+
+                                        <div class="card-header">
+                                            <h3 class="card-title">Plaza</h3>
+                                        </div>
+
+                                        <div class="card-body">
+                                            <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                                                <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="codigo">Codigo Plaza</label>
+                                                <input id ="codigo" type="text" class="form-control" th:field="*{codigo}" placeholder="Ej: 0012345" th:errorclass="is-invalid" />
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="ministerio">Ministerio / Consejería</label>
+                                                <input id ="ministerio" type="text" class="form-control" th:field="*{ministerio}" placeholder="Ej: Ministerio de Justicia" th:errorclass="is-invalid" />
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="centro">Centro</label>
+                                                <input id ="centro" type="text" class="form-control" th:field="*{centro}" placeholder="Ej: Dirección General de Administración Digital" th:errorclass="is-invalid" />
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <label for="provincia">Provincia</label>
+                                                <select th:field="*{provinciaDto.id}" class="custom-select" id="provincia" th:errorclass="is-invalid">
+                                                    <option selected="selected" value=""></option>
+                                                    <option th:each="provincia : ${provincias}"
+                                                            th:value="${provincia.id}"
+                                                            th:text="${provincia.nombre}">
+                                                    </option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="localidad">Localidad</label>
+                                                <input id ="localidad" type="text" class="form-control" th:field="*{localidad}" placeholder="Ej: Madrid" th:errorclass="is-invalid" />
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="denominacion">Denominación del puesto</label>
+                                                <input id ="denominacion" type="text" class="form-control" th:field="*{denominacion}" placeholder="Ej: Técnico auxiliar de informática" th:errorclass="is-invalid" />
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="nivel">Nivel</label>
+                                                <input id ="nivel" type="number" class="form-control" th:field="*{nivel}" placeholder="Ej: 17" th:errorclass="is-invalid" />
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="c_especifico">Complemento específico</label>
+                                                <input id ="c_especifico" type="number" class="form-control" th:field="*{c_especifico}" placeholder="Ej: 5436.74" th:errorclass="is-invalid" min="0.00" max="100000.00" step="0.01"/>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="card-footer">
+                                            <button type="submit" class="btn btn-primary">Guardar</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+    </body>
+
+</html>
+
+
+
+
+
+
+

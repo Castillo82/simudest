@@ -1,11 +1,12 @@
 package com.simudest.simudest.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class PlazaDto implements Serializable {
 
-	private Integer id;
+	private String id;
 
 	private ProvinciaDto provinciaDto;
 
@@ -21,15 +22,15 @@ public class PlazaDto implements Serializable {
 
 	private String denominacion;
 
-	private String nivel;
+	private Integer nivel;
 
-	private String c_especifico;
+	private BigDecimal c_especifico;
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -89,19 +90,19 @@ public class PlazaDto implements Serializable {
 		this.denominacion = denominacion;
 	}
 
-	public String getNivel() {
+	public Integer getNivel() {
 		return nivel;
 	}
 
-	public void setNivel(String nivel) {
+	public void setNivel(Integer nivel) {
 		this.nivel = nivel;
 	}
 
-	public String getC_especifico() {
+	public BigDecimal getC_especifico() {
 		return c_especifico;
 	}
 
-	public void setC_especifico(String c_especifico) {
+	public void setC_especifico(BigDecimal c_especifico) {
 		this.c_especifico = c_especifico;
 	}
 

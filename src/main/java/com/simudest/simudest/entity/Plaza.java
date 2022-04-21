@@ -1,16 +1,20 @@
 package com.simudest.simudest.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name="plaza")
 public class Plaza implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(generator="system-uuid")
+	@GenericGenerator(name="system-uuid", strategy = "uuid")
 	@Column(name="id_plaza")
-	private Integer id;
+	private String id;
 
 	@ManyToOne
 	@JoinColumn(name = "id_provi")
@@ -36,16 +40,16 @@ public class Plaza implements Serializable {
 	private String denominacion;
 
 	@Column(name="nivel")
-	private String nivel;
+	private Integer nivel;
 
 	@Column(name="c_especifico")
-	private String c_especifico;
+	private BigDecimal c_especifico;
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -105,19 +109,19 @@ public class Plaza implements Serializable {
 		this.denominacion = denominacion;
 	}
 
-	public String getNivel() {
+	public Integer getNivel() {
 		return nivel;
 	}
 
-	public void setNivel(String nivel) {
+	public void setNivel(Integer nivel) {
 		this.nivel = nivel;
 	}
 
-	public String getC_especifico() {
+	public BigDecimal getC_especifico() {
 		return c_especifico;
 	}
 
-	public void setC_especifico(String c_especifico) {
+	public void setC_especifico(BigDecimal c_especifico) {
 		this.c_especifico = c_especifico;
 	}
 }

@@ -1,10 +1,7 @@
 package com.simudest.simudest.controller;
 
-import com.simudest.simudest.dto.ConvocatoriaDto;
-import com.simudest.simudest.dto.OpositorDto;
-import com.simudest.simudest.exception.OpositorNotFoundException;
-import com.simudest.simudest.exception.OrdenOpositorIncorrectoException;
-import com.simudest.simudest.exception.UsuarioNotFoundException;
+import com.simudest.simudest.dto.*;
+import com.simudest.simudest.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -18,8 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.simudest.simudest.configuration.Constantes;
-import com.simudest.simudest.dto.Alerta;
-import com.simudest.simudest.exception.ConvocatoriaNotFoundException;
 import com.simudest.simudest.service.ConvocatoriaService;
 
 @Controller
@@ -136,6 +131,7 @@ public class ConvocatoriaController {
                 return mav;
             }
             mav.addObject("plazas",convocatoriaService.getPlazasConvocatoria(idconvo));
+            mav.addObject("idconvo",idconvo);
         }catch (ConvocatoriaNotFoundException e){
             ra.addFlashAttribute("alerta", new Alerta("Alerta", "La convocatoria solicitada no existe o es incorrecta.", Constantes.ALERTA_TIPO_ERROR));
         }catch (UsuarioNotFoundException e){
@@ -144,6 +140,61 @@ public class ConvocatoriaController {
             ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha ocurrido un error al obtener las plazas de la convocatoria.", Constantes.ALERTA_TIPO_ERROR));
         }
         mav.setViewName("private/convocatoria/plazas");
+        return mav;
+    }
+
+    @GetMapping("/nuevaPlaza")
+    public ModelAndView nuevaPlaza(String idConvo) {
+        ModelAndView mav = new ModelAndView();
+        PlazaDto plazaDto = new PlazaDto();
+        ConvocatoriaDto convocatoriaDto = new ConvocatoriaDto();
+        convocatoriaDto.setId(idConvo);
+        plazaDto.setConvocatoriaDto(convocatoriaDto);
+        mav.addObject("plaza", plazaDto);
+        mav.addObject("provincias", convocatoriaService.getProvincias());
+        mav.setViewName("private/convocatoria/modificarPlaza");
+        return mav;
+    }
+
+    @GetMapping("/modificarPlaza")
+    public ModelAndView modificarPlaza(String idPlaza, String idConvo, RedirectAttributes ra) {
+        ModelAndView mav = new ModelAndView();
+        PlazaDto plazaDto;
+        try {
+            plazaDto = convocatoriaService.getPlazabyId(idPlaza);
+        }catch (PlazaNotFoundException e){
+            ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha ocurrido un error al intentar modificar la plaza.", Constantes.ALERTA_TIPO_ERROR));
+            mav.setViewName(Constantes.REDIRECT_PRINCIPAL);
+            return mav;
+        }
+        mav.addObject("plaza", plazaDto);
+        mav.addObject("provincias", convocatoriaService.getProvincias());
+        mav.setViewName("private/convocatoria/modificarPlaza");
+        return mav;
+    }
+
+    @PostMapping("/guardarPlaza")
+    public ModelAndView guardarPlaza(PlazaDto plazaDto, final BindingResult bindingResult){
+        ModelAndView mav = new ModelAndView();
+        if(bindingResult.hasErrors()){
+            mav.addObject("plaza", plazaDto);
+            mav.setViewName("private/convocatoria/modificarPlaza");
+            return mav;
+        }
+        try {
+            ConvocatoriaDto convocatoriaDto = convocatoriaService.getConvocatoria(plazaDto.getConvocatoriaDto().getId());
+            ProvinciaDto provinciaDto = convocatoriaService.getProvincia(plazaDto.getProvinciaDto().getId());
+            plazaDto.setConvocatoriaDto(convocatoriaDto);
+            plazaDto.setProvinciaDto(provinciaDto);
+            convocatoriaService.guardarPlaza(plazaDto);
+        }catch (Exception e){
+            bindingResult.rejectValue("codigo", "codigo","Ha ocurrido un error inesperado.");
+            mav.addObject("plaza", plazaDto);
+            mav.setViewName("private/convocatoria/modificarPlaza");
+            return mav;
+        }
+
+        mav.setViewName(Constantes.REDIRECT_PRINCIPAL);
         return mav;
     }
 

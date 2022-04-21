@@ -3,10 +3,8 @@ package com.simudest.simudest.service;
 import com.simudest.simudest.dto.ConvocatoriaDto;
 import com.simudest.simudest.dto.OpositorDto;
 import com.simudest.simudest.dto.PlazaDto;
-import com.simudest.simudest.exception.ConvocatoriaNotFoundException;
-import com.simudest.simudest.exception.OpositorNotFoundException;
-import com.simudest.simudest.exception.OrdenOpositorIncorrectoException;
-import com.simudest.simudest.exception.UsuarioNotFoundException;
+import com.simudest.simudest.dto.ProvinciaDto;
+import com.simudest.simudest.exception.*;
 
 import java.util.List;
 
@@ -29,5 +27,13 @@ public interface ConvocatoriaService {
 	public void rechazarOpositor (String idUsuario, String idConvo) throws OpositorNotFoundException;
 
 	public List<PlazaDto> getPlazasConvocatoria(String idConvo) throws ConvocatoriaNotFoundException;
+
+	public PlazaDto getPlazabyId(String idPlaza) throws PlazaNotFoundException;
+
+	public List<ProvinciaDto> getProvincias();
+
+	public ProvinciaDto getProvincia(Integer id) throws ProvinciaNotFoundException;
+
+	public void guardarPlaza (PlazaDto plazaDto);
 
 }

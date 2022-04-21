@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PlazaRepository extends JpaRepository<Plaza, Integer> {
+public interface PlazaRepository extends JpaRepository<Plaza, String> {
 
     public Integer countByConvocatoria(Convocatoria convocatoria);
 

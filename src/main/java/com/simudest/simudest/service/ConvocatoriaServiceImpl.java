@@ -4,14 +4,13 @@ import com.simudest.simudest.configuration.Constantes;
 import com.simudest.simudest.dto.ConvocatoriaDto;
 import com.simudest.simudest.dto.OpositorDto;
 import com.simudest.simudest.dto.PlazaDto;
+import com.simudest.simudest.dto.ProvinciaDto;
 import com.simudest.simudest.entity.*;
-import com.simudest.simudest.exception.ConvocatoriaNotFoundException;
-import com.simudest.simudest.exception.OpositorNotFoundException;
-import com.simudest.simudest.exception.OrdenOpositorIncorrectoException;
-import com.simudest.simudest.exception.UsuarioNotFoundException;
+import com.simudest.simudest.exception.*;
 import com.simudest.simudest.mapper.ConvocatoriaMapper;
 import com.simudest.simudest.mapper.OpositorMapper;
 import com.simudest.simudest.mapper.PlazaMapper;
+import com.simudest.simudest.mapper.ProvinciaMapper;
 import com.simudest.simudest.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -105,6 +104,25 @@ public class ConvocatoriaServiceImpl implements ConvocatoriaService {
         List<Plaza> plazas = plazaRepository.findByConvocatoria(convocatoria);
         return PlazaMapper.PlazaListToPlazaDtoList(plazas);
 
+    }
+
+    public PlazaDto getPlazabyId(String idPlaza) throws PlazaNotFoundException{
+        Plaza plaza = plazaRepository.findById(idPlaza).orElseThrow(PlazaNotFoundException::new);
+        return PlazaMapper.PlazaToPlazaDto(plaza);
+
+    }
+
+    public List<ProvinciaDto> getProvincias(){
+        return ProvinciaMapper.ProvinciaListToProvinciaDtoList(provinciaRepository.findAll());
+    }
+
+    public ProvinciaDto getProvincia(Integer id) throws ProvinciaNotFoundException{
+        return ProvinciaMapper.ProvinciaToProvinciaDto(provinciaRepository.findById(id).orElseThrow(ProvinciaNotFoundException::new));
+    }
+
+    public void guardarPlaza (PlazaDto plazaDto){
+        Plaza plaza = PlazaMapper.PlazaDtoToPlaza(plazaDto);
+        plazaRepository.save(plaza);
     }
 
 }

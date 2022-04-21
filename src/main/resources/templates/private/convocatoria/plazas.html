@@ -29,6 +29,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Plazas</h3>
+                                <a th:href="@{/convocatoria/nuevaPlaza(idConvo=${idconvo})}" class="btn btn-outline-secondary float-right">Añadir Plaza</a>
                             </div>
                             <div class="card-body">
                                 <table id="plazas" class="table table-bordered table-hover">
@@ -42,6 +43,7 @@
                                         <th>Puesto de trabajo</th>
                                         <th>Nivel</th>
                                         <th>C. Específico</th>
+                                        <th ></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -54,6 +56,12 @@
                                         <td th:text="${plaza.denominacion}"></td>
                                         <td th:text="${plaza.nivel}"></td>
                                         <td th:text="${plaza.c_especifico}"></td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a th:href="@{/convocatoria/modificarPlaza(idPlaza=${plaza.id},idConvo=${plaza.convocatoriaDto.id})}" class="btn btn-info" role="button">Modificar</a>
+                                                <a th:href="@{/convocatoria/borrarPlaza(idPlaza=${plaza.id},idConvo=${plaza.convocatoriaDto.id})}" class="btn btn-danger" role="button">Eliminar</a>
+                                            </div>
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
