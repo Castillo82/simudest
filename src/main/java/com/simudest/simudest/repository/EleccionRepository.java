@@ -12,7 +12,8 @@ import java.util.Optional;
 @Repository
 public interface EleccionRepository extends JpaRepository<Eleccion, EleccionId> {
 
-
     public Optional<Eleccion> findByUsuarioAndOrden(Usuario usuario, Integer orden);
+
+    public List<Eleccion> findByUsuario(Usuario usuario);
 
 }

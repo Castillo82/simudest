@@ -35,26 +35,19 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-12">
-
                                 <div class="card">
-                                        <div class="card-header">
-                                            <h3 class="card-title">Convocatoria</h3>
-                                        </div>
+                                    <div class="card-header">
+                                        <h3 class="card-title">Convocatoria</h3>
+                                    </div>
 
-                                        <div class="card-body">
-                                            <p th:text="${convocatoria.nombre}"></p>
-                                            <p th:text="${convocatoria.organismoDto.nombre}"></p>
-                                            <p th:text="${convocatoria.especialidadDto.nombre} + ' - ' + ${convocatoria.especialidadDto.grupoDto.nombre}"></p>
-                                            <p><a th:href="@{/convocatoria/opositores(idConvo=${convocatoria.id})}" ><span th:text="${nopositoresActual} + ' de ' + ${convocatoria.nopositores}"></span></a> Opositores</p>
-                                            <p><a th:href="@{/convocatoria/plazas(idConvo=${convocatoria.id})}" ><span th:text="${nplazasActual} + ' de ' + ${convocatoria.nplazas}"></span></a> Plazas</p>
-
-                                        </div>
-
-                                        <div class="card-footer">
-                                            <button type="submit" class="btn btn-primary">Guardar</button>
-                                        </div>
+                                    <div class="card-body">
+                                        <p th:text="${convocatoria.nombre}"></p>
+                                        <p th:text="${convocatoria.organismoDto.nombre}"></p>
+                                        <p th:text="${convocatoria.especialidadDto.nombre} + ' - ' + ${convocatoria.especialidadDto.grupoDto.nombre}"></p>
+                                        <p><a th:href="@{/convocatoria/opositores(idConvo=${convocatoria.id})}" ><span th:text="${nopositoresActual} + ' de ' + ${convocatoria.nopositores}"></span></a> Opositores</p>
+                                        <p><a th:href="@{/convocatoria/plazas(idConvo=${convocatoria.id})}" ><span th:text="${nplazasActual} + ' de ' + ${convocatoria.nplazas}"></span></a> Plazas</p>
+                                    </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>

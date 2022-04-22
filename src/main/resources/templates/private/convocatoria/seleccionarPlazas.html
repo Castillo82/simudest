@@ -46,6 +46,23 @@
                                         <td th:text="${orden}"></td>
                                         <td th:id="'seleccion_plaza_'+${orden}">Seleccionar plaza</td>
                                     </tr>
+                                    <!--tr th:each="seleccion : ${elecciones}" style="cursor: pointer"
+                                        th:attr="onclick=|rowClickedSeleccion('${seleccion.key}')|">
+                                        <td th:text="${seleccion.key}"></td>
+                                        <td th:text="${seleccion.value}"></td>
+                                        <td th:id="'seleccion_plaza_'+${seleccion.key}">
+                                            <tr th:each="plaza : ${seleccion.value}">
+                                                <td th:text="${plaza.codigo}"></td>
+                                                <td th:text="${plaza.ministerio}"></td>
+                                                <td th:text="${plaza.centro}"></td>
+                                                <td th:text="${plaza.provinciaDto}"></td>
+                                                <td th:text="${plaza.localidad}"></td>
+                                                <td th:text="${plaza.denominacion}"></td>
+                                                <td th:text="${plaza.nivel}"></td>
+                                                <td th:text="${plaza.c_especifico}"></td>
+                                            </tr>
+                                        </td>
+                                    </tr-->
                                     </tbody>
                                 </table>
 
@@ -85,7 +102,7 @@
                     </thead>
                     <tbody>
                     <tr th:each="plaza: ${plazas}" style="cursor: pointer"
-                        th:attr="onclick=|rowClicked('${plaza.id}')|" th:id="'plaza_'+${plaza.id}">>
+                        th:attr="onclick=|rowClicked('${plaza.id}')|" th:id="'plaza_'+${plaza.id}">
                         <td th:text="${plaza.codigo}"></td>
                         <td th:text="${plaza.ministerio}"></td>
                         <td th:text="${plaza.centro}"></td>
@@ -104,6 +121,17 @@
 
                                                 <!-- configuracion tablas -->
 <script>
+          $(function () {
+            $('#seleccion').DataTable({
+              "paging": false,
+              "lengthChange": false,
+              "ordering": true,
+              "autoWidth": false,
+              "responsive": true,
+              "language": {"url": "/json/Spanish.json"},
+            });
+          });
+
           $(function () {
             $('#plazas').DataTable({
               "paging": true,
@@ -139,7 +167,24 @@
               });
           }
 
-         </script>
+</script>
+
+<script type="text/javascript" th:inline="javascript">
+
+    $( document ).ready(function() {
+        var listaElecciones = [[${elecciones}]]
+        for (i = 1; i < Object.keys(listaElecciones).length+1; i++) {
+            if (listaElecciones[i].plazaDto != null){
+                $("#seleccion_plaza_"+listaElecciones[i].orden).html($("#plaza_"+listaElecciones[i].plazaDto.id).html());
+            }
+        }
+
+    });
+
+</script>
+
+
+
 
 </body>
 

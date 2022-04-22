@@ -1,21 +1,14 @@
 package com.simudest.simudest.service;
 
-import com.simudest.simudest.dto.ConvocatoriaDto;
-import com.simudest.simudest.dto.OpositorDto;
-import com.simudest.simudest.dto.PlazaDto;
-import com.simudest.simudest.dto.ProvinciaDto;
+import com.simudest.simudest.dto.*;
 import com.simudest.simudest.entity.*;
 import com.simudest.simudest.exception.*;
-import com.simudest.simudest.mapper.ConvocatoriaMapper;
-import com.simudest.simudest.mapper.OpositorMapper;
-import com.simudest.simudest.mapper.PlazaMapper;
-import com.simudest.simudest.mapper.ProvinciaMapper;
+import com.simudest.simudest.mapper.*;
 import com.simudest.simudest.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ConvocatoriaServiceImpl implements ConvocatoriaService {
@@ -141,6 +134,41 @@ public class ConvocatoriaServiceImpl implements ConvocatoriaService {
         eleccion.setUsuario(usuario);
         eleccion.setOrden(orden);
         eleccionRepository.save(eleccion);
+    }
+
+    public Map<Integer, EleccionDto> getMapElecciones(String idUsuario, String idConvo) throws UsuarioNotFoundException, ConvocatoriaNotFoundException{
+        Map <Integer, EleccionDto> retorno = new HashMap<>();
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(UsuarioNotFoundException::new);
+        Convocatoria convocatoria = convocatoriaRepository.findById(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
+        List<Eleccion> elecciones = eleccionRepository.findByUsuario(usuario);
+        //Se rellenan las elecciones existentes del opositor en esta convocatoria
+        for (Eleccion eleccion : elecciones){
+            if (eleccion.getPlaza().getConvocatoria().getId().equals(idConvo)){
+                retorno.put(eleccion.getOrden(), EleccionMapper.eleccionToEleccionDto(eleccion));
+            }
+        }
+        //Se rellenan el resto de ordenes vacios
+        for (int i=1; i<convocatoria.getNopositores()+1;i++){
+            if (retorno.get(new Integer(i)) == null){
+                retorno.put(new Integer(i), new EleccionDto());
+            }
+        }
+        return retorno;
+    }
+
+    public List<EleccionDto> getElecciones(String idUsuario, String idConvo) throws UsuarioNotFoundException, ConvocatoriaNotFoundException{
+        //TODO si me quedo este metodo hace falta refactor, se puede hacer solo con la query sin iterar
+        List<EleccionDto> retorno = new ArrayList<>();
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(UsuarioNotFoundException::new);
+        Convocatoria convocatoria = convocatoriaRepository.findById(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
+        List<Eleccion> elecciones = eleccionRepository.findByUsuario(usuario);
+        //Se rellenan las elecciones existentes del opositor en esta convocatoria
+        for (Eleccion eleccion : elecciones){
+            if (eleccion.getPlaza().getConvocatoria().getId().equals(idConvo)){
+                retorno.add(EleccionMapper.eleccionToEleccionDto(eleccion));
+            }
+        }
+        return retorno;
     }
 
 }

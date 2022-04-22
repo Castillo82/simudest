@@ -1,12 +1,10 @@
 package com.simudest.simudest.service;
 
-import com.simudest.simudest.dto.ConvocatoriaDto;
-import com.simudest.simudest.dto.OpositorDto;
-import com.simudest.simudest.dto.PlazaDto;
-import com.simudest.simudest.dto.ProvinciaDto;
+import com.simudest.simudest.dto.*;
 import com.simudest.simudest.exception.*;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ConvocatoriaService {
 	
@@ -39,4 +37,9 @@ public interface ConvocatoriaService {
 	public void borrarPlaza(PlazaDto plazaDto);
 
 	public void seleccionarPlaza(PlazaDto plazaDto, String idUsuario, Integer orden) throws UsuarioNotFoundException;
-}
+
+	public Map<Integer, EleccionDto> getMapElecciones(String idUsuario, String idConvo) throws UsuarioNotFoundException, ConvocatoriaNotFoundException;
+
+	public List<EleccionDto> getElecciones(String idUsuario, String idConvo) throws UsuarioNotFoundException, ConvocatoriaNotFoundException;
+
+	}
