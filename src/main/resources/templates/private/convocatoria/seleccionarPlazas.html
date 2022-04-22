@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/head :: head">
+</head>
+
+
+<body class="layout-top-nav" style="height: auto;">
+<div class="wrapper">
+    <header th:replace="common/header :: header"></header>
+
+    <!-- -->
+    <div class="content-wrapper">
+
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                </div>
+            </div>
+        </section>
+
+        <section class="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Selección de plazas</h3>
+                            </div>
+                            <div class="card-body">
+
+                                <table id="seleccion" class="table table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Orden</th>
+                                        <th>Plaza</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="orden: ${#numbers.sequence(1, convocatoria.nopositores)}" style="cursor: pointer"
+                                        th:attr="onclick=|rowClickedSeleccion('${orden}')|">
+                                        <!--a href="#" class="btn btn-outline-secondary abre-modal-seleccion" th:attr="data-id=${orden}" data-toggle="modal" data-target="#modalPlazas"></a-->
+                                        <td th:text="${orden}"></td>
+                                        <td th:id="'seleccion_plaza_'+${orden}">Seleccionar plaza</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modalPlazas">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Selecciona una plaza</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="ordenseleccionado" id="ordenseleccionado" value=""/>
+                <table id="plazas" class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>Codigo Plaza</th>
+                        <th>Ministerio / Consejería</th>
+                        <th>Centro</th>
+                        <th>Provincia</th>
+                        <th>Localidad</th>
+                        <th>Puesto de trabajo</th>
+                        <th>Nivel</th>
+                        <th>C. Específico</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="plaza: ${plazas}" style="cursor: pointer"
+                        th:attr="onclick=|rowClicked('${plaza.id}')|" th:id="'plaza_'+${plaza.id}">>
+                        <td th:text="${plaza.codigo}"></td>
+                        <td th:text="${plaza.ministerio}"></td>
+                        <td th:text="${plaza.centro}"></td>
+                        <td th:text="${plaza.provinciaDto.nombre}"></td>
+                        <td th:text="${plaza.localidad}"></td>
+                        <td th:text="${plaza.denominacion}"></td>
+                        <td th:text="${plaza.nivel}"></td>
+                        <td th:text="${plaza.c_especifico}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+                                                <!-- configuracion tablas -->
+<script>
+          $(function () {
+            $('#plazas').DataTable({
+              "paging": true,
+              "lengthChange": false,
+              "ordering": true,
+              "autoWidth": false,
+              "responsive": true,
+              "pageLength": 5,
+              "language": {"url": "/json/Spanish.json"},
+            });
+          });
+
+      /*    $(document).on("click", ".abre-modal-seleccion", function () {
+              $(".modal-body #ordenseleccionado").val($(this).data('id'));
+          });
+*/
+          function rowClickedSeleccion(orden) {
+              $(".modal-body #ordenseleccionado").val(orden);
+              $('#modalPlazas').modal('show');
+          }
+
+          function rowClicked(idPlaza) {
+              var ordenseleccionado = $(".modal-body #ordenseleccionado").val();
+              $.get( "/convocatoria/ajax/seleccionarPlaza?idPlaza=" + idPlaza + "&orden=" + ordenseleccionado, function( data ) {
+                    if (data != "OK"){
+                        alert(data);
+                    }else{
+                        ordenseleccionado = $(".modal-body #ordenseleccionado").val();
+                        $("#seleccion_plaza_"+ordenseleccionado).html($("#plaza_"+idPlaza).html());
+
+                    }
+                    $('#modalPlazas').modal('hide');
+              });
+          }
+
+         </script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+

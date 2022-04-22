@@ -11,12 +11,12 @@ public class EleccionId implements Serializable {
 	private String usuario;
 
 	@Column(name = "id_plaza")
-	private Integer plaza;
+	private String plaza;
 
 	public EleccionId() {
 	}
 
-	public EleccionId(String usuario, Integer plaza) {
+	public EleccionId(String usuario, String plaza) {
 		this.usuario = usuario;
 		this.plaza = plaza;
 	}
@@ -29,11 +29,11 @@ public class EleccionId implements Serializable {
 		this.usuario = usuario;
 	}
 
-	public Integer getPlaza() {
+	public String getPlaza() {
 		return plaza;
 	}
 
-	public void setPlaza(Integer plaza) {
+	public void setPlaza(String plaza) {
 		this.plaza = plaza;
 	}
 }

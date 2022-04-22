@@ -85,11 +85,11 @@ public class MainController {
     }
 
     @GetMapping("/solicitarAcceso")
-    public ModelAndView solicitarAcceso(String idconvo, RedirectAttributes ra){
+    public ModelAndView solicitarAcceso(String idConvo, RedirectAttributes ra){
         ModelAndView mav = new ModelAndView();
         try {
         	User user= (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        	mainService.solicitarAcceso(idconvo, user.getUsername());
+        	mainService.solicitarAcceso(idConvo, user.getUsername());
         	ra.addFlashAttribute("alerta", new Alerta("Información", "Ha solicitado correctamente el acceso a la convocatoria. Tan pronto como el organizador de la convocatoria acepte su solicitud, podrá acceder a ella.", Constantes.ALERTA_TIPO_INFO));
         }catch (ConvocatoriaNotFoundException e){
             ra.addFlashAttribute("alerta", new Alerta("Alerta", "La convocatoria solicitada no existe o es incorrecta.", Constantes.ALERTA_TIPO_ERROR));

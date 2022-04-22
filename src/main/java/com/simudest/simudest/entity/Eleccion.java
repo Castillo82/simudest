@@ -21,6 +21,14 @@ public class Eleccion implements Serializable {
 	@Column(name="orden")
 	private Integer orden;
 
+	public EleccionId getId() {
+		return id;
+	}
+
+	public void setId(EleccionId id) {
+		this.id = id;
+	}
+
 	public Usuario getUsuario() {
 		return usuario;
 	}

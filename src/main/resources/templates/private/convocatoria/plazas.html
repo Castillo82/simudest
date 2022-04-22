@@ -29,7 +29,9 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Plazas</h3>
-                                <a th:href="@{/convocatoria/nuevaPlaza(idConvo=${idconvo})}" class="btn btn-outline-secondary float-right">Añadir Plaza</a>
+                                <a th:href="@{/convocatoria/nuevaPlaza(idConvo=${idConvo})}" class="btn btn-outline-secondary float-right">Añadir Plaza</a>
+                                <a th:href="@{/convocatoria/consultarResultadoSimulacion(idConvo=${idConvo})}" class="btn btn-outline-secondary float-right mright10">Consultar resultado simulación</a>
+                                <a th:href="@{/convocatoria/seleccionarPLazas(idConvo=${idConvo})}" class="btn btn-outline-secondary float-right mright10">Seleccionar Plazas</a>
                             </div>
                             <div class="card-body">
                                 <table id="plazas" class="table table-bordered table-hover">

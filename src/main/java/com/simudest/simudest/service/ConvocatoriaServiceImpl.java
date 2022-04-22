@@ -1,6 +1,5 @@
 package com.simudest.simudest.service;
 
-import com.simudest.simudest.configuration.Constantes;
 import com.simudest.simudest.dto.ConvocatoriaDto;
 import com.simudest.simudest.dto.OpositorDto;
 import com.simudest.simudest.dto.PlazaDto;
@@ -16,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ConvocatoriaServiceImpl implements ConvocatoriaService {
@@ -36,11 +36,8 @@ public class ConvocatoriaServiceImpl implements ConvocatoriaService {
     @Autowired
     private OpositorRepository opositorRepository;
 
-    //  @Autowired
-    //  private OpositorRepository opositorRepository;
-
-    //  @Autowired
-    //  private EleccionRepository eleccionRepository;
+    @Autowired
+    private EleccionRepository eleccionRepository;
 
 	public ConvocatoriaDto getConvocatoria(String id) throws ConvocatoriaNotFoundException{
 		Convocatoria convocatoria = convocatoriaRepository.findById(id).orElseThrow(ConvocatoriaNotFoundException::new);
@@ -128,6 +125,22 @@ public class ConvocatoriaServiceImpl implements ConvocatoriaService {
     public void borrarPlaza(PlazaDto plazaDto){
         Plaza plaza = PlazaMapper.PlazaDtoToPlaza(plazaDto);
         plazaRepository.delete(plaza);
+    }
+
+    // Al seleccionar una plaza la buscamos por orden y usuario, si existe se borra
+    public void seleccionarPlaza(PlazaDto plazaDto, String idUsuario, Integer orden) throws UsuarioNotFoundException{
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(UsuarioNotFoundException::new);
+        Plaza plaza = PlazaMapper.PlazaDtoToPlaza(plazaDto);
+        Optional<Eleccion> elecciondb = eleccionRepository.findByUsuarioAndOrden(usuario, orden);
+        if (elecciondb.isPresent()){
+            eleccionRepository.delete(elecciondb.get());
+        }
+        Eleccion eleccion = new Eleccion();
+        eleccion.setId(new EleccionId(idUsuario, plazaDto.getId()));
+        eleccion.setPlaza(plaza);
+        eleccion.setUsuario(usuario);
+        eleccion.setOrden(orden);
+        eleccionRepository.save(eleccion);
     }
 
 }

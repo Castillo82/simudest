@@ -7,15 +7,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.simudest.simudest.configuration.Constantes;
 import com.simudest.simudest.service.ConvocatoriaService;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/convocatoria")
@@ -51,17 +50,17 @@ public class ConvocatoriaController {
     }
 
     @GetMapping("/opositores")
-    public ModelAndView listadoOpositores(String idconvo, RedirectAttributes ra){
+    public ModelAndView listadoOpositores(String idConvo, RedirectAttributes ra){
         ModelAndView mav = new ModelAndView();
         try {
             User user= (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if (!convocatoriaService.puedeConsultarConvocatoria(user.getUsername(), idconvo)){
+            if (!convocatoriaService.puedeConsultarConvocatoria(user.getUsername(), idConvo)){
                 ra.addFlashAttribute("alerta", new Alerta("Alerta", "El usuario no tiene permiso para acceder a esta convocatoria.", Constantes.ALERTA_TIPO_ERROR));
                 mav.setViewName(Constantes.REDIRECT_PRINCIPAL);
                 return mav;
             }
-            mav.addObject("opositoresValidados",convocatoriaService.getOpositoresConvocatoria(idconvo, true));
-            mav.addObject("opositoresNoValidados",convocatoriaService.getOpositoresConvocatoria(idconvo, false));
+            mav.addObject("opositoresValidados",convocatoriaService.getOpositoresConvocatoria(idConvo, true));
+            mav.addObject("opositoresNoValidados",convocatoriaService.getOpositoresConvocatoria(idConvo, false));
         }catch (ConvocatoriaNotFoundException e){
             ra.addFlashAttribute("alerta", new Alerta("Alerta", "La convocatoria solicitada no existe o es incorrecta.", Constantes.ALERTA_TIPO_ERROR));
         }catch (UsuarioNotFoundException e){
@@ -121,17 +120,17 @@ public class ConvocatoriaController {
 
 
     @GetMapping("/plazas")
-    public ModelAndView listadoPlazas(String idconvo, RedirectAttributes ra){
+    public ModelAndView listadoPlazas(String idConvo, RedirectAttributes ra){
         ModelAndView mav = new ModelAndView();
         try {
             User user= (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if (!convocatoriaService.puedeConsultarConvocatoria(user.getUsername(), idconvo)){
+            if (!convocatoriaService.puedeConsultarConvocatoria(user.getUsername(), idConvo)){
                 ra.addFlashAttribute("alerta", new Alerta("Alerta", "El usuario no tiene permiso para acceder a esta convocatoria.", Constantes.ALERTA_TIPO_ERROR));
                 mav.setViewName(Constantes.REDIRECT_PRINCIPAL);
                 return mav;
             }
-            mav.addObject("plazas",convocatoriaService.getPlazasConvocatoria(idconvo));
-            mav.addObject("idconvo",idconvo);
+            mav.addObject("plazas",convocatoriaService.getPlazasConvocatoria(idConvo));
+            mav.addObject("idConvo",idConvo);
         }catch (ConvocatoriaNotFoundException e){
             ra.addFlashAttribute("alerta", new Alerta("Alerta", "La convocatoria solicitada no existe o es incorrecta.", Constantes.ALERTA_TIPO_ERROR));
         }catch (UsuarioNotFoundException e){
@@ -219,7 +218,7 @@ public class ConvocatoriaController {
             return mav;
         }
 
-        ra.addAttribute("idconvo", plazaDto.getConvocatoriaDto().getId());
+        ra.addAttribute("idConvo", plazaDto.getConvocatoriaDto().getId());
         ra.addFlashAttribute("alerta", new Alerta("Información", "Se ha creado la plaza correctamente.", Constantes.ALERTA_TIPO_INFO));
         mav.setViewName(Constantes.REDIRECT_PLAZAS);
         return mav;
@@ -251,9 +250,55 @@ public class ConvocatoriaController {
             mav.setViewName(Constantes.REDIRECT_PRINCIPAL);
             return mav;
         }
-        ra.addAttribute("idconvo", plazaDto.getConvocatoriaDto().getId());
+        ra.addAttribute("idConvo", plazaDto.getConvocatoriaDto().getId());
         ra.addFlashAttribute("alerta", new Alerta("Información", "Se ha borrado la plaza correctamente.", Constantes.ALERTA_TIPO_INFO));
         mav.setViewName(Constantes.REDIRECT_PLAZAS);
         return mav;
     }
+
+
+    @GetMapping("/seleccionarPLazas")
+    public ModelAndView seleccionarPLazas(String idConvo, RedirectAttributes ra){
+        ModelAndView mav = new ModelAndView();
+        try {
+            User user= (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (!convocatoriaService.puedeConsultarConvocatoria(user.getUsername(), idConvo)){
+                ra.addFlashAttribute("alerta", new Alerta("Alerta", "El usuario no tiene permiso para acceder a esta convocatoria.", Constantes.ALERTA_TIPO_ERROR));
+                mav.setViewName(Constantes.REDIRECT_PRINCIPAL);
+                return mav;
+            }
+            mav.addObject("plazas",convocatoriaService.getPlazasConvocatoria(idConvo));
+            mav.addObject("convocatoria",convocatoriaService.getConvocatoria(idConvo));
+        }catch (ConvocatoriaNotFoundException e){
+            ra.addFlashAttribute("alerta", new Alerta("Alerta", "La convocatoria solicitada no existe o es incorrecta.", Constantes.ALERTA_TIPO_ERROR));
+        }catch (UsuarioNotFoundException e){
+            ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha ocurrido un error recuperando su usuario.", Constantes.ALERTA_TIPO_ERROR));
+        }catch (Exception e){
+            ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha ocurrido un error al obtener las plazas de la convocatoria.", Constantes.ALERTA_TIPO_ERROR));
+        }
+        mav.setViewName("private/convocatoria/seleccionarPlazas");
+        return mav;
+    }
+
+
+
+    // Ajax para seleccionar plaza
+    @RequestMapping(value = "/ajax/seleccionarPlaza")
+    @ResponseBody
+    public String seleccionarPlaza(@RequestParam String idPlaza, @RequestParam Integer orden) {
+        try {
+            PlazaDto plazaDto = convocatoriaService.getPlazabyId(idPlaza);
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (!convocatoriaService.puedeConsultarConvocatoria(user.getUsername(), plazaDto.getConvocatoriaDto().getId())) {
+                return "No tiene permisos para seleccionar plazas en esta convocatoria.";
+            }
+            convocatoriaService.seleccionarPlaza(plazaDto, user.getUsername(), orden);
+        }catch (Exception e){
+            return "Ha ocurrido un error inesperado al seleccionar la plaza.";
+        }
+        return "OK";
+
+    }
+
+
 }

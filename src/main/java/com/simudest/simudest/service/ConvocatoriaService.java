@@ -37,4 +37,6 @@ public interface ConvocatoriaService {
 	public void guardarPlaza(PlazaDto plazaDto);
 
 	public void borrarPlaza(PlazaDto plazaDto);
+
+	public void seleccionarPlaza(PlazaDto plazaDto, String idUsuario, Integer orden) throws UsuarioNotFoundException;
 }
