@@ -120,9 +120,14 @@ public class ConvocatoriaServiceImpl implements ConvocatoriaService {
         return ProvinciaMapper.ProvinciaToProvinciaDto(provinciaRepository.findById(id).orElseThrow(ProvinciaNotFoundException::new));
     }
 
-    public void guardarPlaza (PlazaDto plazaDto){
+    public void guardarPlaza(PlazaDto plazaDto){
         Plaza plaza = PlazaMapper.PlazaDtoToPlaza(plazaDto);
         plazaRepository.save(plaza);
+    }
+
+    public void borrarPlaza(PlazaDto plazaDto){
+        Plaza plaza = PlazaMapper.PlazaDtoToPlaza(plazaDto);
+        plazaRepository.delete(plaza);
     }
 
 }

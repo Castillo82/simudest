@@ -58,8 +58,8 @@
                                         <td th:text="${plaza.c_especifico}"></td>
                                         <td>
                                             <div class="btn-group">
-                                                <a th:href="@{/convocatoria/modificarPlaza(idPlaza=${plaza.id},idConvo=${plaza.convocatoriaDto.id})}" class="btn btn-info" role="button">Modificar</a>
-                                                <a th:href="@{/convocatoria/borrarPlaza(idPlaza=${plaza.id},idConvo=${plaza.convocatoriaDto.id})}" class="btn btn-danger" role="button">Eliminar</a>
+                                                <a th:href="@{/convocatoria/modificarPlaza(idPlaza=${plaza.id})}" class="btn btn-info" role="button" title="Modificar">M</a>
+                                                <a th:href="@{/convocatoria/borrarPlaza(idPlaza=${plaza.id})}" class="btn btn-danger" role="button" title="Eliminar">E</a>
                                             </div>
                                         </td>
                                     </tr>

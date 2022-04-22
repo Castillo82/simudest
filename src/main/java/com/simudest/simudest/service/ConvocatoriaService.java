@@ -34,6 +34,7 @@ public interface ConvocatoriaService {
 
 	public ProvinciaDto getProvincia(Integer id) throws ProvinciaNotFoundException;
 
-	public void guardarPlaza (PlazaDto plazaDto);
+	public void guardarPlaza(PlazaDto plazaDto);
 
+	public void borrarPlaza(PlazaDto plazaDto);
 }
