@@ -14,4 +14,8 @@ public class Constantes {
 
     public static final String ALERTA_TIPO_INFO = "INFO";
     public static final String ALERTA_TIPO_ERROR = "ERROR";
+
+    public static final String ELECCION_COLOR_VERDE = "bg-success";
+    public static final String ELECCION_COLOR_ROJO = "bg-danger";
+    public static final String ELECCION_COLOR_GRIS = "bg-secondary";
 }

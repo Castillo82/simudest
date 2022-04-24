@@ -304,4 +304,26 @@ public class ConvocatoriaController {
     }
 
 
+    @GetMapping("/consultarResultadoSimulacion")
+    public ModelAndView consultarResultadoSimulacion(String idConvo, RedirectAttributes ra){
+        ModelAndView mav = new ModelAndView();
+        try {
+            User user= (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (!convocatoriaService.puedeConsultarConvocatoria(user.getUsername(), idConvo)){
+                ra.addFlashAttribute("alerta", new Alerta("Alerta", "El usuario no tiene permiso para acceder a esta convocatoria.", Constantes.ALERTA_TIPO_ERROR));
+                mav.setViewName(Constantes.REDIRECT_PRINCIPAL);
+                return mav;
+            }
+            mav.addObject("elecciones",convocatoriaService.getResultadoSimulacion(user.getUsername(), idConvo));
+        }catch (ConvocatoriaNotFoundException e){
+            ra.addFlashAttribute("alerta", new Alerta("Alerta", "La convocatoria solicitada no existe o es incorrecta.", Constantes.ALERTA_TIPO_ERROR));
+        }catch (UsuarioNotFoundException e){
+            ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha ocurrido un error recuperando su usuario.", Constantes.ALERTA_TIPO_ERROR));
+        }catch (Exception e){
+            ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha ocurrido un error al calcular el resultado de la simulación.", Constantes.ALERTA_TIPO_ERROR));
+        }
+        mav.setViewName("private/convocatoria/resultadoSimulacion");
+        return mav;
+    }
+
 }

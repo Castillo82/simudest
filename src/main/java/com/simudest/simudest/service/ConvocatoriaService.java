@@ -42,4 +42,6 @@ public interface ConvocatoriaService {
 
 	public List<EleccionDto> getElecciones(String idUsuario, String idConvo) throws UsuarioNotFoundException, ConvocatoriaNotFoundException;
 
+	public List<EleccionDto> getResultadoSimulacion(String idUsuario, String idConvo) throws UsuarioNotFoundException, ConvocatoriaNotFoundException;
+
 	}

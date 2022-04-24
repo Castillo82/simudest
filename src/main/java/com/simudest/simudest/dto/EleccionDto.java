@@ -11,6 +11,8 @@ public class EleccionDto implements Serializable {
 
 	private Integer orden;
 
+	private String color;
+
 	public UsuarioDto getUsuarioDto() {
 		return usuarioDto;
 	}
@@ -33,6 +35,14 @@ public class EleccionDto implements Serializable {
 
 	public void setOrden(Integer orden) {
 		this.orden = orden;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
 	}
 
 	@Override

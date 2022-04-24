@@ -1,5 +1,6 @@
 package com.simudest.simudest.service;
 
+import com.simudest.simudest.configuration.Constantes;
 import com.simudest.simudest.dto.*;
 import com.simudest.simudest.entity.*;
 import com.simudest.simudest.exception.*;
@@ -137,15 +138,14 @@ public class ConvocatoriaServiceImpl implements ConvocatoriaService {
     }
 
     public Map<Integer, EleccionDto> getMapElecciones(String idUsuario, String idConvo) throws UsuarioNotFoundException, ConvocatoriaNotFoundException{
+        //TODO no tiene uso, comprobarlo y quitarlo
         Map <Integer, EleccionDto> retorno = new HashMap<>();
         Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(UsuarioNotFoundException::new);
         Convocatoria convocatoria = convocatoriaRepository.findById(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
-        List<Eleccion> elecciones = eleccionRepository.findByUsuario(usuario);
+        List<Eleccion> elecciones = eleccionRepository.findByUsuarioAndConvocatoria(usuario, convocatoria);
         //Se rellenan las elecciones existentes del opositor en esta convocatoria
         for (Eleccion eleccion : elecciones){
-            if (eleccion.getPlaza().getConvocatoria().getId().equals(idConvo)){
-                retorno.put(eleccion.getOrden(), EleccionMapper.eleccionToEleccionDto(eleccion));
-            }
+            retorno.put(eleccion.getOrden(), EleccionMapper.eleccionToEleccionDto(eleccion));
         }
         //Se rellenan el resto de ordenes vacios
         for (int i=1; i<convocatoria.getNopositores()+1;i++){
@@ -157,18 +157,104 @@ public class ConvocatoriaServiceImpl implements ConvocatoriaService {
     }
 
     public List<EleccionDto> getElecciones(String idUsuario, String idConvo) throws UsuarioNotFoundException, ConvocatoriaNotFoundException{
-        //TODO si me quedo este metodo hace falta refactor, se puede hacer solo con la query sin iterar
-        List<EleccionDto> retorno = new ArrayList<>();
         Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(UsuarioNotFoundException::new);
         Convocatoria convocatoria = convocatoriaRepository.findById(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
-        List<Eleccion> elecciones = eleccionRepository.findByUsuario(usuario);
-        //Se rellenan las elecciones existentes del opositor en esta convocatoria
-        for (Eleccion eleccion : elecciones){
-            if (eleccion.getPlaza().getConvocatoria().getId().equals(idConvo)){
-                retorno.add(EleccionMapper.eleccionToEleccionDto(eleccion));
+        List<Eleccion> elecciones = eleccionRepository.findByUsuarioAndConvocatoria(usuario, convocatoria);
+        return EleccionMapper.eleccionListToEleccionDtoList(elecciones);
+    }
+
+    public List<EleccionDto> getResultadoSimulacion(String idUsuario, String idConvo) throws UsuarioNotFoundException, ConvocatoriaNotFoundException{
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(UsuarioNotFoundException::new);
+        Convocatoria convocatoria = convocatoriaRepository.findById(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
+        Opositor opositor = opositorRepository.findByUsuarioAndConvocatoriaAndValidado(usuario, convocatoria, true).get();
+        List<Eleccion> elecciones = eleccionRepository.findByUsuarioAndConvocatoria(usuario, convocatoria);
+
+
+        List <Plaza> plazasConvocatoria = plazaRepository.findByConvocatoria(convocatoria);
+/*        List <Eleccion> todasEleccionesConvocatoria = new ArrayList<>();
+        for (Plaza plazaConvocatoria : plazasConvocatoria){
+            Eleccion eleccion = new Eleccion();
+            eleccion.setPlaza(plazaConvocatoria);
+            todasEleccionesConvocatoria.add(eleccion);
+        }
+        */
+ /*       Map <String, Plaza> plazasLibresConvocatoria = new HashMap<>();
+        for (Plaza plazaConvocatoria : plazasConvocatoria){
+            plazasLibresConvocatoria.put(plazaConvocatoria.getId(),plazaConvocatoria);
+        }
+
+        Map<Integer, List<Eleccion>> otros = new TreeMap<>();
+        List<Opositor> otrosOpositores = opositorRepository.findByConvocatoriaAndValidado(convocatoria, true);
+        for (Opositor otroOpositor : otrosOpositores) {
+            List<Eleccion> otroElecciones = eleccionRepository.findByUsuarioAndConvocatoria(otroOpositor.getUsuario(), convocatoria);
+            otros.put(otroOpositor.getOrden(), otroElecciones);
+        }
+        for (Map.Entry<Integer, List<Eleccion>> otro : otros.entrySet()) {
+            for (Eleccion eleccionOtro : otro.getValue()){
+                if (plazasConvocatoria.contains(eleccionOtro.getPlaza()){
+
+                }
             }
         }
-        return retorno;
+*/
+        /*Tengo las elecciones dle usuario
+        coges el orden del usuario, y desde el 1 hasta su orden vas obteniendo las eleciones de cada uno
+        se itera sobre cada opositor, y se va cogiendo su primera eleccion si está libre, si no, se coge la segunda.
+        * */
+
+        //Se obtienen las plazas de la convocatoria y se van eliminando las elegidas
+        List <Plaza> plazasLibresConvocatoria = plazaRepository.findByConvocatoria(convocatoria);
+
+        // Se obtienen los opositores y sus elecciones y se ordenan por orden de opositor y de eleccion
+        List<Opositor> otrosOpositores = opositorRepository.findByConvocatoriaAndValidado(convocatoria, true);
+        Map<Integer, List<Eleccion>> otrosOrdenado = new TreeMap<>();
+        for (Opositor otroOpositor : otrosOpositores) {
+            if (!otroOpositor.getUsuario().getId().equals(opositor.getUsuario().getId())){
+                List<Eleccion> otroElecciones = eleccionRepository.findByUsuarioAndConvocatoria(otroOpositor.getUsuario(), convocatoria);
+                Collections.sort(otroElecciones,new Comparator<Eleccion>(){
+                    @Override
+                    public int compare(final Eleccion a,Eleccion b) {
+                        return a.getOrden() < b.getOrden() ? -1 : a.getOrden() == b.getOrden() ? 0 : 1;                }
+                });
+                otrosOrdenado.put(otroOpositor.getOrden(), otroElecciones);
+            }
+        }
+
+        // Se recorren las elecciones de los otros opositores en orden y se van eliminando de las plazas libres
+        // Ademas se calcula el numero de opositores que no han elegido plaza y estan por delante del usuario
+        int nElegidos = 0;
+        for (Map.Entry<Integer, List<Eleccion>> otro : otrosOrdenado.entrySet()) {
+            for (Eleccion eleccionOtro : otro.getValue()){
+                if (plazasConvocatoria.contains(eleccionOtro.getPlaza())){
+                    plazasConvocatoria.remove(eleccionOtro.getPlaza());
+                    nElegidos++;
+                    break;
+                }
+            }
+        }
+        int nEleccionesEnVerde = opositor.getOrden()-nElegidos;
+
+        //Se marcan las elecciones del opositor con el color que le corresponde.
+        List<EleccionDto> eleccionesDto = EleccionMapper.eleccionListToEleccionDtoList(elecciones);
+        Collections.sort(eleccionesDto,new Comparator<EleccionDto>(){
+            @Override
+            public int compare(final EleccionDto a,EleccionDto b) {
+                return a.getOrden() < b.getOrden() ? -1 : a.getOrden() == b.getOrden() ? 0 : 1;                }
+        });
+        int contadorOrden = 0;
+        List<PlazaDto> plazasDtoLibresConvocatoria = PlazaMapper.PlazaListToPlazaDtoList(plazasLibresConvocatoria);
+        for (EleccionDto eleccionDto : eleccionesDto){
+            if (!plazasDtoLibresConvocatoria.contains(eleccionDto.getPlazaDto())){
+                eleccionDto.setColor(Constantes.ELECCION_COLOR_ROJO);
+            }else if (nEleccionesEnVerde>0){
+                eleccionDto.setColor(Constantes.ELECCION_COLOR_VERDE);
+                nEleccionesEnVerde--;
+            }else{
+                eleccionDto.setColor(Constantes.ELECCION_COLOR_GRIS);
+            }
+        }
+
+        return eleccionesDto;
     }
 
 }

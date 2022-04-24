@@ -173,7 +173,7 @@
 
     $( document ).ready(function() {
         var listaElecciones = [[${elecciones}]]
-        for (i = 1; i < Object.keys(listaElecciones).length+1; i++) {
+        for (i = 0; i < Object.keys(listaElecciones).length; i++) {
             if (listaElecciones[i].plazaDto != null){
                 $("#seleccion_plaza_"+listaElecciones[i].orden).html($("#plaza_"+listaElecciones[i].plazaDto.id).html());
             }
