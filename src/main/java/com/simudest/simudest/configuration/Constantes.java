@@ -15,6 +15,7 @@ public class Constantes {
 
 
     public static final String ALERTA_TIPO_INFO = "INFO";
+    public static final String ALERTA_TIPO_WARNING = "WARNING";
     public static final String ALERTA_TIPO_ERROR = "ERROR";
 
     public static final String ELECCION_COLOR_VERDE = "VERDE";

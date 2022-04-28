@@ -1,10 +1,7 @@
 package com.simudest.simudest.service;
 
 import com.simudest.simudest.dto.*;
-import com.simudest.simudest.exception.ConvocatoriaNotFoundException;
-import com.simudest.simudest.exception.EspecialidadNotFoundException;
-import com.simudest.simudest.exception.OrganismoNotFoundException;
-import com.simudest.simudest.exception.UsuarioNotFoundException;
+import com.simudest.simudest.exception.*;
 
 import java.util.List;
 import java.util.Set;
@@ -27,7 +24,7 @@ public interface MainService {
 
     public void guardarConvocatoria(ConvocatoriaDto convocatoriaDto) throws UsuarioNotFoundException,ConvocatoriaNotFoundException;
     
-    public void solicitarAcceso(String idConvo, String idUsuario) throws UsuarioNotFoundException,ConvocatoriaNotFoundException;
+    public void solicitarAcceso(String idConvo, String idUsuario, String palabra) throws UsuarioNotFoundException,ConvocatoriaNotFoundException, OpositorAlreadyExistException, PalabraIncorrectaException;
 
     public EspecialidadDto getEspecialidadbyId(Integer id) throws EspecialidadNotFoundException;
 

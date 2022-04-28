@@ -79,7 +79,8 @@ CREATE TABLE simudest.convocatoria (
     id_espec integer NOT NULL,
     estado character varying(5) NOT NULL,
     nopositores integer NOT NULL,
-    nplazas integer NOT NULL
+    nplazas integer NOT NULL,
+    palabra character varying(36) NOT NULL
 );
 
 

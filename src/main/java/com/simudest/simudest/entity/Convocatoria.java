@@ -39,6 +39,10 @@ public class Convocatoria implements Serializable {
 	@Column(name="nplazas")
 	private Integer nplazas;
 
+
+	@Column(name="palabra")
+	private String palabra;
+
 	public String getId() {
 		return id;
 	}
@@ -101,5 +105,13 @@ public class Convocatoria implements Serializable {
 
 	public void setNplazas(Integer nplazas) {
 		this.nplazas = nplazas;
+	}
+
+	public String getPalabra() {
+		return palabra;
+	}
+
+	public void setPalabra(String palabra) {
+		this.palabra = palabra;
 	}
 }

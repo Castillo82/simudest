@@ -24,6 +24,8 @@ public class ConvocatoriaDto implements Serializable {
 
 	private Integer nplazas;
 
+	private String palabra;
+
 	public String getId() {
 		return id;
 	}
@@ -88,6 +90,15 @@ public class ConvocatoriaDto implements Serializable {
 	public void setNplazas(Integer nplazas) {
 		this.nplazas = nplazas;
 	}
+
+	public String getPalabra() {
+		return palabra;
+	}
+
+	public void setPalabra(String palabra) {
+		this.palabra = palabra;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;

@@ -15,8 +15,11 @@
     <div class="content-wrapper">
 
         <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <a th:href="@{/convocatoria(id=${convocatoria.id})}" class="link-gris"><h1 class="" th:text="${convocatoria.nombre}"></h1></a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -67,7 +70,7 @@
                                         <td class="nowrap" th:if="${puedeAdministrarConvocatoria}">
                                             <input type="hidden" class="form-control" th:value="${opositor.usuarioDto.id}" name="idUsuario" />
                                             <input type="hidden" class="form-control" th:value="${opositor.convocatoriaDto.id}" name="idConvo" />
-                                            <input type="number" class="form-control orden-opositor-input" value="" name="orden" placeholder="Orden" />
+                                            <input type="number" class="form-control orden-opositor-input" value="" name="orden" placeholder="Orden"  required="required"/>
                                             <button type="submit" class="btn btn-info text-nowrap">Validar</button>
                                             <a th:href="@{/convocatoria/rechazarOpositor(idUsuario=${opositor.usuarioDto.id},idConvo=${opositor.convocatoriaDto.id})}" class="btn btn-danger" role="button">Rechazar</a>
                                         </td>

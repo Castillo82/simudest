@@ -36,8 +36,12 @@
             ${}
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
-					<div th:class="'modal-header '+${alerta.tipo == T(com.simudest.simudest.configuration.Constantes).ALERTA_TIPO_INFO ? 'bg-info' : 'bg-danger'}">
-						<h5 class="modal-title" th:text="${alerta.titulo}"></h5>
+					<div th:class="modal-header"
+                         th:classappend="${(alerta.tipo == T(com.simudest.simudest.configuration.Constantes).ALERTA_TIPO_INFO ? 'bg-info' : '') +
+                                          (alerta.tipo == T(com.simudest.simudest.configuration.Constantes).ALERTA_TIPO_WARNING ? 'bg-warning' : '') +
+                                          (alerta.tipo == T(com.simudest.simudest.configuration.Constantes).ALERTA_TIPO_ERROR ? 'bg-danger' : '')}">
+
+                        <h5 class="modal-title" th:text="${alerta.titulo}"></h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>

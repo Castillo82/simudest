@@ -84,17 +84,21 @@ public class MainController {
         return mav;
     }
 
-    @GetMapping("/solicitarAcceso")
-    public ModelAndView solicitarAcceso(String idConvo, RedirectAttributes ra){
+    @PostMapping("/solicitarAcceso")
+    public ModelAndView solicitarAcceso(@RequestParam String idConvo, @RequestParam String palabra, RedirectAttributes ra){
         ModelAndView mav = new ModelAndView();
         try {
         	User user= (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        	mainService.solicitarAcceso(idConvo, user.getUsername());
+        	mainService.solicitarAcceso(idConvo, user.getUsername(), palabra);
         	ra.addFlashAttribute("alerta", new Alerta("Información", "Ha solicitado correctamente el acceso a la convocatoria. Tan pronto como el organizador de la convocatoria acepte su solicitud, podrá acceder a ella.", Constantes.ALERTA_TIPO_INFO));
         }catch (ConvocatoriaNotFoundException e){
             ra.addFlashAttribute("alerta", new Alerta("Alerta", "La convocatoria solicitada no existe o es incorrecta.", Constantes.ALERTA_TIPO_ERROR));
         }catch (UsuarioNotFoundException e){
             ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha ocurrido un error recuperando su usuario.", Constantes.ALERTA_TIPO_ERROR));
+        }catch (OpositorAlreadyExistException e){
+            ra.addFlashAttribute("alerta", new Alerta("Atención", "Ya ha solicitado acceso a esa convocatoria, debe esperar a que el organizador de la convocatoria le otorgue acceso para poder verla en 'Mis convocatorias'.", Constantes.ALERTA_TIPO_WARNING));
+        }catch (PalabraIncorrectaException e){
+            ra.addFlashAttribute("alerta", new Alerta("Atención", "La palabra que ha introducido no es correcta. Contacte con el organizador de la convocatoria para que le indique la palabra secreta de acceso.", Constantes.ALERTA_TIPO_WARNING));
         }catch (Exception e){
         	ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha ocurrido un error al solicitar el acceso a la convocatoria.", Constantes.ALERTA_TIPO_ERROR));
         }   	

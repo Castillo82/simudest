@@ -49,12 +49,12 @@
 
                                             <div class="form-group">
                                                 <label for="nombre">Nombre</label>
-                                                <input id ="nombre" type="text" class="form-control" th:field="*{nombre}" placeholder="Ej. Convocatoria 202X" th:errorclass="is-invalid" />
+                                                <input id ="nombre" type="text" class="form-control" th:field="*{nombre}" placeholder="Ej. Convocatoria 202X" th:errorclass="is-invalid"  required="required"/>
                                             </div>
 
                                             <div class="form-group">
                                                 <label for="organismo">Organismo</label>
-                                                <select th:field="*{organismoDto.id}" class="custom-select" id="organismo" th:errorclass="is-invalid">
+                                                <select th:field="*{organismoDto.id}" class="custom-select" id="organismo" th:errorclass="is-invalid" required="required">
                                                     <option selected="selected" value=""></option>
                                                     <option th:each="organismo : ${organismos}"
                                                             th:value="${organismo.id}"
@@ -65,7 +65,7 @@
 
                                             <div class="form-group">
                                                 <label for="grupo">Grupo</label>
-                                                <select th:field="*{especialidadDto.grupoDto.id}" class="custom-select" id="grupo" th:errorclass="is-invalid">
+                                                <select th:field="*{especialidadDto.grupoDto.id}" class="custom-select" id="grupo" th:errorclass="is-invalid" required="required">
                                                     <option selected="selected" value=""></option>
                                                     <option th:each="grupo : ${grupos}"
                                                             th:value="${grupo.id}"
@@ -76,7 +76,7 @@
 
                                             <div class="form-group">
                                                 <label for="especialidad">Especialidad</label>
-                                                <select th:field="*{especialidadDto.id}" class="custom-select" id="especialidad" th:errorclass="is-invalid">
+                                                <select th:field="*{especialidadDto.id}" class="custom-select" id="especialidad" th:errorclass="is-invalid" required="required">
                                                     <option selected="selected" value=""></option>
                                                     <option th:each="especialidad : ${especialidades}"
                                                             th:value="${especialidad.id}"
@@ -87,12 +87,17 @@
 
                                             <div class="form-group">
                                                 <label for="nopositores">Número de opositores que han aprobado el proceso</label>
-                                                <input id ="nopositores" type="number" class="form-control" th:field="*{nopositores}" placeholder="" th:errorclass="is-invalid" />
+                                                <input id ="nopositores" type="number" class="form-control" th:field="*{nopositores}" placeholder="" th:errorclass="is-invalid" required="required" />
                                             </div>
 
                                             <div class="form-group">
                                                 <label for="nplazas">Número de plazas disponibles</label>
-                                                <input id ="nplazas" type="number" class="form-control" th:field="*{nplazas}" placeholder="" th:errorclass="is-invalid" />
+                                                <input id ="nplazas" type="number" class="form-control" th:field="*{nplazas}" placeholder="" th:errorclass="is-invalid" required="required" />
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="palabra">Palabra secreta</label>
+                                                <input id ="palabra" type="text" class="form-control" th:field="*{palabra}" placeholder="Palabra secreta que deberán indicar los opositores para solicitar acceso" th:errorclass="is-invalid" required="required" />
                                             </div>
 
                                         </div>

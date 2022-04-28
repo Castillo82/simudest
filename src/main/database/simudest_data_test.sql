@@ -209,11 +209,11 @@ INSERT INTO simudest.usuario (id_user, email, nombre, apellido1, apellido2, admi
 
 
 -- convocatorias
-INSERT INTO simudest.convocatoria (id_convo, nombre, id_user, id_organ, id_espec, estado, nopositores, nplazas) VALUES ('8a09e0b7804ae6bb01804ae768c80000', 'Convocatoria 2019-2020 (completa)', '4028b881804768e60180476c596c0000', 1, 5, 'ON', 25, 25);
-INSERT INTO simudest.convocatoria (id_convo, nombre, id_user, id_organ, id_espec, estado, nopositores, nplazas) VALUES ('8a09e0b7804ae6bb01804ae768c80001', 'Libre 2021 (con plazas y opositores)', '4028b881804768e60180476c596c00020', 4, 7, 'ON', 50, 50);
-INSERT INTO simudest.convocatoria (id_convo, nombre, id_user, id_organ, id_espec, estado, nopositores, nplazas) VALUES ('8a09e0b7804ae6bb01804ae768c80002', 'Convocatoria 2022 Libre (con opositores)', '4028b881804768e60180476c596c00060', 4, 5, 'ON', 8, 8);
-INSERT INTO simudest.convocatoria (id_convo, nombre, id_user, id_organ, id_espec, estado, nopositores, nplazas) VALUES ('8a09e0b7804ae6bb01804ae768c80003', 'Convocatoria 2020 Promoción Interna (vacia)', '4028b881804768e60180476c596c00095', 2, 4, 'ON', 112, 112);
-INSERT INTO simudest.convocatoria (id_convo, nombre, id_user, id_organ, id_espec, estado, nopositores, nplazas) VALUES ('8a09e0b7804ae6bb01804ae768c80004', 'Convocatoria 2020 (vacia)', '4028b881804768e60180476c596c000118', 4, 6, 'ON', 32, 32);
+INSERT INTO simudest.convocatoria (id_convo, nombre, id_user, id_organ, id_espec, estado, nopositores, nplazas, palabra) VALUES ('8a09e0b7804ae6bb01804ae768c80000', 'Convocatoria 2019-2020 (completa)', '4028b881804768e60180476c596c0000', 1, 5, 'ON', 25, 25, '12345');
+INSERT INTO simudest.convocatoria (id_convo, nombre, id_user, id_organ, id_espec, estado, nopositores, nplazas, palabra) VALUES ('8a09e0b7804ae6bb01804ae768c80001', 'Libre 2021 (con plazas y opositores)', '4028b881804768e60180476c596c00020', 4, 7, 'ON', 50, 50, '12345');
+INSERT INTO simudest.convocatoria (id_convo, nombre, id_user, id_organ, id_espec, estado, nopositores, nplazas, palabra) VALUES ('8a09e0b7804ae6bb01804ae768c80002', 'Convocatoria 2022 Libre (con opositores)', '4028b881804768e60180476c596c00060', 4, 5, 'ON', 8, 8, '12345');
+INSERT INTO simudest.convocatoria (id_convo, nombre, id_user, id_organ, id_espec, estado, nopositores, nplazas, palabra) VALUES ('8a09e0b7804ae6bb01804ae768c80003', 'Convocatoria 2020 Promoción Interna (vacia)', '4028b881804768e60180476c596c00095', 2, 4, 'ON', 112, 112, '12345');
+INSERT INTO simudest.convocatoria (id_convo, nombre, id_user, id_organ, id_espec, estado, nopositores, nplazas, palabra) VALUES ('8a09e0b7804ae6bb01804ae768c80004', 'Convocatoria 2020 (vacia)', '4028b881804768e60180476c596c000118', 4, 6, 'ON', 32, 32, '12345');
 
 -- opositores
 INSERT INTO simudest.opositor (id_convo, id_user, validado, orden) VALUES ('8a09e0b7804ae6bb01804ae768c80000', '4028b881804768e60180476c596c0000', true, 1);

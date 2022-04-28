@@ -47,10 +47,9 @@
                                     </thead>
                                     <tbody>
                                     <tr th:each="eleccion: ${elecciones}"
-                                        th:class="a "
-                                        th:classappend="${(eleccion.color == T(com.simudest.simudest.configuration.Constantes).ELECCION_COLOR_VERDE ? 'bg-success' : '') +
+                                        th:class="${(eleccion.color == T(com.simudest.simudest.configuration.Constantes).ELECCION_COLOR_VERDE ? 'bg-success' : '') +
                                                           (eleccion.color == T(com.simudest.simudest.configuration.Constantes).ELECCION_COLOR_ROJO ? 'bg-danger' : '') +
-                                                          (eleccion.color == T(com.simudest.simudest.configuration.Constantes).ELECCION_COLOR_GRIS ? 'bg-secondary' : '')}">
+                                                          (eleccion.color == T(com.simudest.simudest.configuration.Constantes).ELECCION_COLOR_GRIS ? 'bg-gray disabled' : '')}">
 
                                         <td th:text="${eleccion.orden}"></td>
                                         <td th:text="${eleccion.plazaDto.codigo}"></td>

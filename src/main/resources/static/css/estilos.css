@@ -28,6 +28,20 @@ body {
     vertical-align: middle !important;
 }
 
+.palabra-solicitar-input{
+   width: 135px !important;
+   display: inline !important;
+   vertical-align: middle !important;
+}
+
+.link-gris {
+  color: #6c757d;
+}
+.link-gris:hover, .link-secondary:focus {
+  color: #565e64;
+}
+
+
 /* esconde las flechas de los input number*/
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,

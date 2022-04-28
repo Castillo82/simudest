@@ -90,14 +90,18 @@
                                                     <td th:text="${convocatoria.nombre}"></td>
                                                     <td th:text="${convocatoria.especialidadDto.nombre}"></td>
                                                     <td th:text="${convocatoria.especialidadDto.grupoDto.nombre}"></td>
-	                                                <td>
+	                                                <!--td>
 	                                               		<a th:href="@{/solicitarAcceso(idConvo=${convocatoria.id})}" class="btn btn-info text-nowrap" role="button">Solicitar acceso</a>
+	                                                </td-->
 
-<!--                                     					<form action="#" th:action="@{/solicitarAcceso}" th:object="${convocatoria}" method="post">
-	                                                		<button type="submit" class="btn btn-info text-nowrap">Solicitar acceso</button>
-                                                		</form>
--->
-	                                                </td>
+                                                    <form action="#" th:action="@{/solicitarAcceso}" method="post">
+                                                        <td class="nowrap">
+                                                            <input type="hidden" class="form-control" th:value="${convocatoria.id}" name="idConvo" />
+                                                            <input type="text" class="form-control palabra-solicitar-input" value="" name="palabra" placeholder="Palabra secreta"  required="required"/>
+                                                            <button type="submit" class="btn btn-info text-nowrap">Solicitar acceso</button>
+                                                        </td>
+                                                    </form>
+
                                                 </tr>
                                             </tbody>
                                         </table>

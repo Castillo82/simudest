@@ -14,9 +14,13 @@
     <!-- -->
     <div class="content-wrapper">
 
+
         <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <a th:href="@{/convocatoria(id=${convocatoria.id})}" class="link-gris"><h1 class="" th:text="${convocatoria.nombre}"></h1></a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -29,9 +33,9 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Plazas</h3>
-                                <a  th:href="@{/convocatoria/nuevaPlaza(idConvo=${idConvo})}" class="btn btn-outline-secondary float-right" th:if="${puedeAdministrarConvocatoria}">Añadir Plaza</a>
-                                <a th:href="@{/convocatoria/consultarResultadoSimulacion(idConvo=${idConvo})}" class="btn btn-outline-secondary float-right mright10">Consultar resultado simulación</a>
-                                <a th:href="@{/convocatoria/seleccionarPLazas(idConvo=${idConvo})}" class="btn btn-outline-secondary float-right mright10">Seleccionar Plazas</a>
+                                <a  th:href="@{/convocatoria/nuevaPlaza(idConvo=${convocatoria.id})}" class="btn btn-outline-secondary float-right" th:if="${puedeAdministrarConvocatoria}">Añadir Plaza</a>
+                                <a th:href="@{/convocatoria/consultarResultadoSimulacion(idConvo=${convocatoria.id})}" class="btn btn-outline-secondary float-right mright10">Consultar resultado simulación</a>
+                                <a th:href="@{/convocatoria/seleccionarPLazas(idConvo=${convocatoria.id})}" class="btn btn-outline-secondary float-right mright10">Seleccionar Plazas</a>
                             </div>
                             <div class="card-body">
                                 <table id="plazas" class="table table-bordered table-hover">

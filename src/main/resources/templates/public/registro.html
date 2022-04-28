@@ -13,7 +13,7 @@
                     <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control"  th:field="*{nombre}" placeholder="Nombre" th:errorclass="is-invalid">
+                    <input type="text" class="form-control"  th:field="*{nombre}" placeholder="Nombre" th:errorclass="is-invalid" required="required">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-user"></span>
@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control"  th:field="*{apellido1}" placeholder="Primer Apellido" th:errorclass="is-invalid">
+                    <input type="text" class="form-control"  th:field="*{apellido1}" placeholder="Primer Apellido" th:errorclass="is-invalid" required="required">
 
                     <div class="input-group-append">
                         <div class="input-group-text">
@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="email" class="form-control" th:field="*{email}" placeholder="Email" th:errorclass="is-invalid">
+                    <input type="email" class="form-control" th:field="*{email}" placeholder="Email" th:errorclass="is-invalid" required="required">
 
                     <div class="input-group-append">
                         <div class="input-group-text">
@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="password" class="form-control" th:field="*{contra}" placeholder="Contraseña" th:errorclass="is-invalid">
+                    <input type="password" class="form-control" th:field="*{contra}" placeholder="Contraseña" th:errorclass="is-invalid" required="required">
 
                     <div class="input-group-append">
                         <div class="input-group-text">
@@ -57,7 +57,7 @@
                     </div>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="password" class="form-control" placeholder="Repite Contraseña">
+                    <input type="password" class="form-control" placeholder="Repite Contraseña" required="required">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-lock"></span>

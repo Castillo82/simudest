@@ -3,10 +3,7 @@ package com.simudest.simudest.service;
 import com.simudest.simudest.configuration.Constantes;
 import com.simudest.simudest.dto.*;
 import com.simudest.simudest.entity.*;
-import com.simudest.simudest.exception.ConvocatoriaNotFoundException;
-import com.simudest.simudest.exception.EspecialidadNotFoundException;
-import com.simudest.simudest.exception.OrganismoNotFoundException;
-import com.simudest.simudest.exception.UsuarioNotFoundException;
+import com.simudest.simudest.exception.*;
 import com.simudest.simudest.mapper.*;
 import com.simudest.simudest.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,15 +79,21 @@ public class MainServiceImpl implements MainService {
         boolean esNueva = convocatoria.getId() == null;
     	convocatoriaRepository.save(convocatoria);
         if (esNueva){
-            solicitarAcceso(convocatoria.getId(), convocatoria.getUsuario().getId());
+            solicitarAcceso(convocatoria.getId(), convocatoria.getUsuario().getId(), convocatoria.getPalabra());
         }
     	
     }
 
-    public void solicitarAcceso(String idConvo, String idUsuario) throws UsuarioNotFoundException,ConvocatoriaNotFoundException {
+    public void solicitarAcceso(String idConvo, String idUsuario, String palabra) throws UsuarioNotFoundException,ConvocatoriaNotFoundException, OpositorAlreadyExistException, PalabraIncorrectaException {
     	Opositor opositor = new Opositor();
     	Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(UsuarioNotFoundException::new);
     	Convocatoria convocatoria = convocatoriaRepository.findById(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
+        if (opositorRepository.findByUsuarioAndConvocatoria(usuario, convocatoria).isPresent()){
+            throw new OpositorAlreadyExistException();
+        }
+        if (!convocatoria.getPalabra().equals(palabra)){
+            throw new PalabraIncorrectaException();
+        }
     	opositor.setConvocatoria(convocatoria);
     	opositor.setUsuario(usuario);
     	opositor.setValidado(false);
