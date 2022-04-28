@@ -29,7 +29,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Plazas</h3>
-                                <a th:href="@{/convocatoria/nuevaPlaza(idConvo=${idConvo})}" class="btn btn-outline-secondary float-right">Añadir Plaza</a>
+                                <a  th:href="@{/convocatoria/nuevaPlaza(idConvo=${idConvo})}" class="btn btn-outline-secondary float-right" th:if="${puedeAdministrarConvocatoria}">Añadir Plaza</a>
                                 <a th:href="@{/convocatoria/consultarResultadoSimulacion(idConvo=${idConvo})}" class="btn btn-outline-secondary float-right mright10">Consultar resultado simulación</a>
                                 <a th:href="@{/convocatoria/seleccionarPLazas(idConvo=${idConvo})}" class="btn btn-outline-secondary float-right mright10">Seleccionar Plazas</a>
                             </div>
@@ -45,7 +45,7 @@
                                         <th>Puesto de trabajo</th>
                                         <th>Nivel</th>
                                         <th>C. Específico</th>
-                                        <th ></th>
+                                        <th th:if="${puedeAdministrarConvocatoria}"></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -58,7 +58,7 @@
                                         <td th:text="${plaza.denominacion}"></td>
                                         <td th:text="${plaza.nivel}"></td>
                                         <td th:text="${plaza.c_especifico}"></td>
-                                        <td>
+                                        <td th:if="${puedeAdministrarConvocatoria}">
                                             <div class="btn-group">
                                                 <a th:href="@{/convocatoria/modificarPlaza(idPlaza=${plaza.id})}" class="btn btn-info" role="button" title="Modificar">M</a>
                                                 <a th:href="@{/convocatoria/borrarPlaza(idPlaza=${plaza.id})}" class="btn btn-danger" role="button" title="Eliminar">E</a>

@@ -21,6 +21,6 @@ public interface OpositorRepository extends JpaRepository<Opositor, OpositorId> 
 
     public List<Opositor> findByConvocatoriaAndValidado(Convocatoria convocatoria, Boolean Validado);
 
-    public List<Opositor> findByOrden(Integer orden);
+    public List<Opositor> findByConvocatoriaAndOrden( Convocatoria convocatoria, Integer orden);
 
 }

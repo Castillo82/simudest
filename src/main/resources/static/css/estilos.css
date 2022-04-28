@@ -18,8 +18,15 @@ body {
     float: right !important;
 }
 
+.nowrap{
+    white-space : nowrap !important;
+}
 
-
+.orden-opositor-input{
+    width: 100px !important;
+    display: inline !important;
+    vertical-align: middle !important;
+}
 
 /* esconde las flechas de los input number*/
 /* Chrome, Safari, Edge, Opera */

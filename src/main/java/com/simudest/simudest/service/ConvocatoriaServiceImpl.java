@@ -74,9 +74,10 @@ public class ConvocatoriaServiceImpl implements ConvocatoriaService {
         return OpositorMapper.opositorListToOpositorDtoList(opositores);
     }
 
-    public void validarOpositor (String idUsuario, String idConvo, Integer orden) throws OpositorNotFoundException, OrdenOpositorIncorrectoException {
+    public void validarOpositor (String idUsuario, String idConvo, Integer orden) throws OpositorNotFoundException, ConvocatoriaNotFoundException, OrdenOpositorIncorrectoException {
         Opositor opositor = opositorRepository.findById(new OpositorId(idUsuario, idConvo)).orElseThrow(OpositorNotFoundException::new);
-        if(!opositorRepository.findByOrden(orden).isEmpty()) {
+        Convocatoria convocatoria = convocatoriaRepository.findById(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
+        if(!opositorRepository.findByConvocatoriaAndOrden(convocatoria, orden).isEmpty()) {
             throw new OrdenOpositorIncorrectoException();
         }else{
             opositor.setOrden(orden);
@@ -168,53 +169,19 @@ public class ConvocatoriaServiceImpl implements ConvocatoriaService {
         Convocatoria convocatoria = convocatoriaRepository.findById(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
         Opositor opositor = opositorRepository.findByUsuarioAndConvocatoriaAndValidado(usuario, convocatoria, true).get();
         List<Eleccion> elecciones = eleccionRepository.findByUsuarioAndConvocatoria(usuario, convocatoria);
-
-
-        List <Plaza> plazasConvocatoria = plazaRepository.findByConvocatoria(convocatoria);
-/*        List <Eleccion> todasEleccionesConvocatoria = new ArrayList<>();
-        for (Plaza plazaConvocatoria : plazasConvocatoria){
-            Eleccion eleccion = new Eleccion();
-            eleccion.setPlaza(plazaConvocatoria);
-            todasEleccionesConvocatoria.add(eleccion);
-        }
-        */
- /*       Map <String, Plaza> plazasLibresConvocatoria = new HashMap<>();
-        for (Plaza plazaConvocatoria : plazasConvocatoria){
-            plazasLibresConvocatoria.put(plazaConvocatoria.getId(),plazaConvocatoria);
-        }
-
-        Map<Integer, List<Eleccion>> otros = new TreeMap<>();
         List<Opositor> otrosOpositores = opositorRepository.findByConvocatoriaAndValidado(convocatoria, true);
-        for (Opositor otroOpositor : otrosOpositores) {
-            List<Eleccion> otroElecciones = eleccionRepository.findByUsuarioAndConvocatoria(otroOpositor.getUsuario(), convocatoria);
-            otros.put(otroOpositor.getOrden(), otroElecciones);
-        }
-        for (Map.Entry<Integer, List<Eleccion>> otro : otros.entrySet()) {
-            for (Eleccion eleccionOtro : otro.getValue()){
-                if (plazasConvocatoria.contains(eleccionOtro.getPlaza()){
-
-                }
-            }
-        }
-*/
-        /*Tengo las elecciones dle usuario
-        coges el orden del usuario, y desde el 1 hasta su orden vas obteniendo las eleciones de cada uno
-        se itera sobre cada opositor, y se va cogiendo su primera eleccion si está libre, si no, se coge la segunda.
-        * */
-
-        //Se obtienen las plazas de la convocatoria y se van eliminando las elegidas
         List <Plaza> plazasLibresConvocatoria = plazaRepository.findByConvocatoria(convocatoria);
 
-        // Se obtienen los opositores y sus elecciones y se ordenan por orden de opositor y de eleccion
-        List<Opositor> otrosOpositores = opositorRepository.findByConvocatoriaAndValidado(convocatoria, true);
+        // Se obtienen los opositores que esten por delante del usuario y sus elecciones y se ordenan por orden de opositor y de eleccion
         Map<Integer, List<Eleccion>> otrosOrdenado = new TreeMap<>();
         for (Opositor otroOpositor : otrosOpositores) {
-            if (!otroOpositor.getUsuario().getId().equals(opositor.getUsuario().getId())){
+            if (!otroOpositor.getUsuario().getId().equals(opositor.getUsuario().getId()) && otroOpositor.getOrden() < opositor.getOrden()){
                 List<Eleccion> otroElecciones = eleccionRepository.findByUsuarioAndConvocatoria(otroOpositor.getUsuario(), convocatoria);
                 Collections.sort(otroElecciones,new Comparator<Eleccion>(){
                     @Override
                     public int compare(final Eleccion a,Eleccion b) {
-                        return a.getOrden() < b.getOrden() ? -1 : a.getOrden() == b.getOrden() ? 0 : 1;                }
+                        return a.getOrden() < b.getOrden() ? -1 : a.getOrden() == b.getOrden() ? 0 : 1;
+                    }
                 });
                 otrosOrdenado.put(otroOpositor.getOrden(), otroElecciones);
             }
@@ -225,8 +192,8 @@ public class ConvocatoriaServiceImpl implements ConvocatoriaService {
         int nElegidos = 0;
         for (Map.Entry<Integer, List<Eleccion>> otro : otrosOrdenado.entrySet()) {
             for (Eleccion eleccionOtro : otro.getValue()){
-                if (plazasConvocatoria.contains(eleccionOtro.getPlaza())){
-                    plazasConvocatoria.remove(eleccionOtro.getPlaza());
+                if (plazasLibresConvocatoria.contains(eleccionOtro.getPlaza())){
+                    plazasLibresConvocatoria.remove(eleccionOtro.getPlaza());
                     nElegidos++;
                     break;
                 }
@@ -239,9 +206,10 @@ public class ConvocatoriaServiceImpl implements ConvocatoriaService {
         Collections.sort(eleccionesDto,new Comparator<EleccionDto>(){
             @Override
             public int compare(final EleccionDto a,EleccionDto b) {
-                return a.getOrden() < b.getOrden() ? -1 : a.getOrden() == b.getOrden() ? 0 : 1;                }
+                return a.getOrden() < b.getOrden() ? -1 : a.getOrden() == b.getOrden() ? 0 : 1;
+            }
         });
-        int contadorOrden = 0;
+
         List<PlazaDto> plazasDtoLibresConvocatoria = PlazaMapper.PlazaListToPlazaDtoList(plazasLibresConvocatoria);
         for (EleccionDto eleccionDto : eleccionesDto){
             if (!plazasDtoLibresConvocatoria.contains(eleccionDto.getPlazaDto())){

@@ -62,6 +62,7 @@ public class ConvocatoriaController {
             }
             mav.addObject("opositoresValidados",convocatoriaService.getOpositoresConvocatoria(idConvo, true));
             mav.addObject("opositoresNoValidados",convocatoriaService.getOpositoresConvocatoria(idConvo, false));
+            mav.addObject("puedeAdministrarConvocatoria",convocatoriaService.puedeAdministrarConvocatoria(user.getUsername(), idConvo));
         }catch (ConvocatoriaNotFoundException e){
             ra.addFlashAttribute("alerta", new Alerta("Alerta", "La convocatoria solicitada no existe o es incorrecta.", Constantes.ALERTA_TIPO_ERROR));
         }catch (UsuarioNotFoundException e){
@@ -84,7 +85,6 @@ public class ConvocatoriaController {
                 if (orden.intValue()<=0){
                     ra.addFlashAttribute("alerta", new Alerta("Alerta", "El orden no puede ser negativo.", Constantes.ALERTA_TIPO_ERROR));
                 }else{
-                    //TODO comprobar que ocurre si llega vacio
                     convocatoriaService.validarOpositor(idUsuario, idConvo, orden);
                 }
             }
@@ -95,7 +95,8 @@ public class ConvocatoriaController {
         }catch (Exception e){
             ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha ocurrido un error inesperado.", Constantes.ALERTA_TIPO_ERROR));
         }
-        mav.setViewName("redirect:/convocatoria/opositores");
+        ra.addAttribute("idConvo", idConvo);
+        mav.setViewName(Constantes.REDIRECT_OPOSITORES);
         return mav;
     }
 
@@ -115,7 +116,8 @@ public class ConvocatoriaController {
         } catch (Exception e) {
             ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha ocurrido un error inesperado.", Constantes.ALERTA_TIPO_ERROR));
         }
-        mav.setViewName("redirect:/convocatoria/opositores");
+        ra.addAttribute("idConvo", idConvo);
+        mav.setViewName(Constantes.REDIRECT_OPOSITORES);
         return mav;
     }
 
@@ -132,6 +134,7 @@ public class ConvocatoriaController {
             }
             mav.addObject("plazas",convocatoriaService.getPlazasConvocatoria(idConvo));
             mav.addObject("idConvo",idConvo);
+            mav.addObject("puedeAdministrarConvocatoria",convocatoriaService.puedeAdministrarConvocatoria(user.getUsername(), idConvo));
         }catch (ConvocatoriaNotFoundException e){
             ra.addFlashAttribute("alerta", new Alerta("Alerta", "La convocatoria solicitada no existe o es incorrecta.", Constantes.ALERTA_TIPO_ERROR));
         }catch (UsuarioNotFoundException e){

@@ -57,11 +57,11 @@
                                                 <td th:text="${convocatoria.nombre}" ></td>
                                                 <td th:text="${convocatoria.especialidadDto.nombre}"></td>
                                                 <td th:text="${convocatoria.especialidadDto.grupoDto.nombre}"></td>
-                                                <td>
-	                                                <div class="btn-group">
-	                                                	<a href="solicitarAcceso" class="btn btn-info" role="button">Modificar</a>
-	                                                	<a href="solicitarAcceso" class="btn btn-danger" role="button">Eliminar</a>
-                                                	</div>
+                                                <td class="nowrap" >
+                                                    <div th:if="${convocatoria.usuarioDto.id == #authentication.principal.username }">
+                                                        <a href="solicitarAcceso" class="btn btn-info" role="button">Modificar</a>
+                                                        <a href="solicitarAcceso" class="btn btn-danger" role="button">Eliminar</a>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             </tbody>

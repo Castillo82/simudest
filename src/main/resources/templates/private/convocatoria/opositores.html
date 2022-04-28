@@ -57,26 +57,21 @@
                                     <thead>
                                     <tr>
                                         <th>Nombre</th>
-                                        <th ></th>
+                                        <th th:if="${puedeAdministrarConvocatoria}"></th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr th:each="opositor: ${opositoresNoValidados}">
                                         <td th:text="${opositor.usuarioDto.nombre} + ' ' +  ${opositor.usuarioDto.apellido1} + ' ' +  ${opositor.usuarioDto.apellido2} "></td>
-                                        <td>
-                                            <div class="btn-group">
-                                                <form action="#" th:action="@{/convocatoria/validarOpositor}" method="post">
-                                                    <div class="form-group">
-                                                        <input type="hidden" class="form-control" th:value="${opositor.usuarioDto.id}" name="idUsuario" />
-                                                        <input type="hidden" class="form-control" th:value="${opositor.convocatoriaDto.id}" name="idConvo" />
-                                                        <input type="number" class="form-control" value="" name="orden" placeholder="Orden" />
-                                                    </div>
-                                                    <button type="submit" class="btn btn-info text-nowrap">Validar</button>
-                                                </form>
-
-                                                <a th:href="@{/convocatoria/rechazarOpositor(idUsuario=${opositor.usuarioDto.id},idConvo=${opositor.convocatoriaDto.id})}" class="btn btn-danger" role="button">Rechazar</a>
-                                            </div>
+                                        <form action="#" th:action="@{/convocatoria/validarOpositor}" method="post">
+                                        <td class="nowrap" th:if="${puedeAdministrarConvocatoria}">
+                                            <input type="hidden" class="form-control" th:value="${opositor.usuarioDto.id}" name="idUsuario" />
+                                            <input type="hidden" class="form-control" th:value="${opositor.convocatoriaDto.id}" name="idConvo" />
+                                            <input type="number" class="form-control orden-opositor-input" value="" name="orden" placeholder="Orden" />
+                                            <button type="submit" class="btn btn-info text-nowrap">Validar</button>
+                                            <a th:href="@{/convocatoria/rechazarOpositor(idUsuario=${opositor.usuarioDto.id},idConvo=${opositor.convocatoriaDto.id})}" class="btn btn-danger" role="button">Rechazar</a>
                                         </td>
+                                        </form>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -99,9 +94,13 @@
               "ordering": true,
               "autoWidth": false,
               "responsive": true,
-              "pageLength": 5,
+              "pageLength": 50,
               "language": {"url": "/json/Spanish.json"},
-            });
+               "columnDefs": [
+                    { width: 1, targets: 0 },
+                    { width: 800, targets: 1 }
+                    ],
+           });
             $("#opositoresNoValidados").DataTable({
               "paging": true,
               "lengthChange": false,
@@ -110,6 +109,10 @@
               "responsive": true,
               "pageLength": 5,
               "language": {"url": "/json/Spanish.json"},
+              "columnDefs": [
+                    { width: 800, targets: 0 },
+                    { width: 1, targets: 1 }
+                    ],
             });
           });
 
