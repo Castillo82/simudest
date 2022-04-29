@@ -15,6 +15,9 @@ public interface ConvocatoriaRepository extends JpaRepository<Convocatoria, Stri
 
     public List<Convocatoria> findByEstadoNot(String estado);
 
+    @Query("SELECT co FROM Convocatoria co WHERE co.id=(:id) co.estado!='OFF'")
+    public List<Convocatoria> findByIdAndActiva(@Param("id") String id);
+
     //@Query("SELECT co FROM Convocatoria co WHERE co.usuario=(:usuario) and estado!='OFF'")
     //public List<Convocatoria> findByUser(@Param("idUser") Usuario usuario);
     public List<Convocatoria> findByUsuarioAndEstadoNot(Usuario usuario,String estado);

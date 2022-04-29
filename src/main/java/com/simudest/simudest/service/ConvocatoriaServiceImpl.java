@@ -123,19 +123,31 @@ public class ConvocatoriaServiceImpl implements ConvocatoriaService {
     }
 
     // Al seleccionar una plaza la buscamos por orden y usuario, si existe se borra
-    public void seleccionarPlaza(PlazaDto plazaDto, String idUsuario, Integer orden) throws UsuarioNotFoundException{
+    public void seleccionarPlaza(PlazaDto plazaDto, String idUsuario, Integer orden) throws UsuarioNotFoundException, PlazaYaElegidaException{
         Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(UsuarioNotFoundException::new);
         Plaza plaza = PlazaMapper.PlazaDtoToPlaza(plazaDto);
-        Optional<Eleccion> elecciondb = eleccionRepository.findByUsuarioAndOrden(usuario, orden);
+        Optional<Eleccion> elecciondb = eleccionRepository.findByUsuarioAndOrdenAndConvocatoria(usuario, orden, plaza.getConvocatoria());
+        EleccionId eleccionId = new EleccionId(idUsuario, plazaDto.getId());
+        if (eleccionRepository.findById(eleccionId).isPresent()){
+            throw new PlazaYaElegidaException();
+        }
         if (elecciondb.isPresent()){
             eleccionRepository.delete(elecciondb.get());
         }
         Eleccion eleccion = new Eleccion();
-        eleccion.setId(new EleccionId(idUsuario, plazaDto.getId()));
+        eleccion.setId(eleccionId);
         eleccion.setPlaza(plaza);
         eleccion.setUsuario(usuario);
         eleccion.setOrden(orden);
         eleccionRepository.save(eleccion);
+    }
+
+    public void eliminarSeleccionPlaza(String idConvo, String idUsuario, Integer orden) throws UsuarioNotFoundException, ConvocatoriaNotFoundException, EleccionNotFoundException{
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(UsuarioNotFoundException::new);
+        Convocatoria convocatoria = convocatoriaRepository.findById(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
+        Eleccion eleccion = eleccionRepository.findByUsuarioAndOrdenAndConvocatoria(usuario, orden, convocatoria).orElseThrow(EleccionNotFoundException::new);
+        eleccionRepository.delete(eleccion);
+
     }
 
     public Map<Integer, EleccionDto> getMapElecciones(String idUsuario, String idConvo) throws UsuarioNotFoundException, ConvocatoriaNotFoundException{

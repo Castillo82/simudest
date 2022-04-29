@@ -15,7 +15,12 @@ import java.util.Optional;
 @Repository
 public interface EleccionRepository extends JpaRepository<Eleccion, EleccionId> {
 
-    public Optional<Eleccion> findByUsuarioAndOrden(Usuario usuario, Integer orden);
+    /* esto no puede funcionar, pq un usuario puede elegir en varias convocatorias....*/
+    //public Optional<Eleccion> findByUsuarioAndOrden(Usuario usuario, Integer orden);
+
+    @Query("SELECT el FROM Eleccion el, Plaza pl WHERE pl.convocatoria=(:convocatoria) and el.usuario=(:opositor) and el.plaza=pl.id and el.orden=(:orden)")
+    public Optional<Eleccion> findByUsuarioAndOrdenAndConvocatoria(@Param("opositor") Usuario usuario, @Param("orden") Integer orden, @Param("convocatoria") Convocatoria convocatoria);
+
 
     @Query("SELECT el FROM Eleccion el, Plaza pl WHERE pl.convocatoria=(:convocatoria) and el.usuario=(:opositor) and el.plaza=pl.id")
     public List<Eleccion> findByUsuarioAndConvocatoria(@Param("opositor") Usuario usuario, @Param("convocatoria") Convocatoria convocatoria);

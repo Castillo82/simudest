@@ -15,8 +15,11 @@
     <div class="content-wrapper">
 
         <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <a th:href="@{/convocatoria(id=${convocatoria.id})}" class="link-gris"><h1 class="" th:text="${convocatoria.nombre}"></h1></a>
+                    </div>
                 </div>
             </div>
         </section>

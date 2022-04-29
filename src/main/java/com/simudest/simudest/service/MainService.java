@@ -23,7 +23,9 @@ public interface MainService {
     public List<OrganismoDto> getOrganismos();
 
     public void guardarConvocatoria(ConvocatoriaDto convocatoriaDto) throws UsuarioNotFoundException,ConvocatoriaNotFoundException;
-    
+
+    public void eliminarConvocatoria(String idConvo, String idUsuario) throws UsuarioNotFoundException,ConvocatoriaNotFoundException, SinPermisoException;
+
     public void solicitarAcceso(String idConvo, String idUsuario, String palabra) throws UsuarioNotFoundException,ConvocatoriaNotFoundException, OpositorAlreadyExistException, PalabraIncorrectaException;
 
     public EspecialidadDto getEspecialidadbyId(Integer id) throws EspecialidadNotFoundException;

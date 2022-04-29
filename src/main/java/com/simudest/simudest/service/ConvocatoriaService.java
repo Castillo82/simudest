@@ -36,7 +36,9 @@ public interface ConvocatoriaService {
 
 	public void borrarPlaza(PlazaDto plazaDto);
 
-	public void seleccionarPlaza(PlazaDto plazaDto, String idUsuario, Integer orden) throws UsuarioNotFoundException;
+	public void seleccionarPlaza(PlazaDto plazaDto, String idUsuario, Integer orden) throws UsuarioNotFoundException, PlazaYaElegidaException;
+
+	public void eliminarSeleccionPlaza(String idConvo, String idUsuario, Integer orden) throws UsuarioNotFoundException, ConvocatoriaNotFoundException, EleccionNotFoundException;
 
 	public Map<Integer, EleccionDto> getMapElecciones(String idUsuario, String idConvo) throws UsuarioNotFoundException, ConvocatoriaNotFoundException;
 

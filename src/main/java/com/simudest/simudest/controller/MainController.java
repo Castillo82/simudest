@@ -51,6 +51,8 @@ public class MainController {
 
     @PostMapping("/guardarConvocatoria")
     public ModelAndView guardarConvocatoria(ConvocatoriaDto convocatoriaDto, final BindingResult bindingResult){
+        //TODO se debe comprobar si el usuario tiene permiso para editar la convocatoria
+        //TODO considerar refactor de este metodo, demasiada logica en el controlador
         ModelAndView mav = new ModelAndView();
         if(bindingResult.hasErrors()){
             mav.addObject("convocatoria", convocatoriaDto);
@@ -80,6 +82,26 @@ public class MainController {
             return mav;
         }
 
+        mav.setViewName(Constantes.REDIRECT_PRINCIPAL);
+        return mav;
+    }
+
+    @GetMapping("/eliminarConvocatoria")
+    public ModelAndView eliminarConvocatoria(@RequestParam String idConvo, RedirectAttributes ra) {
+        ModelAndView mav = new ModelAndView();
+        try {
+            User user= (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            mainService.eliminarConvocatoria(idConvo, user.getUsername());
+            ra.addFlashAttribute("alerta", new Alerta("Información", "Ha eliminado la convocatoria.", Constantes.ALERTA_TIPO_INFO));
+        }catch (ConvocatoriaNotFoundException e){
+            ra.addFlashAttribute("alerta", new Alerta("Alerta", "La convocatoria no existe o es incorrecta.", Constantes.ALERTA_TIPO_ERROR));
+        }catch (UsuarioNotFoundException e){
+            ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha ocurrido un error recuperando su usuario.", Constantes.ALERTA_TIPO_ERROR));
+        }catch (SinPermisoException e){
+            ra.addFlashAttribute("alerta", new Alerta("Alerta", "No tiene permiso para eliminar esta convocatoria.", Constantes.ALERTA_TIPO_ERROR));
+        }catch (Exception e){
+            ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha ocurrido un error al eliminar la convocatoria. No es posible eliminar convocatorias con opositores o plazas.", Constantes.ALERTA_TIPO_ERROR));
+        }
         mav.setViewName(Constantes.REDIRECT_PRINCIPAL);
         return mav;
     }

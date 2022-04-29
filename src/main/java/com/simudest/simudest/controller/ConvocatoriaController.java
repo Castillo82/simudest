@@ -151,11 +151,16 @@ public class ConvocatoriaController {
     public ModelAndView nuevaPlaza(String idConvo, RedirectAttributes ra) {
         ModelAndView mav = new ModelAndView();
         PlazaDto plazaDto = new PlazaDto();
-        ConvocatoriaDto convocatoriaDto = new ConvocatoriaDto();
-        convocatoriaDto.setId(idConvo);
-        plazaDto.setConvocatoriaDto(convocatoriaDto);
-        mav.addObject("plaza", plazaDto);
-        mav.addObject("provincias", convocatoriaService.getProvincias());
+        try {
+            ConvocatoriaDto convocatoriaDto = convocatoriaService.getConvocatoria(idConvo);
+            plazaDto.setConvocatoriaDto(convocatoriaDto);
+            mav.addObject("plaza", plazaDto);
+            mav.addObject("provincias", convocatoriaService.getProvincias());
+        }catch (ConvocatoriaNotFoundException e) {
+            ra.addFlashAttribute("alerta", new Alerta("Alerta", "La convocatoria solicitada no existe o es incorrecta.", Constantes.ALERTA_TIPO_ERROR));
+            mav.setViewName(Constantes.REDIRECT_PRINCIPAL);
+            return mav;
+        }
         mav.setViewName("private/convocatoria/modificarPlaza");
         return mav;
     }
@@ -300,6 +305,8 @@ public class ConvocatoriaController {
                 return "No tiene permisos para seleccionar plazas en esta convocatoria.";
             }
             convocatoriaService.seleccionarPlaza(plazaDto, user.getUsername(), orden);
+        }catch (PlazaYaElegidaException e){
+            return "Ya ha elegido esa plaza en otro orden, bórrela primero antes de volverla a elegir.";
         }catch (Exception e){
             return "Ha ocurrido un error inesperado al seleccionar la plaza.";
         }
@@ -307,6 +314,24 @@ public class ConvocatoriaController {
 
     }
 
+    // Ajax para eliminar la seleccion de plaza
+    @RequestMapping(value = "/ajax/eliminarSeleccion")
+    @ResponseBody
+    public String eliminarSeleccionPlaza(@RequestParam String idConvo, @RequestParam Integer orden) {
+        try {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (!convocatoriaService.puedeConsultarConvocatoria(user.getUsername(), idConvo)) {
+                return "No tiene permisos para seleccionar plazas en esta convocatoria.";
+            }
+            convocatoriaService.eliminarSeleccionPlaza(idConvo, user.getUsername(), orden);
+        }catch (EleccionNotFoundException e){
+            return "No hay ninguna plaza elegida en este orden, no se ha borrado ninguna selección.";
+        }catch (Exception e){
+            return "Ha ocurrido un error inesperado al eliminar la selección de plaza.";
+        }
+        return "OK";
+
+    }
 
     @GetMapping("/consultarResultadoSimulacion")
     public ModelAndView consultarResultadoSimulacion(String idConvo, RedirectAttributes ra){
@@ -318,6 +343,7 @@ public class ConvocatoriaController {
                 mav.setViewName(Constantes.REDIRECT_PRINCIPAL);
                 return mav;
             }
+            mav.addObject("convocatoria",convocatoriaService.getConvocatoria(idConvo));
             mav.addObject("elecciones",convocatoriaService.getResultadoSimulacion(user.getUsername(), idConvo));
         }catch (ConvocatoriaNotFoundException e){
             ra.addFlashAttribute("alerta", new Alerta("Alerta", "La convocatoria solicitada no existe o es incorrecta.", Constantes.ALERTA_TIPO_ERROR));

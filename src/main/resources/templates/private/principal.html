@@ -60,7 +60,7 @@
                                                 <td class="nowrap" >
                                                     <div th:if="${convocatoria.usuarioDto.id == #authentication.principal.username }">
                                                         <a href="solicitarAcceso" class="btn btn-info" role="button">Modificar</a>
-                                                        <a href="solicitarAcceso" class="btn btn-danger" role="button">Eliminar</a>
+                                                        <a th:href="@{/eliminarConvocatoria(idConvo=${convocatoria.id})}" class="btn btn-danger" role="button">Eliminar</a>
                                                     </div>
                                                 </td>
                                             </tr>

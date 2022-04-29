@@ -11,12 +11,14 @@
 <div class="wrapper">
     <header th:replace="common/header :: header"></header>
 
-    <!-- -->
     <div class="content-wrapper">
 
         <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <a th:href="@{/convocatoria(id=${convocatoria.id})}" class="link-gris"><h1 class="" th:text="${convocatoria.nombre}"></h1></a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -87,6 +89,7 @@
             </div>
             <div class="modal-body">
                 <input type="hidden" name="ordenseleccionado" id="ordenseleccionado" value=""/>
+                <a href="#" onclick="eliminarSeleccion()" class="btn btn-danger" role="button">Eliminar selección</a>
                 <table id="plazas" class="table table-bordered table-hover">
                     <thead>
                     <tr>
@@ -119,8 +122,9 @@
     </div>
 </div>
 
-                                                <!-- configuracion tablas -->
 <script>
+        /* configuracion tablas */
+
           $(function () {
             $('#seleccion').DataTable({
               "paging": false,
@@ -143,34 +147,34 @@
               "language": {"url": "/json/Spanish.json"},
             });
           });
-
-      /*    $(document).on("click", ".abre-modal-seleccion", function () {
-              $(".modal-body #ordenseleccionado").val($(this).data('id'));
-          });
-*/
-          function rowClickedSeleccion(orden) {
-              $(".modal-body #ordenseleccionado").val(orden);
-              $('#modalPlazas').modal('show');
-          }
-
-          function rowClicked(idPlaza) {
-              var ordenseleccionado = $(".modal-body #ordenseleccionado").val();
-              $.get( "/convocatoria/ajax/seleccionarPlaza?idPlaza=" + idPlaza + "&orden=" + ordenseleccionado, function( data ) {
-                    if (data != "OK"){
-                        alert(data);
-                    }else{
-                        ordenseleccionado = $(".modal-body #ordenseleccionado").val();
-                        $("#seleccion_plaza_"+ordenseleccionado).html($("#plaza_"+idPlaza).html());
-
-                    }
-                    $('#modalPlazas').modal('hide');
-              });
-          }
-
 </script>
 
 <script type="text/javascript" th:inline="javascript">
 
+    /* abre el modal de seleccion de plaza */
+    function rowClickedSeleccion(orden) {
+              $(".modal-body #ordenseleccionado").val(orden);
+              $('#modalPlazas').modal('show');
+          }
+
+
+    /* llamada ajax seleccion de plaza */
+    function rowClicked(idPlaza) {
+        var ordenseleccionado = $(".modal-body #ordenseleccionado").val();
+        $.get( "/convocatoria/ajax/seleccionarPlaza?idPlaza=" + idPlaza + "&orden=" + ordenseleccionado, function( data ) {
+            if (data != "OK"){
+                alert(data);
+            }else{
+                ordenseleccionado = $(".modal-body #ordenseleccionado").val();
+                $("#seleccion_plaza_"+ordenseleccionado).html($("#plaza_"+idPlaza).html());
+
+            }
+            $('#modalPlazas').modal('hide');
+        });
+    }
+
+
+    /* rellena las plazas elegidas al cargar la pagina */
     $( document ).ready(function() {
         var listaElecciones = [[${elecciones}]]
         for (i = 0; i < Object.keys(listaElecciones).length; i++) {
@@ -180,6 +184,23 @@
         }
 
     });
+
+
+    /* Eliminar seleccion de plaza */
+    function eliminarSeleccion(){
+        var ordenseleccionado = $(".modal-body #ordenseleccionado").val();
+        var idconvo = [[${convocatoria.id}]];
+
+        $.get( "/convocatoria/ajax/eliminarSeleccion?idConvo=" + idconvo + "&orden=" + ordenseleccionado, function( data ) {
+            if (data != "OK"){
+                alert(data);
+            }else{
+                ordenseleccionado = $(".modal-body #ordenseleccionado").val();
+                $("#seleccion_plaza_"+ordenseleccionado).html("Seleccionar plaza");
+            }
+            $('#modalPlazas').modal('hide');
+        });
+    }
 
 </script>
 

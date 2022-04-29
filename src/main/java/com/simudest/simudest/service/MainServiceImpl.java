@@ -84,6 +84,17 @@ public class MainServiceImpl implements MainService {
     	
     }
 
+    public void eliminarConvocatoria(String idConvo, String idUsuario) throws UsuarioNotFoundException,ConvocatoriaNotFoundException, SinPermisoException{
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(UsuarioNotFoundException::new);
+        Convocatoria convocatoria = convocatoriaRepository.findById(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
+
+        if (!(convocatoria.getUsuario().getId().equals(usuario.getId()) || usuario.getAdmin())){
+            throw new SinPermisoException();
+        }
+        convocatoria.setEstado(Constantes.CONVOCATORIA_ESTADO_INACTIVA);
+        convocatoriaRepository.save(convocatoria);
+    }
+
     public void solicitarAcceso(String idConvo, String idUsuario, String palabra) throws UsuarioNotFoundException,ConvocatoriaNotFoundException, OpositorAlreadyExistException, PalabraIncorrectaException {
     	Opositor opositor = new Opositor();
     	Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(UsuarioNotFoundException::new);
