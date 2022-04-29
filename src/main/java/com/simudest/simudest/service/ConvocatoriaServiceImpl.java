@@ -34,7 +34,7 @@ public class ConvocatoriaServiceImpl implements ConvocatoriaService {
     private EleccionRepository eleccionRepository;
 
 	public ConvocatoriaDto getConvocatoria(String id) throws ConvocatoriaNotFoundException{
-		Convocatoria convocatoria = convocatoriaRepository.findById(id).orElseThrow(ConvocatoriaNotFoundException::new);
+		Convocatoria convocatoria = convocatoriaRepository.findByIdAndActiva(id).orElseThrow(ConvocatoriaNotFoundException::new);
 		ConvocatoriaDto convocatoriaDto = ConvocatoriaMapper.convocatoriaToConvocatoriaDto(convocatoria);
 		return convocatoriaDto;
 	}
@@ -51,7 +51,7 @@ public class ConvocatoriaServiceImpl implements ConvocatoriaService {
 
     public Boolean puedeConsultarConvocatoria(String idUsuario, String idConvo) throws UsuarioNotFoundException,ConvocatoriaNotFoundException{
         Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(UsuarioNotFoundException::new);
-        Convocatoria convocatoria = convocatoriaRepository.findById(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
+        Convocatoria convocatoria = convocatoriaRepository.findByIdAndActiva(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
         if (convocatoria.getUsuario().getId().equals(usuario.getId())){
             return true;
         }else if (opositorRepository.findByUsuarioAndConvocatoriaAndValidado(usuario, convocatoria, true).isPresent()){
@@ -63,20 +63,20 @@ public class ConvocatoriaServiceImpl implements ConvocatoriaService {
 
     public Boolean puedeAdministrarConvocatoria(String idUsuario, String idConvo) throws UsuarioNotFoundException,ConvocatoriaNotFoundException{
         Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(UsuarioNotFoundException::new);
-        Convocatoria convocatoria = convocatoriaRepository.findById(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
+        Convocatoria convocatoria = convocatoriaRepository.findByIdAndActiva(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
         return convocatoria.getUsuario().getId().equals(usuario.getId()) || usuario.getAdmin();
     }
 
 
     public List<OpositorDto> getOpositoresConvocatoria(String idConvo, Boolean validado) throws ConvocatoriaNotFoundException{
-        Convocatoria convocatoria = convocatoriaRepository.findById(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
+        Convocatoria convocatoria = convocatoriaRepository.findByIdAndActiva(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
         List<Opositor> opositores = opositorRepository.findByConvocatoriaAndValidado(convocatoria, validado);
         return OpositorMapper.opositorListToOpositorDtoList(opositores);
     }
 
     public void validarOpositor (String idUsuario, String idConvo, Integer orden) throws OpositorNotFoundException, ConvocatoriaNotFoundException, OrdenOpositorIncorrectoException {
         Opositor opositor = opositorRepository.findById(new OpositorId(idUsuario, idConvo)).orElseThrow(OpositorNotFoundException::new);
-        Convocatoria convocatoria = convocatoriaRepository.findById(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
+        Convocatoria convocatoria = convocatoriaRepository.findByIdAndActiva(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
         if(!opositorRepository.findByConvocatoriaAndOrden(convocatoria, orden).isEmpty()) {
             throw new OrdenOpositorIncorrectoException();
         }else{
@@ -92,7 +92,7 @@ public class ConvocatoriaServiceImpl implements ConvocatoriaService {
     }
 
     public List<PlazaDto> getPlazasConvocatoria(String idConvo) throws ConvocatoriaNotFoundException{
-        Convocatoria convocatoria = convocatoriaRepository.findById(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
+        Convocatoria convocatoria = convocatoriaRepository.findByIdAndActiva(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
         List<Plaza> plazas = plazaRepository.findByConvocatoria(convocatoria);
         return PlazaMapper.PlazaListToPlazaDtoList(plazas);
 
@@ -144,7 +144,7 @@ public class ConvocatoriaServiceImpl implements ConvocatoriaService {
 
     public void eliminarSeleccionPlaza(String idConvo, String idUsuario, Integer orden) throws UsuarioNotFoundException, ConvocatoriaNotFoundException, EleccionNotFoundException{
         Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(UsuarioNotFoundException::new);
-        Convocatoria convocatoria = convocatoriaRepository.findById(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
+        Convocatoria convocatoria = convocatoriaRepository.findByIdAndActiva(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
         Eleccion eleccion = eleccionRepository.findByUsuarioAndOrdenAndConvocatoria(usuario, orden, convocatoria).orElseThrow(EleccionNotFoundException::new);
         eleccionRepository.delete(eleccion);
 
@@ -154,7 +154,7 @@ public class ConvocatoriaServiceImpl implements ConvocatoriaService {
         //TODO no tiene uso, comprobarlo y quitarlo
         Map <Integer, EleccionDto> retorno = new HashMap<>();
         Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(UsuarioNotFoundException::new);
-        Convocatoria convocatoria = convocatoriaRepository.findById(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
+        Convocatoria convocatoria = convocatoriaRepository.findByIdAndActiva(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
         List<Eleccion> elecciones = eleccionRepository.findByUsuarioAndConvocatoria(usuario, convocatoria);
         //Se rellenan las elecciones existentes del opositor en esta convocatoria
         for (Eleccion eleccion : elecciones){
@@ -171,14 +171,14 @@ public class ConvocatoriaServiceImpl implements ConvocatoriaService {
 
     public List<EleccionDto> getElecciones(String idUsuario, String idConvo) throws UsuarioNotFoundException, ConvocatoriaNotFoundException{
         Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(UsuarioNotFoundException::new);
-        Convocatoria convocatoria = convocatoriaRepository.findById(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
+        Convocatoria convocatoria = convocatoriaRepository.findByIdAndActiva(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
         List<Eleccion> elecciones = eleccionRepository.findByUsuarioAndConvocatoria(usuario, convocatoria);
         return EleccionMapper.eleccionListToEleccionDtoList(elecciones);
     }
 
     public List<EleccionDto> getResultadoSimulacion(String idUsuario, String idConvo) throws UsuarioNotFoundException, ConvocatoriaNotFoundException{
         Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(UsuarioNotFoundException::new);
-        Convocatoria convocatoria = convocatoriaRepository.findById(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
+        Convocatoria convocatoria = convocatoriaRepository.findByIdAndActiva(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
         Opositor opositor = opositorRepository.findByUsuarioAndConvocatoriaAndValidado(usuario, convocatoria, true).get();
         List<Eleccion> elecciones = eleccionRepository.findByUsuarioAndConvocatoria(usuario, convocatoria);
         List<Opositor> otrosOpositores = opositorRepository.findByConvocatoriaAndValidado(convocatoria, true);

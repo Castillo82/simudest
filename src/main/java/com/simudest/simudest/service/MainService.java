@@ -32,5 +32,6 @@ public interface MainService {
 
     public OrganismoDto getOrganismobyId(Integer id) throws OrganismoNotFoundException;
 
+    public ConvocatoriaDto getConvocatoria(String id) throws ConvocatoriaNotFoundException;
 
     }

@@ -38,6 +38,8 @@
 
                                 <div class="card">
                                     <form action="#" th:action="@{/guardarConvocatoria}" th:object="${convocatoria}" method="post">
+                                        <input id ="id" type="hidden"  th:field="*{id}"/>
+                                        <input id ="estado" type="hidden"  th:field="*{estado}"/>
                                         <div class="card-header">
                                             <h3 class="card-title">Convocatoria</h3>
                                         </div>

@@ -11,21 +11,23 @@
         <div class="wrapper">
             <header th:replace="common/header :: header"></header>
 
-            <!-- -->
-            <div class="content-wrapper">
+                <div class="modal" tabindex="-1" role="dialog" id="confirm">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                ¿Realmente deseas borrar la convocatoria? Esta acción no se puede deshacer.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" data-dismiss="modal" class="btn btn-danger" id="delete">Eliminar</button>
+                                <button type="button" data-dismiss="modal" class="btn">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <section class="content-header">
                     <div class="container-fluid">
                         <div class="row mb-2">
-                            <!--div class="col-sm-6">
-                                <h1>test1</h1>
-                            </div>
-                            <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="#">test3</a></li>
-                                    <li class="breadcrumb-item active">test</li>
-                                </ol>
-                            </div-->
                         </div>
                     </div>
                 </section>
@@ -57,10 +59,10 @@
                                                 <td th:text="${convocatoria.nombre}" ></td>
                                                 <td th:text="${convocatoria.especialidadDto.nombre}"></td>
                                                 <td th:text="${convocatoria.especialidadDto.grupoDto.nombre}"></td>
-                                                <td class="nowrap" >
+                                                <td class="nowrap" onclick="event.stopPropagation()">
                                                     <div th:if="${convocatoria.usuarioDto.id == #authentication.principal.username }">
-                                                        <a href="solicitarAcceso" class="btn btn-info" role="button">Modificar</a>
-                                                        <a th:href="@{/eliminarConvocatoria(idConvo=${convocatoria.id})}" class="btn btn-danger" role="button">Eliminar</a>
+                                                        <a th:href="@{/modificarConvocatoria(idConvo=${convocatoria.id})}" class="btn btn-info" role="button">Modificar</a>
+                                                        <button class="btn btn-danger" type="button" id="eliminarConvocatoria" role="button" th:attr="data-value=${convocatoria.id}">Eliminar</button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -142,7 +144,25 @@
               location.href = "/convocatoria?id=" + idConvocatoria;
           }
 
-         </script>
+
+
+     $('#eliminarConvocatoria').on('click', function(e) {
+            e.preventDefault();
+            var idConvo = $(this).data("value");
+            $('#confirm').modal({
+                backdrop: 'static',
+                keyboard: false
+            })
+            .on('click', '#delete', function(e) {
+               location.href = "/eliminarConvocatoria?idConvo=" + idConvo;
+            });
+            $("#cancel").on('click',function(e){
+                e.preventDefault();
+                $('#confirm').modal.model('hide');
+            });
+        });
+
+    </script>
 
     </body>
 

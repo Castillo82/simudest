@@ -86,7 +86,7 @@ public class MainServiceImpl implements MainService {
 
     public void eliminarConvocatoria(String idConvo, String idUsuario) throws UsuarioNotFoundException,ConvocatoriaNotFoundException, SinPermisoException{
         Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(UsuarioNotFoundException::new);
-        Convocatoria convocatoria = convocatoriaRepository.findById(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
+        Convocatoria convocatoria = convocatoriaRepository.findByIdAndActiva(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
 
         if (!(convocatoria.getUsuario().getId().equals(usuario.getId()) || usuario.getAdmin())){
             throw new SinPermisoException();
@@ -98,7 +98,7 @@ public class MainServiceImpl implements MainService {
     public void solicitarAcceso(String idConvo, String idUsuario, String palabra) throws UsuarioNotFoundException,ConvocatoriaNotFoundException, OpositorAlreadyExistException, PalabraIncorrectaException {
     	Opositor opositor = new Opositor();
     	Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(UsuarioNotFoundException::new);
-    	Convocatoria convocatoria = convocatoriaRepository.findById(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
+    	Convocatoria convocatoria = convocatoriaRepository.findByIdAndActiva(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
         if (opositorRepository.findByUsuarioAndConvocatoria(usuario, convocatoria).isPresent()){
             throw new OpositorAlreadyExistException();
         }
@@ -122,6 +122,12 @@ public class MainServiceImpl implements MainService {
         Organismo organismo = organismoRepository.findById(id).orElseThrow(OrganismoNotFoundException::new);
         return OrganismoMapper.organismoToOrganismoDto(organismo);
 
+    }
+
+    public ConvocatoriaDto getConvocatoria(String id) throws ConvocatoriaNotFoundException{
+        Convocatoria convocatoria = convocatoriaRepository.findByIdAndActiva(id).orElseThrow(ConvocatoriaNotFoundException::new);
+        ConvocatoriaDto convocatoriaDto = ConvocatoriaMapper.convocatoriaToConvocatoriaDto(convocatoria);
+        return convocatoriaDto;
     }
 
 }

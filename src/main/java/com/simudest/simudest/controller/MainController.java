@@ -49,6 +49,26 @@ public class MainController {
         return mav;
     }
 
+    @GetMapping("/modificarConvocatoria")
+    public ModelAndView modificarConvocatoria(@RequestParam String idConvo, RedirectAttributes ra) {
+        ModelAndView mav = new ModelAndView();
+        try {
+            User user= (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            ConvocatoriaDto convocatoriaDto = mainService.getConvocatoria(idConvo);
+            mav.addObject("convocatoria", convocatoriaDto);
+            mav.addObject("organismos", mainService.getOrganismos());
+            mav.addObject("grupos", mainService.getGrupos());
+            mav.addObject("especialidades", mainService.getEspecialidades());
+        }catch (ConvocatoriaNotFoundException e){
+            ra.addFlashAttribute("alerta", new Alerta("Alerta", "La convocatoria no existe o es incorrecta.", Constantes.ALERTA_TIPO_ERROR));
+        }catch (Exception e){
+            ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha ocurrido un error.", Constantes.ALERTA_TIPO_ERROR));
+        }
+
+        mav.setViewName("private/convocatoria/modificarConvocatoria");
+        return mav;
+    }
+
     @PostMapping("/guardarConvocatoria")
     public ModelAndView guardarConvocatoria(ConvocatoriaDto convocatoriaDto, final BindingResult bindingResult){
         //TODO se debe comprobar si el usuario tiene permiso para editar la convocatoria
@@ -62,9 +82,9 @@ public class MainController {
         try {
             if (convocatoriaDto.getId() == null) {
                 convocatoriaDto.setEstado(Constantes.CONVOCATORIA_ESTADO_ACTIVA);
-                User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-                convocatoriaDto.setUsuarioDto(mainService.getUsuariobyId(user.getUsername()));
             }
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            convocatoriaDto.setUsuarioDto(mainService.getUsuariobyId(user.getUsername()));
 
             EspecialidadDto especialidadDto = mainService.getEspecialidadbyId(convocatoriaDto.getEspecialidadDto().getId());
             OrganismoDto organismoDto = mainService.getOrganismobyId(convocatoriaDto.getOrganismoDto().getId());
@@ -100,7 +120,7 @@ public class MainController {
         }catch (SinPermisoException e){
             ra.addFlashAttribute("alerta", new Alerta("Alerta", "No tiene permiso para eliminar esta convocatoria.", Constantes.ALERTA_TIPO_ERROR));
         }catch (Exception e){
-            ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha ocurrido un error al eliminar la convocatoria. No es posible eliminar convocatorias con opositores o plazas.", Constantes.ALERTA_TIPO_ERROR));
+            ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha ocurrido un error al eliminar la convocatoria.", Constantes.ALERTA_TIPO_ERROR));
         }
         mav.setViewName(Constantes.REDIRECT_PRINCIPAL);
         return mav;
