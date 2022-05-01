@@ -126,24 +126,13 @@
         /* configuracion tablas */
 
           $(function () {
-            $('#seleccion').DataTable({
-              "paging": false,
-              "lengthChange": false,
-              "ordering": true,
-              "autoWidth": false,
-              "responsive": true,
-              "language": {"url": "/json/Spanish.json"},
-            });
-          });
-
-          $(function () {
             $('#plazas').DataTable({
               "paging": true,
               "lengthChange": false,
               "ordering": true,
               "autoWidth": false,
               "responsive": true,
-              "pageLength": 5,
+              "pageLength": 50,
               "language": {"url": "/json/Spanish.json"},
             });
           });

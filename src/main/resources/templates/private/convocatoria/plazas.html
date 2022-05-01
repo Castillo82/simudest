@@ -11,7 +11,21 @@
 <div class="wrapper">
     <header th:replace="common/header :: header"></header>
 
-    <!-- -->
+    <div class="modal" tabindex="-1" role="dialog" id="confirm">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    ¿Realmente deseas borrar la plaza? Esta acción no se puede deshacer.<br/>
+                    Si hay opositores que ya han seleccionado esta plaza, perderán la selección.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-danger" id="delete">Eliminar</button>
+                    <button type="button" data-dismiss="modal" class="btn">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="content-wrapper">
 
 
@@ -65,7 +79,8 @@
                                         <td th:if="${puedeAdministrarConvocatoria}">
                                             <div class="btn-group">
                                                 <a th:href="@{/convocatoria/modificarPlaza(idPlaza=${plaza.id})}" class="btn btn-info" role="button" title="Modificar">M</a>
-                                                <a th:href="@{/convocatoria/borrarPlaza(idPlaza=${plaza.id})}" class="btn btn-danger" role="button" title="Eliminar">E</a>
+                                                <button class="btn btn-danger botonEliminarPlaza" type="button" role="button" th:attr="data-value=${plaza.id}">E</button>
+                                                <!--a th:href="@{/convocatoria/borrarPlaza(idPlaza=${plaza.id})}" class="btn btn-danger" role="button" title="Eliminar">E</a-->
                                             </div>
                                         </td>
                                     </tr>
@@ -89,10 +104,27 @@
               "ordering": true,
               "autoWidth": false,
               "responsive": true,
-              "pageLength": 5,
+              "pageLength": 50,
               "language": {"url": "/json/Spanish.json"},
             });
           });
+
+
+     $('.botonEliminarPlaza').on('click', function(e) {
+            e.preventDefault();
+            var idPlaza = $(this).data("value");
+            $('#confirm').modal({
+                backdrop: 'static',
+                keyboard: false
+            })
+            .on('click', '#delete', function(e) {
+               location.href = "/convocatoria/borrarPlaza?idPlaza=" + idPlaza;
+            });
+            $("#cancel").on('click',function(e){
+                e.preventDefault();
+                $('#confirm').modal.model('hide');
+            });
+        });
 
          </script>
 

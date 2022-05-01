@@ -15,7 +15,8 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-body">
-                                ¿Realmente deseas borrar la convocatoria? Esta acción no se puede deshacer.
+                                ¿Realmente deseas borrar la convocatoria? Esta acción no se puede deshacer.<br/>
+                                Si esta convocatoria tiene opositores o plazas, estos se perderán.
                             </div>
                             <div class="modal-footer">
                                 <button type="button" data-dismiss="modal" class="btn btn-danger" id="delete">Eliminar</button>
@@ -62,7 +63,7 @@
                                                 <td class="nowrap" onclick="event.stopPropagation()">
                                                     <div th:if="${convocatoria.usuarioDto.id == #authentication.principal.username }">
                                                         <a th:href="@{/modificarConvocatoria(idConvo=${convocatoria.id})}" class="btn btn-info" role="button">Modificar</a>
-                                                        <button class="btn btn-danger" type="button" id="eliminarConvocatoria" role="button" th:attr="data-value=${convocatoria.id}">Eliminar</button>
+                                                        <button class="btn btn-danger botonEliminarConvocatoria" type="button" role="button" th:attr="data-value=${convocatoria.id}">Eliminar</button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -146,7 +147,7 @@
 
 
 
-     $('#eliminarConvocatoria').on('click', function(e) {
+     $('.botonEliminarConvocatoria').on('click', function(e) {
             e.preventDefault();
             var idConvo = $(this).data("value");
             $('#confirm').modal({

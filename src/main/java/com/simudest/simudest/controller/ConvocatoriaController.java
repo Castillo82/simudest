@@ -199,6 +199,7 @@ public class ConvocatoriaController {
     @PostMapping("/guardarPlaza")
     public ModelAndView guardarPlaza(PlazaDto plazaDto, final BindingResult bindingResult, RedirectAttributes ra){
         ModelAndView mav = new ModelAndView();
+        boolean nuevaPlaza = plazaDto.getId() == null;
         if(bindingResult.hasErrors()){
             mav.addObject("plaza", plazaDto);
             mav.setViewName("private/convocatoria/modificarPlaza");
@@ -229,7 +230,11 @@ public class ConvocatoriaController {
         }
 
         ra.addAttribute("idConvo", plazaDto.getConvocatoriaDto().getId());
-        ra.addFlashAttribute("alerta", new Alerta("Información", "Se ha creado la plaza correctamente.", Constantes.ALERTA_TIPO_INFO));
+        if (nuevaPlaza){
+            ra.addFlashAttribute("alerta", new Alerta("Información", "Se ha creado la plaza correctamente.", Constantes.ALERTA_TIPO_INFO));
+        }else{
+            ra.addFlashAttribute("alerta", new Alerta("Información", "Se ha modificado la plaza correctamente.", Constantes.ALERTA_TIPO_INFO));
+        }
         mav.setViewName(Constantes.REDIRECT_PLAZAS);
         return mav;
     }
