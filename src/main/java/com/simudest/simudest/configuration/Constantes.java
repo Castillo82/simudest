@@ -12,6 +12,9 @@ public class Constantes {
     public static final String REDIRECT_CONVOCATORIA = "redirect:/convocatoria";
     public static final String REDIRECT_PLAZAS = "redirect:/convocatoria/plazas";
     public static final String REDIRECT_OPOSITORES = "redirect:/convocatoria/opositores";
+    public static final String REDIRECT_ADMIN_ORGANISMOS = "redirect:/admin/organismos";
+    public static final String REDIRECT_ADMIN_GRUPOS = "redirect:/admin/grupos";
+    public static final String REDIRECT_ADMIN_ESPECIALIDADES = "redirect:/admin/especialidades";
 
 
     public static final String ALERTA_TIPO_INFO = "INFO";

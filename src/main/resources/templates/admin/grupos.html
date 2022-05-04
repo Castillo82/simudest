@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="common/head :: head">
+    </head>
+
+
+    <body class="layout-top-nav" style="height: auto;">
+        <div class="wrapper">
+            <header th:replace="common/header :: header"></header>
+
+                <div class="modal" tabindex="-1" role="dialog" id="confirm">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                ¿Realmente deseas borrar el grupo? Esta acción no se puede deshacer.<br>
+                                No se pueden borrar grupos que estén en uso o se hayan usado en alguna convocatoria.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" data-dismiss="modal" class="btn btn-danger" id="delete">Eliminar</button>
+                                <button type="button" data-dismiss="modal" class="btn">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="content">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Grupos</h3>
+                                        <a  th:href="@{/admin/grupos/nuevo}" class="btn btn-outline-secondary float-right">Añadir Grupo</a>
+                                    </div>
+                                    <div class="card-body">
+                                        <table id="grupos" class="table table-bordered table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th ></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="grupo: ${grupos}">
+                                                <td th:text="${grupo.nombre}"></td>
+                                                <td class="nowrap" onclick="event.stopPropagation()">
+                                                    <a th:href="@{/admin/grupos/modificar(idGrupo=${grupo.id})}" class="btn btn-info" role="button">Modificar</a>
+                                                    <button class="btn btn-danger botonEliminarGrupo" type="button" role="button" th:attr="data-value=${grupo.id}">Eliminar</button>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- configuracion tablas -->
+        <script>
+          $(function () {
+            $('#grupos').DataTable({
+              "paging": true,
+              "lengthChange": false,
+              "ordering": true,
+              "autoWidth": false,
+              "responsive": true,
+              "pageLength": 10,
+              "language": {"url": "/json/Spanish.json"},
+              "columnDefs": [
+                  { width: 800, targets: 0 },
+                  { width: 1, targets: 1 }
+              ],
+
+            });
+          });
+
+     $('.botonEliminarGrupo').on('click', function(e) {
+            e.preventDefault();
+            var idGrupo = $(this).data("value");
+            $('#confirm').modal({
+                backdrop: 'static',
+                keyboard: false
+            })
+            .on('click', '#delete', function(e) {
+               location.href = "/admin/grupos/eliminar?idGrupo=" + idGrupo;
+            });
+            $("#cancel").on('click',function(e){
+                e.preventDefault();
+                $('#confirm').modal.model('hide');
+            });
+        });
+
+    </script>
+
+    </body>
+
+</html>
+
+
+
+
+
+
+

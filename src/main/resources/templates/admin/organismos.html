@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="common/head :: head">
+    </head>
+
+
+    <body class="layout-top-nav" style="height: auto;">
+        <div class="wrapper">
+            <header th:replace="common/header :: header"></header>
+
+                <div class="modal" tabindex="-1" role="dialog" id="confirm">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                ¿Realmente deseas borrar el organismo? Esta acción no se puede deshacer.<br>
+                                No se pueden borrar organismos que estén en uso o se hayan usado en alguna convocatoria.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" data-dismiss="modal" class="btn btn-danger" id="delete">Eliminar</button>
+                                <button type="button" data-dismiss="modal" class="btn">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="content">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Organismos</h3>
+                                        <a  th:href="@{/admin/organismos/nuevo}" class="btn btn-outline-secondary float-right">Añadir Organismo</a>
+                                    </div>
+                                    <div class="card-body">
+                                        <table id="organismos" class="table table-bordered table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th ></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="organismo: ${organismos}">
+                                                <td th:text="${organismo.nombre}"></td>
+                                                <td class="nowrap" onclick="event.stopPropagation()">
+                                                    <a th:href="@{/admin/organismos/modificar(idOrga=${organismo.id})}" class="btn btn-info" role="button">Modificar</a>
+                                                    <button class="btn btn-danger botonEliminarOrganismo" type="button" role="button" th:attr="data-value=${organismo.id}">Eliminar</button>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- configuracion tablas -->
+        <script>
+          $(function () {
+            $('#organismos').DataTable({
+              "paging": true,
+              "lengthChange": false,
+              "ordering": true,
+              "autoWidth": false,
+              "responsive": true,
+              "pageLength": 10,
+              "language": {"url": "/json/Spanish.json"},
+              "columnDefs": [
+                  { width: 800, targets: 0 },
+                  { width: 1, targets: 1 }
+              ],
+
+            });
+          });
+
+     $('.botonEliminarOrganismo').on('click', function(e) {
+            e.preventDefault();
+            var idOrga = $(this).data("value");
+            $('#confirm').modal({
+                backdrop: 'static',
+                keyboard: false
+            })
+            .on('click', '#delete', function(e) {
+               location.href = "/admin/organismos/eliminar?idOrga=" + idOrga;
+            });
+            $("#cancel").on('click',function(e){
+                e.preventDefault();
+                $('#confirm').modal.model('hide');
+            });
+        });
+
+    </script>
+
+    </body>
+
+</html>
+
+
+
+
+
+
+

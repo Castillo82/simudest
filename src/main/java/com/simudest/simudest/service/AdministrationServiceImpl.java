@@ -1,7 +1,14 @@
 package com.simudest.simudest.service;
 
+import com.simudest.simudest.dto.GrupoDto;
+import com.simudest.simudest.dto.OrganismoDto;
 import com.simudest.simudest.entity.Especialidad;
 import com.simudest.simudest.entity.Grupo;
+import com.simudest.simudest.entity.Organismo;
+import com.simudest.simudest.exception.GrupoNotFoundException;
+import com.simudest.simudest.exception.OrganismoNotFoundException;
+import com.simudest.simudest.mapper.GrupoMapper;
+import com.simudest.simudest.mapper.OrganismoMapper;
 import com.simudest.simudest.repository.EspecialidadRepository;
 import com.simudest.simudest.repository.GrupoRepository;
 import com.simudest.simudest.repository.OrganismoRepository;
@@ -23,8 +30,43 @@ public class AdministrationServiceImpl implements AdministrationService {
     private OrganismoRepository organismoRepository;
 
     @Override
-    public List<Grupo> getAllGrupos(){
-        return grupoRepository.findAll();
+    public List<OrganismoDto> getAllOrganismos(){
+        return OrganismoMapper.organismoListToOrganismoDtoList(organismoRepository.findAll());
+    }
+
+    public OrganismoDto getOrganismoById(Integer idOrga) throws OrganismoNotFoundException{
+        Organismo organismo = organismoRepository.findById(idOrga).orElseThrow(OrganismoNotFoundException::new);
+        return OrganismoMapper.organismoToOrganismoDto(organismo);
+    }
+
+    public void guardarOrganismo(OrganismoDto organismoDto){
+        Organismo organismo = OrganismoMapper.organismoDtoToOrganismo(organismoDto);
+        organismoRepository.save(organismo);
+    }
+
+    public void eliminarOrganismo(OrganismoDto organismoDto){
+        Organismo organismo = OrganismoMapper.organismoDtoToOrganismo(organismoDto);
+        organismoRepository.delete(organismo);
+    }
+
+    @Override
+    public List<GrupoDto> getAllGrupos(){
+        return GrupoMapper.grupoListToGrupoDtoList(grupoRepository.findAll());
+    }
+
+    public GrupoDto getGrupoById(Integer idGrupo) throws GrupoNotFoundException{
+        Grupo grupo = grupoRepository.findById(idGrupo).orElseThrow(GrupoNotFoundException::new);
+        return GrupoMapper.grupoToGrupoDto(grupo);
+    }
+
+    public void guardarGrupo(GrupoDto grupoDto){
+        Grupo grupo = GrupoMapper.grupoDtoToGrupo(grupoDto);
+        grupoRepository.save(grupo);
+    }
+
+    public void eliminarGrupo(GrupoDto grupoDto){
+        Grupo grupo = GrupoMapper.grupoDtoToGrupo(grupoDto);
+        grupoRepository.delete(grupo);
     }
 
 }
