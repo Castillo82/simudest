@@ -1,8 +1,10 @@
 package com.simudest.simudest.service;
 
 
+import com.simudest.simudest.dto.EspecialidadDto;
 import com.simudest.simudest.dto.GrupoDto;
 import com.simudest.simudest.dto.OrganismoDto;
+import com.simudest.simudest.exception.EspecialidadNotFoundException;
 import com.simudest.simudest.exception.GrupoNotFoundException;
 import com.simudest.simudest.exception.OrganismoNotFoundException;
 
@@ -26,4 +28,11 @@ public interface AdministrationService {
 
     public void eliminarGrupo(GrupoDto grupoDto);
 
+    public List<EspecialidadDto> getAllEspecialidades();
+
+    public EspecialidadDto getEspecialidadById(Integer idEspecialidad) throws EspecialidadNotFoundException;
+
+    public void guardarEspecialidad(EspecialidadDto especialidadDto);
+
+    public void eliminarEspecialidad(EspecialidadDto especialidadDto);
 }

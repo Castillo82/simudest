@@ -181,4 +181,87 @@ public class AdministrationController {
         return mav;
     }
 
+    @GetMapping("/especialidades")
+    public ModelAndView listadoEspecialidades(RedirectAttributes ra) {
+        ModelAndView mav = new ModelAndView();
+        try {
+            mav.addObject("especialidades",administrationService.getAllEspecialidades());
+        }catch (Exception e){
+            ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha ocurrido un error al obtener los especialidades.", Constantes.ALERTA_TIPO_ERROR));
+        }
+        mav.setViewName("admin/especialidades");
+        return mav;
+    }
+
+    @GetMapping("/especialidades/nuevo")
+    public ModelAndView modificarEspecialidad(RedirectAttributes ra) {
+        ModelAndView mav = new ModelAndView();
+        EspecialidadDto especialidadDto = new EspecialidadDto();
+        mav.addObject("especialidad", especialidadDto);
+        mav.addObject("grupos", administrationService.getAllGrupos());
+        mav.setViewName("admin/modificarEspecialidad");
+        return mav;
+    }
+
+    @GetMapping("/especialidades/modificar")
+    public ModelAndView modificarEspecialidad(Integer idEspecialidad, RedirectAttributes ra) {
+        ModelAndView mav = new ModelAndView();
+        EspecialidadDto especialidadDto;
+        try {
+            especialidadDto = administrationService.getEspecialidadById(idEspecialidad);
+        }catch (EspecialidadNotFoundException e){
+            ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha ocurrido un error al intentar modificar el especialidad.", Constantes.ALERTA_TIPO_ERROR));
+            mav.setViewName(Constantes.REDIRECT_ADMIN_ESPECIALIDADES);
+            return mav;
+        }
+        mav.addObject("especialidad", especialidadDto);
+        mav.addObject("grupos", administrationService.getAllGrupos());
+        mav.setViewName("admin/modificarEspecialidad");
+        return mav;
+    }
+
+
+    @PostMapping("/especialidades/guardar")
+    public ModelAndView guardarEspecialidad(EspecialidadDto especialidadDto, final BindingResult bindingResult, RedirectAttributes ra){
+        ModelAndView mav = new ModelAndView();
+        boolean nuevoEspecialidad = especialidadDto.getId() == null;
+        if(bindingResult.hasErrors()){
+            mav.addObject("especialidad", especialidadDto);
+            mav.setViewName("admin/modificarEspecialidad");
+            return mav;
+        }
+        try {
+            GrupoDto grupoDto = administrationService.getGrupoById(especialidadDto.getGrupoDto().getId());
+            especialidadDto.setGrupoDto(grupoDto);
+            administrationService.guardarEspecialidad(especialidadDto);
+        }catch (Exception e){
+            bindingResult.rejectValue("nombre", "nombre","Ha ocurrido un error inesperado.");
+            mav.addObject("especialidad", especialidadDto);
+            mav.setViewName("admin/modificarEspecialidad");
+            return mav;
+        }
+        if (nuevoEspecialidad){
+            ra.addFlashAttribute("alerta", new Alerta("Información", "Se ha creado el especialidad correctamente.", Constantes.ALERTA_TIPO_INFO));
+        }else{
+            ra.addFlashAttribute("alerta", new Alerta("Información", "Se ha modificado el especialidad correctamente.", Constantes.ALERTA_TIPO_INFO));
+        }
+        mav.setViewName(Constantes.REDIRECT_ADMIN_ESPECIALIDADES);
+        return mav;
+    }
+
+    @GetMapping("/especialidades/eliminar")
+    public ModelAndView eliminarEspecialidad(Integer idEspecialidad, RedirectAttributes ra) {
+        ModelAndView mav = new ModelAndView();
+        EspecialidadDto especialidadDto;
+        try {
+            especialidadDto = administrationService.getEspecialidadById(idEspecialidad);
+            administrationService.eliminarEspecialidad(especialidadDto);
+            ra.addFlashAttribute("alerta", new Alerta("Información", "Se ha eliminado el especialidad correctamente.", Constantes.ALERTA_TIPO_INFO));
+        }catch (EspecialidadNotFoundException e){
+            ra.addFlashAttribute("alerta", new Alerta("Alerta", "Ha ocurrido un error al intentar eliminar el especialidad.", Constantes.ALERTA_TIPO_ERROR));
+        }
+        mav.setViewName(Constantes.REDIRECT_ADMIN_ESPECIALIDADES);
+        return mav;
+    }
+
 }

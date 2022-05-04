@@ -1,12 +1,15 @@
 package com.simudest.simudest.service;
 
+import com.simudest.simudest.dto.EspecialidadDto;
 import com.simudest.simudest.dto.GrupoDto;
 import com.simudest.simudest.dto.OrganismoDto;
 import com.simudest.simudest.entity.Especialidad;
 import com.simudest.simudest.entity.Grupo;
 import com.simudest.simudest.entity.Organismo;
+import com.simudest.simudest.exception.EspecialidadNotFoundException;
 import com.simudest.simudest.exception.GrupoNotFoundException;
 import com.simudest.simudest.exception.OrganismoNotFoundException;
+import com.simudest.simudest.mapper.EspecialidadMapper;
 import com.simudest.simudest.mapper.GrupoMapper;
 import com.simudest.simudest.mapper.OrganismoMapper;
 import com.simudest.simudest.repository.EspecialidadRepository;
@@ -67,6 +70,26 @@ public class AdministrationServiceImpl implements AdministrationService {
     public void eliminarGrupo(GrupoDto grupoDto){
         Grupo grupo = GrupoMapper.grupoDtoToGrupo(grupoDto);
         grupoRepository.delete(grupo);
+    }
+
+    @Override
+    public List<EspecialidadDto> getAllEspecialidades(){
+        return EspecialidadMapper.especialidadListToEspecialidadDtoList(especialidadRepository.findAll());
+    }
+
+    public EspecialidadDto getEspecialidadById(Integer idEspecialidad) throws EspecialidadNotFoundException {
+        Especialidad especialidad = especialidadRepository.findById(idEspecialidad).orElseThrow(EspecialidadNotFoundException::new);
+        return EspecialidadMapper.especialidadToEspecialidadDto(especialidad);
+    }
+
+    public void guardarEspecialidad(EspecialidadDto especialidadDto){
+        Especialidad especialidad = EspecialidadMapper.especialidadDtoToEspecialidad(especialidadDto);
+        especialidadRepository.save(especialidad);
+    }
+
+    public void eliminarEspecialidad(EspecialidadDto especialidadDto){
+        Especialidad especialidad = EspecialidadMapper.especialidadDtoToEspecialidad(especialidadDto);
+        especialidadRepository.delete(especialidad);
     }
 
 }
