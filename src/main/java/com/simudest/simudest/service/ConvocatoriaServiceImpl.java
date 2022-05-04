@@ -119,6 +119,7 @@ public class ConvocatoriaServiceImpl implements ConvocatoriaService {
 
     public void borrarPlaza(PlazaDto plazaDto){
         Plaza plaza = PlazaMapper.PlazaDtoToPlaza(plazaDto);
+        eleccionRepository.deleteByPlaza(plaza);
         plazaRepository.delete(plaza);
     }
 

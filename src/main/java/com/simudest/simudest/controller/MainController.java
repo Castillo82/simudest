@@ -70,17 +70,18 @@ public class MainController {
     }
 
     @PostMapping("/guardarConvocatoria")
-    public ModelAndView guardarConvocatoria(ConvocatoriaDto convocatoriaDto, final BindingResult bindingResult){
+    public ModelAndView guardarConvocatoria(ConvocatoriaDto convocatoriaDto, final BindingResult bindingResult, RedirectAttributes ra){
         //TODO se debe comprobar si el usuario tiene permiso para editar la convocatoria
         //TODO considerar refactor de este metodo, demasiada logica en el controlador
         ModelAndView mav = new ModelAndView();
+        boolean nuevaConvocatoria = convocatoriaDto.getId() == null;
         if(bindingResult.hasErrors()){
             mav.addObject("convocatoria", convocatoriaDto);
             mav.setViewName("private/convocatoria/modificarConvocatoria");
             return mav;
         }
         try {
-            if (convocatoriaDto.getId() == null) {
+            if (nuevaConvocatoria) {
                 convocatoriaDto.setEstado(Constantes.CONVOCATORIA_ESTADO_ACTIVA);
             }
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -102,6 +103,11 @@ public class MainController {
             return mav;
         }
 
+        if (nuevaConvocatoria){
+            ra.addFlashAttribute("alerta", new Alerta("Información", "Se ha creado la convocatoria correctamente.", Constantes.ALERTA_TIPO_INFO));
+        }else{
+            ra.addFlashAttribute("alerta", new Alerta("Información", "Se ha modificado la convocatoria correctamente.", Constantes.ALERTA_TIPO_INFO));
+        }
         mav.setViewName(Constantes.REDIRECT_PRINCIPAL);
         return mav;
     }
