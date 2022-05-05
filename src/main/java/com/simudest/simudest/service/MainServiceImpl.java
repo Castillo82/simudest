@@ -130,4 +130,10 @@ public class MainServiceImpl implements MainService {
         return convocatoriaDto;
     }
 
+    public Boolean puedeAdministrarConvocatoria(String idUsuario, String idConvo) throws UsuarioNotFoundException,ConvocatoriaNotFoundException{
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(UsuarioNotFoundException::new);
+        Convocatoria convocatoria = convocatoriaRepository.findByIdAndActiva(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
+        return convocatoria.getUsuario().getId().equals(usuario.getId()) || usuario.getAdmin();
+    }
+
 }

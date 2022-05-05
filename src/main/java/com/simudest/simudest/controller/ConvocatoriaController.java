@@ -282,7 +282,6 @@ public class ConvocatoriaController {
                 mav.setViewName(Constantes.REDIRECT_PRINCIPAL);
                 return mav;
             }
-            //mav.addObject("elecciones",convocatoriaService.getMapElecciones(user.getUsername(), idConvo));
             mav.addObject("elecciones",convocatoriaService.getElecciones(user.getUsername(), idConvo));
             mav.addObject("plazas",convocatoriaService.getPlazasConvocatoria(idConvo));
             mav.addObject("convocatoria",convocatoriaService.getConvocatoria(idConvo));

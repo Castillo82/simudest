@@ -34,4 +34,6 @@ public interface MainService {
 
     public ConvocatoriaDto getConvocatoria(String id) throws ConvocatoriaNotFoundException;
 
+    public Boolean puedeAdministrarConvocatoria(String idUsuario, String idConvo) throws UsuarioNotFoundException,ConvocatoriaNotFoundException;
+
     }

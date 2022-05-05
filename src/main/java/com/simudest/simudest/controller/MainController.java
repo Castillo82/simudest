@@ -54,6 +54,11 @@ public class MainController {
         ModelAndView mav = new ModelAndView();
         try {
             User user= (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (!mainService.puedeAdministrarConvocatoria(user.getUsername(), idConvo)){
+                ra.addFlashAttribute("alerta", new Alerta("Alerta", "El usuario no tiene permiso para modificar esta convocatoria.", Constantes.ALERTA_TIPO_ERROR));
+                mav.setViewName(Constantes.REDIRECT_PRINCIPAL);
+                return mav;
+            }
             ConvocatoriaDto convocatoriaDto = mainService.getConvocatoria(idConvo);
             mav.addObject("convocatoria", convocatoriaDto);
             mav.addObject("organismos", mainService.getOrganismos());
@@ -71,8 +76,6 @@ public class MainController {
 
     @PostMapping("/guardarConvocatoria")
     public ModelAndView guardarConvocatoria(ConvocatoriaDto convocatoriaDto, final BindingResult bindingResult, RedirectAttributes ra){
-        //TODO se debe comprobar si el usuario tiene permiso para editar la convocatoria
-        //TODO considerar refactor de este metodo, demasiada logica en el controlador
         ModelAndView mav = new ModelAndView();
         boolean nuevaConvocatoria = convocatoriaDto.getId() == null;
         if(bindingResult.hasErrors()){
@@ -81,12 +84,17 @@ public class MainController {
             return mav;
         }
         try {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             if (nuevaConvocatoria) {
                 convocatoriaDto.setEstado(Constantes.CONVOCATORIA_ESTADO_ACTIVA);
+            }else{
+                if (!mainService.puedeAdministrarConvocatoria(user.getUsername(), convocatoriaDto.getId())){
+                    ra.addFlashAttribute("alerta", new Alerta("Alerta", "El usuario no tiene permiso para modificar esta convocatoria.", Constantes.ALERTA_TIPO_ERROR));
+                    mav.setViewName(Constantes.REDIRECT_PRINCIPAL);
+                    return mav;
+                }
             }
-            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             convocatoriaDto.setUsuarioDto(mainService.getUsuariobyId(user.getUsername()));
-
             EspecialidadDto especialidadDto = mainService.getEspecialidadbyId(convocatoriaDto.getEspecialidadDto().getId());
             OrganismoDto organismoDto = mainService.getOrganismobyId(convocatoriaDto.getOrganismoDto().getId());
             convocatoriaDto.setEspecialidadDto(especialidadDto);

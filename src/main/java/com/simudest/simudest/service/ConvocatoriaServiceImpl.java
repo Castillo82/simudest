@@ -152,7 +152,6 @@ public class ConvocatoriaServiceImpl implements ConvocatoriaService {
     }
 
     public Map<Integer, EleccionDto> getMapElecciones(String idUsuario, String idConvo) throws UsuarioNotFoundException, ConvocatoriaNotFoundException{
-        //TODO no tiene uso, comprobarlo y quitarlo
         Map <Integer, EleccionDto> retorno = new HashMap<>();
         Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(UsuarioNotFoundException::new);
         Convocatoria convocatoria = convocatoriaRepository.findByIdAndActiva(idConvo).orElseThrow(ConvocatoriaNotFoundException::new);
